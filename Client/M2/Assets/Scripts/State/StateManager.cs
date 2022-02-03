@@ -17,7 +17,7 @@ public class StateManager
         if (mState == state)
             return;
 
-        if (mState == NONE)
+        if (mState == NONE)     
         {
             mState = state;
             mStateMap[state].OnEnter(act);
