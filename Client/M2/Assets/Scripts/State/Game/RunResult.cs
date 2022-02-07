@@ -98,6 +98,12 @@ public class RunResult : State
 
         PangAct(out_pang);
         DropAct(out_drop);
+
+        CSRotSlot csRotSlot = GameManager.Instance.RotSlot.GetComponent<CSRotSlot>();
+
+        csRotSlot.ActRotate();
+
+
     }
 
     public override void OnLeave()

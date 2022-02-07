@@ -13,10 +13,28 @@ public class CSRotSlot : MonoBehaviour
 
     private cBubbleSlot mBubbleSlot;
 
+    private List<Vector3> mVPosColsSlots = new List<Vector3>();
+    private List<CSColsSlot> mCSColsSlots = new List<CSColsSlot>();
+
 
     public cBubbleSlot GetBubbleSlot()
     {
         return mBubbleSlot;
+    }
+
+    public void ActRotate()
+    {
+        mBubbleSlot.ForWard();
+
+        foreach( CSColsSlot csColsSlot in mCSColsSlots)
+        {
+            csColsSlot.transform.position = new Vector3(
+                csColsSlot.transform.position.x,
+                csColsSlot.transform.position.y + 0.5f,
+                csColsSlot.transform.position.z
+                );
+        }
+
     }
 
     public CSSlot GetCSSclot(cSlot<cBubble> cslot)
@@ -44,6 +62,8 @@ public class CSRotSlot : MonoBehaviour
         int BubbleRowNums = Defines.G_BUBBLE_ROW_COUNT;
         int BubbleColsNums = Defines.G_BUBBLE_COL_COUNT;
 
+        mVPosColsSlots.Clear();
+        mCSColsSlots.Clear();
 
         cBubbleSlot bs = new cBubbleSlot(BubbleRowNums , BubbleColsNums);
         mBubbleSlot = bs;
@@ -66,22 +86,35 @@ public class CSRotSlot : MonoBehaviour
             myColsSlot.Init(bs , colsSlot);
             myColsSlot.gameObject.name = ConstData.GetPreFabProperty(E_PREFAB_TYPE.COLS_SLOT).mNM;
 
-            myColsSlot.transform.parent = GameManager.Instance.RotSlot.transform;
+
+            mCSColsSlots.Add(myColsSlot);
+
+            //myColsSlot.transform.parent = GameManager.Instance.RotSlot.transform;
+
+            Util.AddChild(GameManager.Instance.RotSlot, myColsSlot.gameObject);
+
+            startY = walls.WT.transform.position.y - (walls.WT.GetComponent<BoxCollider2D>().size.y / 2) - Defines.G_SLOT_RADIUS;
+
+            float yY = startY - (Mathf.Sqrt(Mathf.Pow(Defines.G_SLOT_RADIUS * 2, 2) - Mathf.Pow(Defines.G_SLOT_RADIUS, 2)) * colsSlotIdx);
+
+            myColsSlot.transform.localPosition = new Vector3(0.0f, yY, 0.0f);
+
+            mVPosColsSlots.Add(myColsSlot.transform.localPosition);
 
             for (int slotIdx = 0; slotIdx < slotCount; slotIdx++)
             {
                 CSSlot mySlot = Instantiate(PreFabSlot).GetComponent<CSSlot>();
                 mySlot.name = ConstData.GetPreFabProperty(E_PREFAB_TYPE.SLOT).mNM;
 
-                mySlot.GetComponent<CircleCollider2D>().radius = Defines.G_SLOT_RADIUS;
+                mySlot.GetComponent<CircleCollider2D>().radius = Defines.G_SLOT_RADIUS_WITHOUT_GAP;
 
                 float r = Defines.G_SLOT_RADIUS;// mySlot.GetComponent<CircleCollider2D>().radius;
 
                 mySlot.Init(bs, colsSlot, colsSlot.GetSlotByIDX(slotIdx));
 
-                startY = walls.WT.transform.position.y - (walls.WT.GetComponent<BoxCollider2D>().size.y / 2) - r;
+                //startY = walls.WT.transform.position.y - (walls.WT.GetComponent<BoxCollider2D>().size.y / 2) - r;
 
-                float f2 = startY - (Mathf.Sqrt(Mathf.Pow(r * 2, 2) - Mathf.Pow(r, 2)) * colsSlotIdx);
+                //float f2 = startY - (Mathf.Sqrt(Mathf.Pow(r * 2, 2) - Mathf.Pow(r, 2)) * colsSlotIdx);
 
                 startX = (-(r * 2) * (slotCount / 2)) + (slotCount % 2 == 0 ? r : 0);
 
@@ -94,10 +127,14 @@ public class CSRotSlot : MonoBehaviour
                     firstEndX = (startX + ((r * 2) * slotIdx)) + r;
                 }
 
-                mySlot.transform.parent = myColsSlot.transform; //AppManager.Instance.BubbleParent.transform;
-                mySlot.transform.position = new Vector3(startX + ((r * 2) * slotIdx),
-                                                            f2,
-                                                            0.0f);
+                Util.AddChild( myColsSlot.gameObject, mySlot.gameObject);
+
+                mySlot.transform.localPosition = new Vector3(startX + ((r * 2) * slotIdx), 0.0f, 0.0f);
+
+                //mySlot.transform.parent = myColsSlot.transform; //AppManager.Instance.BubbleParent.transform;
+
+
+
             }
         }
 

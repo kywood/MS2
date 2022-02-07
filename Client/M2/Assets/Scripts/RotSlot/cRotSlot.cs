@@ -232,9 +232,14 @@ namespace RotSlot
             return mRotQueue.GetItemIDXByID(point.y);
         }
 
-        protected cPoint<int> ID2IDX(cPoint<int> point)
+        public cPoint<int> ID2IDX(cPoint<int> point)
         {
             return mRotQueue.ID2IDX(point);
+        }
+
+        public int ID2IDX(int id)
+        {
+            return mRotQueue.ID2IDX(new cPoint<int>(0, id)).y;
         }
 
         public int GetColsSlotCount()

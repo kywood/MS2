@@ -14,7 +14,15 @@ public class CSColsSlot : MonoBehaviour
         mColsSlot = colsSlot;
     }
 
+    public int GetID()
+    {
+        return mColsSlot.GetID();
+    }
 
+    public int GetIDX()
+    {
+        return mRotSlot.ID2IDX(GetID());
+    }
 
     // Start is called before the first frame update
     //void Start()
