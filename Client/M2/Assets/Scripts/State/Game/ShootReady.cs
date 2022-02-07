@@ -14,7 +14,7 @@ public class ShootReady : State
 
     public override void OnEnter()
     {
-        Debug.Log("ShootReady OnEnter");
+        //Debug.Log("ShootReady OnEnter");
 
         Target = GameManager.Instance.Pick.GetComponent<Pick>().Target;
         ShootBody = GameManager.Instance.Pick.GetComponent<Pick>().ShootBody;

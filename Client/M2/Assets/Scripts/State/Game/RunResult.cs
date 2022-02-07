@@ -14,6 +14,9 @@ public class RunResult : State
     CSSlot mCsSlot;
 
 
+    static int runCnt = 0;
+
+
     void PangAct(List<cBubble> out_pang)
     {
         if (out_pang.Count > 0)
@@ -101,7 +104,8 @@ public class RunResult : State
 
         CSRotSlot csRotSlot = GameManager.Instance.RotSlot.GetComponent<CSRotSlot>();
 
-        csRotSlot.ActRotate();
+        if( ++runCnt % 3 == 0 )
+            csRotSlot.ActRotate();
 
 
     }

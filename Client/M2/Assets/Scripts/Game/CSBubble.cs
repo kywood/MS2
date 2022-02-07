@@ -10,7 +10,9 @@ public class CSBubble : MonoBehaviour
 
     E_MOVING_STATE mMovingState = E_MOVING_STATE.STOP;
 
-    public void SetBubbleWithPos(cBubble bubble, Vector3 pos)
+    CSSlot mCsSlot;
+
+    public void SetBubbleWithPos(cBubble bubble, CSSlot cs_slot )
     {
         mMovingState = E_MOVING_STATE.STOP;
 
@@ -21,11 +23,15 @@ public class CSBubble : MonoBehaviour
 
         GetComponent<Rigidbody2D>().gravityScale = 0f;
 
-        transform.position = pos;
+        transform.position = cs_slot.transform.position;
+
+        mCsSlot = cs_slot;
     }
 
     public void PangAct()
     {
+        mMovingState = E_MOVING_STATE.MOVE;
+
         GetComponent<Rigidbody2D>().gravityScale = G_BUBBLE_DROP_GRAVITY_SCALE;
         //GetComponent<Rigidbody2D>().AddForce(new Vector2(-0.01f, 0.01f));
 
@@ -69,6 +75,12 @@ public class CSBubble : MonoBehaviour
         {
             SetActive(false);
         }
+
+        if(mMovingState != E_MOVING_STATE.MOVE)
+        {
+            transform.position = mCsSlot.transform.position;
+        }
+
 
         //AppManager.Instance.Walls.GetComponent<Walls>().WB.transform.y
 

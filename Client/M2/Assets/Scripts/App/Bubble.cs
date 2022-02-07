@@ -171,20 +171,24 @@ public class Bubble : MonoBehaviour
             bubbleManager.SetVisible(false);
             Bubble bubble = bubbleManager.GetBubble();
 
-            cSlot<cBubble> cSlot = finalCsSlot.GetcSlot();
+            CSRotSlot.SetCsBubbleInCsSlot(finalCsSlot, bubble.GetBubbleType());
 
-            //AppManager.Instance.BubbleManager.GetComponent<BubbleManager>().SetVisible(false);
-            Debug.Log(collision.name + " " + cSlot.GetParentID() + " " + cSlot.GetID());
 
-            cBubble bb = cBubbleHelper.Factory(bubble.GetBubbleType(), new cPoint<int>(cSlot.GetID(), cSlot.GetParentID() ));
-            cSlot.Set(bb);
+            //cSlot<cBubble> cSlot = finalCsSlot.GetcSlot();
 
-            Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
+            ////AppManager.Instance.BubbleManager.GetComponent<BubbleManager>().SetVisible(false);
+            //Debug.Log(collision.name + " " + cSlot.GetParentID() + " " + cSlot.GetID());
 
-            GameObject BubbleGO = pool.GetAbleObject();
+            //cBubble bb = cBubbleHelper.Factory( new cPoint<int>(cSlot.GetID(), cSlot.GetParentID() ) , 
+            //    bubble.GetBubbleType());
+            //cSlot.Set(bb);
 
-            CSBubble cb = BubbleGO.GetComponent<CSBubble>();
-            cb.SetBubbleWithPos(bb , finalCsSlot.transform.position);
+            //Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
+
+            //GameObject BubbleGO = pool.GetAbleObject();
+
+            //CSBubble cb = BubbleGO.GetComponent<CSBubble>();
+            //cb.SetBubbleWithPos(bb , finalCsSlot );
 
             //HACK
             //cb.transform.localScale = new Vector3(Defines.G_SLOT_RADIUS * 2, Defines.G_SLOT_RADIUS * 2, 0.0f);

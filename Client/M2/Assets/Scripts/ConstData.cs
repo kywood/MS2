@@ -114,7 +114,7 @@ class ConstData
 
     public static E_BUBBLE_TYPE GetNextBubbleType()
     {
-        return (E_BUBBLE_TYPE)UnityEngine.Random.Range(mBallTypeRandomSeed[0], mBallTypeRandomSeed[mBallTypeRandomSeed.Count - 1]);
+        return (E_BUBBLE_TYPE)UnityEngine.Random.Range(mBallTypeRandomSeed[0], mBallTypeRandomSeed[mBallTypeRandomSeed.Count - 1 ] + 1);
         //return (E_BUBBLE_TYPE)UnityEngine.Random.Range((int)E_BUBBLE_TYPE.NONE + 1, (int)E_BUBBLE_TYPE.MAX );
     }
 

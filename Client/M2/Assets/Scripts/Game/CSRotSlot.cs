@@ -14,7 +14,7 @@ public class CSRotSlot : MonoBehaviour
     private cBubbleSlot mBubbleSlot;
 
     private List<Vector3> mVPosColsSlots = new List<Vector3>();
-    private List<CSColsSlot> mCSColsSlots = new List<CSColsSlot>();
+    private ListEx<CSColsSlot> mCSColsSlots = new ListEx<CSColsSlot>();
 
 
     public cBubbleSlot GetBubbleSlot()
@@ -22,19 +22,62 @@ public class CSRotSlot : MonoBehaviour
         return mBubbleSlot;
     }
 
+
+
     public void ActRotate()
     {
-        mBubbleSlot.ForWard();
 
-        foreach( CSColsSlot csColsSlot in mCSColsSlots)
+        //Debug.Log("ActRotate OnEnter");
+
+        mBubbleSlot.ForWard();
+        mCSColsSlots.Rotate();
+
+        //RotColsClot();
+
+        for ( int i = 0; i < mCSColsSlots.Count ; i++ )
         {
-            csColsSlot.transform.position = new Vector3(
-                csColsSlot.transform.position.x,
-                csColsSlot.transform.position.y + 0.5f,
-                csColsSlot.transform.position.z
-                );
+            mCSColsSlots[i].transform.position = mVPosColsSlots[i];
         }
 
+        // slot 에 bubble 을 생성 한다.
+
+        CSSlot[] csSlots = mCSColsSlots[0].GetComponentsInChildren<CSSlot>(); 
+
+        foreach(CSSlot finalCsSlot in csSlots)
+        {
+
+            SetCsBubbleInCsSlot(finalCsSlot);
+
+            //cSlot<cBubble> cSlot= finalCsSlot.GetcSlot();
+
+            //cBubble bb = cBubbleHelper.Factory( new cPoint<int>(cSlot.GetID(), cSlot.GetParentID()));
+            //cSlot.Set(bb);
+
+            //Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
+
+            //GameObject BubbleGO = pool.GetAbleObject();
+
+            //CSBubble cb = BubbleGO.GetComponent<CSBubble>();
+            //cb.SetBubbleWithPos(bb, finalCsSlot);
+        }
+
+    }
+
+    public static void SetCsBubbleInCsSlot(CSSlot cs_slot , E_BUBBLE_TYPE bubble_type = E_BUBBLE_TYPE.NONE )
+    {
+        cSlot<cBubble> cSlot = cs_slot.GetcSlot();
+
+        cBubble bb = cBubbleHelper.Factory(new cPoint<int>(cSlot.GetID(), cSlot.GetParentID() ),
+            bubble_type );
+
+        cSlot.Set(bb);
+
+        Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
+
+        GameObject BubbleGO = pool.GetAbleObject();
+
+        CSBubble cb = BubbleGO.GetComponent<CSBubble>();
+        cb.SetBubbleWithPos(bb, cs_slot);
     }
 
     public CSSlot GetCSSclot(cSlot<cBubble> cslot)

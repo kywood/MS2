@@ -28,7 +28,7 @@ namespace MDefine
                 new ResInfo()
                 {
                     PrefabsPath = "Prefabs/NBubble",
-                    CreateCount = 70,
+                    CreateCount = 140,
                 }
             }
         };

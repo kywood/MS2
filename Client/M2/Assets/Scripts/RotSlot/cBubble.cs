@@ -36,8 +36,17 @@ namespace RotSlot
         //    return null;
         //}
 
-        public static cBubble Factory(E_BUBBLE_TYPE type , cPoint<int> id)
+
+        public static cBubble Factory(cPoint<int> id , E_BUBBLE_TYPE type = E_BUBBLE_TYPE.NONE )
         {
+            if(type == E_BUBBLE_TYPE.NONE)
+            {
+                type = ConstData.GetNextBubbleType();
+
+                //type = (E_BUBBLE_TYPE)UnityEngine.Random.Range((int)E_BUBBLE_TYPE.NONE + 1,
+                //                                                (int)E_BUBBLE_TYPE.MAX - 1);
+            }
+
             if (type == E_BUBBLE_TYPE.RED)
                 return new cBubbleRed(id);
             else if (type == E_BUBBLE_TYPE.BLUE)
