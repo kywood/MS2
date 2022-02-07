@@ -144,6 +144,12 @@ public class CSRotSlot : MonoBehaviour
 
             mVPosColsSlots.Add(myColsSlot.transform.localPosition);
 
+            if(colsSlotIdx == bs.GetColsSlotCount() - 1)
+            {
+                GameManager.Instance.Walls.GetComponent<Walls>().SetDeadLinePos(myColsSlot.transform.position);
+            }
+
+
             for (int slotIdx = 0; slotIdx < slotCount; slotIdx++)
             {
                 CSSlot mySlot = Instantiate(PreFabSlot).GetComponent<CSSlot>();

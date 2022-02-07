@@ -104,7 +104,7 @@ public class RunResult : State
 
         CSRotSlot csRotSlot = GameManager.Instance.RotSlot.GetComponent<CSRotSlot>();
 
-        if( ++runCnt % 3 == 0 )
+        if( ++runCnt % Defines.G_DROP_LOOP_TICK == 0 )
             csRotSlot.ActRotate();
 
 

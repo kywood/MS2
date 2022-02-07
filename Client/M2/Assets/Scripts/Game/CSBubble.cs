@@ -54,6 +54,15 @@ public class CSBubble : MonoBehaviour
 
     }
 
+
+    public bool IsStayState()
+    {
+        if (mMovingState != E_MOVING_STATE.MOVE)
+            return true;
+
+        return false;
+    }
+
     public E_MOVING_STATE GetMoving()
     {
         return mMovingState;
@@ -81,15 +90,6 @@ public class CSBubble : MonoBehaviour
             transform.position = mCsSlot.transform.position;
         }
 
-
-        //AppManager.Instance.Walls.GetComponent<Walls>().WB.transform.y
-
-        //if (mMovingState == E_MOVING_STATE.MOVE)
-        //{
-        ////    Vector3 cv = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        ////    cv.y -= G_BUBBLE_MOVING_SPEED * Time.deltaTime;
-        ////    transform.position = cv;
-        //}
     }
 
     public void SetActive( bool active )

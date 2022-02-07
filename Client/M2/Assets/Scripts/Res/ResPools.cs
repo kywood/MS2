@@ -17,19 +17,28 @@ namespace MDefine
 
     public class ResInfo
     {
-        public string PrefabsPath { get; set; }
-        public int CreateCount { get; set; }
+        private string _PrefabsPath;
+        private string _PrefabsName;
+        private int _CreateCount;
+
+        public string PrefabsPath { get { return _PrefabsPath + "/" + _PrefabsName;  } }
+        public string PrefabsName { get { return _PrefabsName;  } }
+        public int CreateCount { get { return _CreateCount; } }
+
+        public ResInfo(string path, string name, int c_count)
+        {
+            _PrefabsPath = path;
+            _PrefabsName = name;
+            _CreateCount = c_count;
+        }
     }
     static partial class GConst
     {
         public static readonly List<ResInfo> ResPrefabs = new List<ResInfo>()
         {
             {
-                new ResInfo()
-                {
-                    PrefabsPath = "Prefabs/NBubble",
-                    CreateCount = 140,
-                }
+                new ResInfo("Prefabs", "NBubble", 140 )
+                
             }
         };
     }
