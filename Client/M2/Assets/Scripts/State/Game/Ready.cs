@@ -77,7 +77,24 @@ public class Ready : State
         //MakeCollitionBubble();
         GameManager.Instance.Pick.SetActive(true);
 
+        //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
+        //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
+        //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
+
+        GameManager.Instance.StartCoroutine(EffectStartRow());
+
+    }
+
+    IEnumerator EffectStartRow()
+    {
+        for( int i = 0; i < Defines.G_BUBBLE_SRART_ROW_COUNT; i++  )
+        {
+            GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
+            yield return new WaitForSeconds(0.1f);
+        }
+
         GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.SHOOT_READY);
+        yield return null;
     }
 
     public override void OnLeave()

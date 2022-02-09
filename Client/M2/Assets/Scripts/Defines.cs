@@ -58,8 +58,10 @@ public class Defines
 
     //public const float G_BUBBLE_MOVING_SPEED = 5.0f;
 
-    public const int G_BUBBLE_ROW_COUNT = 14;
+    public const int G_BUBBLE_ROW_COUNT = 12;
     public const int G_BUBBLE_COL_COUNT = 8;
+
+    public const int G_BUBBLE_SRART_ROW_COUNT = 4;
 
     public const int G_DROP_LOOP_TICK = 5;
 
