@@ -12,7 +12,7 @@ public class DeadLine : MonoBehaviour
             if (!collision.GetComponent<CSBubble>().IsStayState())
                 return;
 
-            Debug.Log("GameOver!!");
+           // Debug.Log("GameOver!!");
             GamePopup.Instance.Active((int)GamePopup.eWindows.GameOver, true);
 
         }

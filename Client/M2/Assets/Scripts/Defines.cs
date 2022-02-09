@@ -61,7 +61,7 @@ public class Defines
     public const int G_BUBBLE_ROW_COUNT = 12;
     public const int G_BUBBLE_COL_COUNT = 8;
 
-    public const int G_BUBBLE_SRART_ROW_COUNT = 4;
+    public const int G_BUBBLE_SRART_ROW_COUNT = 5;
 
     public const int G_DROP_LOOP_TICK = 5;
 
