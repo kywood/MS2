@@ -2,6 +2,7 @@
 
 0. 미리보기
 
+![image](https://user-images.githubusercontent.com/10812487/155089694-e98c6c40-4943-4b69-a897-5244a55c8fec.png)
 
 
 1. 프로젝트 목적 
