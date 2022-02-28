@@ -7,7 +7,7 @@ namespace RotSlot
 
 
     //   T   cColsSlot<T>
-    public class cRotQueue<T> where T : class , IEntityID
+    public class cRotQueue<T> where T : class  , IEntityID 
     {
         T[] mQueue;
 

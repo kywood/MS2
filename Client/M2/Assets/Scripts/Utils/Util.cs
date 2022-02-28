@@ -61,6 +61,39 @@ public partial class Util
 		}
 	}
 
+    // Start is called before the first frame update
+
+    //  For case 1 I use Camera.main.ScreenToWorldPoint(Input.mousePosition) and it seems to work okay for my purposes.
+    //  For case 2 I use RectTransformUtility.WorldToScreenPoint(Camera.main, obj.transform.position);
+    //  For case 3 I use Camera.main.ScreenToWorldPoint(rectTransform.transform.position) and it seems to give good results.
+
+
+    public static Vector3 CanvasChildToWorldPosition(Camera cam, Vector3 pos)
+    {
+        Vector3 vpos = cam.ScreenToWorldPoint(pos);
+
+        return vpos;
+    }
+    public static Vector3 WorldToCanavsPosition(Camera cam , Vector3 worldPos , GameObject canvas )
+    {
+        RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
+
+        //then you calculate the position of the UI element
+        //0,0 for the canvas is at the center of the screen, whereas WorldToViewPortPoint treats the lower left corner as 0,0. Because of this, you need to subtract the height / width of the canvas * 0.5 to get the correct position.
+
+        Vector2 ViewportPosition = cam.WorldToViewportPoint(worldPos);
+        Vector2 WorldObject_ScreenPosition = new Vector2(
+        ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+        ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+
+        //now you can set the position of the ui element
+     
+     //   Debug.Log($" X : {WorldObject_ScreenPosition.x} , Y:{WorldObject_ScreenPosition.y}");
+
+        return new Vector3(WorldObject_ScreenPosition.x , WorldObject_ScreenPosition.y , 0);
+    }
+
+
 	public static void StringBuilderClear()
 	{
 		m_stringBuilder.Remove(0, m_stringBuilder.Length);

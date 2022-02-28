@@ -25,6 +25,9 @@ public class ShootReady : State
 
         GameManager.Instance.BubbleManager.GetComponent<BubbleManager>().SetVisible(true);
 
+
+        GameManager.Instance.Pick.SetActive(true);
+
         Init();
     }
 

@@ -38,7 +38,7 @@ public class CSBubble : MonoBehaviour
         
         Vector2 v2 = CMath.AngleToPoint2(Random.Range(40, 140));
 
-        GetComponent<Rigidbody2D>().AddForce(v2.normalized * G_BUBBLE_FORCE_SCALE);
+        GetComponent<Rigidbody2D>().AddForce(v2.normalized * G_BUBBLE_RIGIDBODY_FORCE);
 
 
     }

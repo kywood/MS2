@@ -189,6 +189,11 @@ public class CSRotSlot : MonoBehaviour
 
         walls.WL.transform.position = new Vector3(firstX - (walls.WL.GetComponent<BoxCollider2D>().size.x / 2), walls.WL.transform.position.y, 0);
         walls.WR.transform.position = new Vector3(firstEndX + (walls.WR.GetComponent<BoxCollider2D>().size.x / 2), walls.WR.transform.position.y, 0);
+        
+        
+        GameManager.Instance.WallMaskArea.GetComponent<MaskArea>().AdJustMaskArea();
+
+
 
         //bs.SetItem(4, 0, cBubbleHelper.Factory(E_BUBBLE_TYPE.RED));
         //bs.SetItem(4, 1, cBubbleHelper.Factory(E_BUBBLE_TYPE.RED));

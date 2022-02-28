@@ -12,7 +12,7 @@ public class Ready : State
         (GameManager.Instance.RotSlot.GetComponent<CSRotSlot>()).InitRotSlot();
 
         //MakeCollitionBubble();
-        GameManager.Instance.Pick.SetActive(true);
+        //GameManager.Instance.Pick.SetActive(true);
 
         //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
         //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();

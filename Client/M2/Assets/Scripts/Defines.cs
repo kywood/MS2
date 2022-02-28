@@ -50,8 +50,8 @@ public class Defines
 
     public const int G_BUBBLE_PANG_COUNT = 3;
 
-    public const float G_BUBBLE_DROP_GRAVITY_SCALE = 1.5f;
-    public const float G_BUBBLE_FORCE_SCALE = 0.02f;
+    public const float G_BUBBLE_DROP_GRAVITY_SCALE = 1.8f;
+    public const float G_BUBBLE_RIGIDBODY_FORCE = 0.025f;
     public const float G_SHOOT_FORCE = 15.0f;
 
     

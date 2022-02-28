@@ -9,8 +9,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public GameObject Pick;
     public GameObject BubbleManager;
     public GameObject Walls;
+    public GameObject WallMaskArea;
 
     public GameObject RotSlot;
+    
 
     //float ShootForce = 10.0f;
     //[HideInInspector]
