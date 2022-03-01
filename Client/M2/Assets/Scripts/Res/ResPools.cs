@@ -46,13 +46,17 @@ namespace MDefine
 
 public class ResPools : SingletonMonoBehaviour<ResPools>
 {
+
+
+    public GameObject bubbleParents;
+
     public Dictionary<eResType, Pool> PoolList = new Dictionary<eResType, Pool>();
     protected override void OnAwake()
     {
         for (int i = 0; i < (int)eResType.MAX; i++)
         {
             //GameObject newObj = new GameObject(((eResType)i).ToString());
-            GameObject newObj = Util.AddChild(gameObject, new GameObject(((eResType)i).ToString()));
+            GameObject newObj = Util.AddChild(bubbleParents, new GameObject(((eResType)i).ToString()));
             Pool newPool = newObj.AddComponent<Pool>();
             newPool.MakePool(newObj, GConst.ResPrefabs[i].PrefabsPath, GConst.ResPrefabs[i].CreateCount);
             PoolList.Add((eResType)i, newPool);

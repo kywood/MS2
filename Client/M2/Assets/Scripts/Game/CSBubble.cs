@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Defines;
 
-public class CSBubble : MonoBehaviour
+public class CSBubble : Bubble
 {
     cBubble mBubble = null;
 
@@ -33,17 +33,11 @@ public class CSBubble : MonoBehaviour
         mMovingState = E_MOVING_STATE.MOVE;
 
         GetComponent<Rigidbody2D>().gravityScale = G_BUBBLE_DROP_GRAVITY_SCALE;
-        //GetComponent<Rigidbody2D>().AddForce(new Vector2(-0.01f, 0.01f));
-
         
         Vector2 v2 = CMath.AngleToPoint2(Random.Range(40, 140));
 
         GetComponent<Rigidbody2D>().AddForce(v2.normalized * G_BUBBLE_RIGIDBODY_FORCE);
-
-
     }
-
-
 
     public void SetMoving()
     {
@@ -51,9 +45,7 @@ public class CSBubble : MonoBehaviour
 
         GetComponent<Rigidbody2D>().gravityScale = G_BUBBLE_DROP_GRAVITY_SCALE;
         //GetComponent<Rigidbody2D>().AddForce(new Vector2(-1f, 1f));
-
     }
-
 
     public bool IsStayState()
     {
@@ -106,19 +98,11 @@ public class CSBubble : MonoBehaviour
         return mBubble.IsEqID(bb.GetID());
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if( collision.gameObject.name.CompareTo("WB") == 0 )
-    //    {
-    //        SetActive(false);
-    //    }
-    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name.CompareTo(E_WALL_NM.WB.ToString()) == 0)
         {
-            //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
             SetActive(false);
         }
     }

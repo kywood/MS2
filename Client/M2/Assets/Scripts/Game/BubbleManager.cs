@@ -6,60 +6,95 @@ using static ConstData;
 
 public class BubbleManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject Bubble;
+    public GameObject shootBubble;
+
+    float _diameter;
+    float _scale;
+    public float Diameter { get { return _diameter; } }
+    public float Scale { get { return _scale; } }
+
+
+    Queue<E_BUBBLE_TYPE> _BubbleQueue = new Queue<E_BUBBLE_TYPE>();
+
+
+    public Queue<E_BUBBLE_TYPE> BubbleQueue
+    {
+        get { return _BubbleQueue; }
+    }
 
     Dictionary<E_BUBBLE_TYPE, Sprite> mBubbleSprite = new Dictionary<E_BUBBLE_TYPE, Sprite>();
 
     private void Awake()
     {
+        SpriteRenderer sp = shootBubble.GetComponent<SpriteRenderer>();
+        _scale = Defines.G_BUBBLE_DIAMETER / sp.bounds.size.x;
+        _diameter = Defines.G_BUBBLE_DIAMETER - 0.015f;// * G_BUBBLE_SCALE;
+
         foreach ( E_BUBBLE_TYPE bubble_type in ConstData.GetBubblePropertys().Keys)
         {
             cBubbleProperty bpro = ConstData.GetBubbleProperty(bubble_type);
             mBubbleSprite.Add(bubble_type, Resources.Load<Sprite>(bpro.mImgPath));
         }
-
         SetVisible(false);
     }
+
+    private void Start()
+    {
+        //GameManager.Instance.GetBubbleManager
+
+        for( int i = 0; i < 5; i++ )
+        {
+            _BubbleQueue.Enqueue(ConstData.GetNextBubbleType());
+        }
+    }
+
+    public E_BUBBLE_TYPE NextPop()
+    {
+        _BubbleQueue.Enqueue(ConstData.GetNextBubbleType());
+        return _BubbleQueue.Dequeue();
+    }
+    public E_BUBBLE_TYPE NextPeek()
+    {
+        return _BubbleQueue.Peek();
+    }
+
+    public E_BUBBLE_TYPE NextPeek(int index)
+    {
+        return _BubbleQueue.ToArray()[index];
+    }
+
+    public void SetShootBodyYPos(float y)
+    {
+        shootBubble.transform.position = new Vector3(
+            shootBubble.transform.position.x,
+            y,
+            shootBubble.transform.position.z
+            );
+    }
+
+    //public void Start()
+    //{
+    //    shootBubble.transform.position = new Vector3(
+    //        shootBubble.transform.position.x,
+    //        shootBubble.transform.position.y,
+    //        shootBubble.transform.position.z
+    //        );
+    //}
 
     public Sprite GetSprite(E_BUBBLE_TYPE bubble_type )
     {
         return mBubbleSprite[bubble_type];
     }
 
+
     public void SetVisible( bool visible )
     {
-        //Bubble.SetActive(visible);
-        //Bubble bb = Bubble.GetComponent<Bubble>();
-        //bb.SetBubbleType(ConstData.GetNextBubbleType());
-        //Bubble.GetComponent<Bubble>().SetVisible(visible);
         GetBubble().SetVisible(visible);
     }
 
-    public Bubble GetBubble()
+    public ShootBubble GetBubble()
     {
-        return Bubble.GetComponent<Bubble>();
+        return shootBubble.GetComponent<ShootBubble>();
     }
-
-    //public E_BUBBLE_TYPE GetNextBubbleType()
-    //{
-    //    //RED = 1,
-    //    //BLUE = 2,
-    //    //YELLOW = 3,
-    //    //GREEN = 4,
-    //    //PURPLE = 5,
-
-    //    List<int> ballTypeLists = new List<int>()
-    //    {
-    //        (int)E_BUBBLE_TYPE.RED ,
-    //        (int)E_BUBBLE_TYPE.BLUE ,
-    //        (int)E_BUBBLE_TYPE.YELLOW ,
-    //        (int)E_BUBBLE_TYPE.GREEN ,
-    //        (int)E_BUBBLE_TYPE.PURPLE ,
-    //    };
-
-    //    return (E_BUBBLE_TYPE)Random.Range( ballTypeLists[0] , ballTypeLists[ballTypeLists.Count]);
-    //}
-
 
 }

@@ -12,7 +12,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public GameObject WallMaskArea;
 
     public GameObject RotSlot;
-    
+    public GameObject RotSlot_1;
+
+    public GameObject MyPlayer;
+    public GameObject Next;
+
 
     //float ShootForce = 10.0f;
     //[HideInInspector]

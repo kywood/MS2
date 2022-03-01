@@ -14,19 +14,21 @@ public class ShootReady : State
 
     public override void OnEnter()
     {
-        //Debug.Log("ShootReady OnEnter");
-
+        
         Target = GameManager.Instance.Pick.GetComponent<Pick>().Target;
         ShootBody = GameManager.Instance.Pick.GetComponent<Pick>().ShootBody;
 
 
-        Bubble = GameManager.Instance.BubbleManager.GetComponent<BubbleManager>().Bubble;
+        Bubble = GameManager.Instance.BubbleManager.GetComponent<BubbleManager>().shootBubble;
         RbBubble = Bubble.GetComponent<Rigidbody2D>();
 
         GameManager.Instance.BubbleManager.GetComponent<BubbleManager>().SetVisible(true);
 
 
         GameManager.Instance.Pick.SetActive(true);
+
+        GameManager.Instance.Next.GetComponent<Next>().SetVisible(true);
+        GameManager.Instance.Next.GetComponent<Next>().UpdateNext();
 
         Init();
     }

@@ -8,6 +8,8 @@ public class CSRotSlot : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    public GameObject topObject;
+
     public GameObject PreFabSlot;
     public GameObject PreFabColsSlot;
 
@@ -16,49 +18,47 @@ public class CSRotSlot : MonoBehaviour
     private List<Vector3> mVPosColsSlots = new List<Vector3>();
     private ListEx<CSColsSlot> mCSColsSlots = new ListEx<CSColsSlot>();
 
+    private float _bubbleDiameter;
 
     public cBubbleSlot GetBubbleSlot()
     {
         return mBubbleSlot;
     }
 
+    private void ActRotateColsSlot()
+    {
+       
+        Vector3 pos = mCSColsSlots[0].transform.position;
 
+        for (int i = 0; i < mCSColsSlots.Count - 1; i++)
+        {
+            mCSColsSlots[i].transform.position = mCSColsSlots[i + 1].transform.position;
+        }
+        mCSColsSlots[mCSColsSlots.Count - 1].transform.position = pos;
 
+        
+        //for (int i = 0; i < mCSColsSlots.Count; i++)
+        //{
+        //    mCSColsSlots[i].transform.position = new Vector3(mCSColsSlots[i].transform.position.x,
+        //                                                    mVPosColsSlots[i].y,
+        //                                                   mCSColsSlots[i].transform.position.z);
+        //}
+
+        
+    }
     public void ActRotate()
     {
-
-        //Debug.Log("ActRotate OnEnter");
-
         mBubbleSlot.ForWard();
-        mCSColsSlots.Rotate();
+        mCSColsSlots.Rotate();    
+        
+        ActRotateColsSlot();
 
-        //RotColsClot();
 
-        for ( int i = 0; i < mCSColsSlots.Count ; i++ )
-        {
-            mCSColsSlots[i].transform.position = mVPosColsSlots[i];
-        }
-
-        // slot 에 bubble 을 생성 한다.
-
-        CSSlot[] csSlots = mCSColsSlots[0].GetComponentsInChildren<CSSlot>(); 
+         CSSlot[] csSlots = mCSColsSlots[0].GetComponentsInChildren<CSSlot>(); 
 
         foreach(CSSlot finalCsSlot in csSlots)
         {
-
             SetCsBubbleInCsSlot(finalCsSlot);
-
-            //cSlot<cBubble> cSlot= finalCsSlot.GetcSlot();
-
-            //cBubble bb = cBubbleHelper.Factory( new cPoint<int>(cSlot.GetID(), cSlot.GetParentID()));
-            //cSlot.Set(bb);
-
-            //Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
-
-            //GameObject BubbleGO = pool.GetAbleObject();
-
-            //CSBubble cb = BubbleGO.GetComponent<CSBubble>();
-            //cb.SetBubbleWithPos(bb, finalCsSlot);
         }
 
     }
@@ -76,9 +76,11 @@ public class CSRotSlot : MonoBehaviour
 
         GameObject BubbleGO = pool.GetAbleObject();
 
-        CSBubble cb = BubbleGO.GetComponent<CSBubble>();
+        CSBubble cb = BubbleGO.GetComponent<CSBubble>(); 
         cb.SetBubbleWithPos(bb, cs_slot);
     }
+
+    
 
     public CSSlot GetCSSclot(cSlot<cBubble> cslot)
     {
@@ -105,6 +107,9 @@ public class CSRotSlot : MonoBehaviour
         int BubbleRowNums = Defines.G_BUBBLE_ROW_COUNT;
         int BubbleColsNums = Defines.G_BUBBLE_COL_COUNT;
 
+        BubbleManager bb = GameManager.Instance.GetBubbleManager();
+        _bubbleDiameter = bb.Diameter;
+
         mVPosColsSlots.Clear();
         mCSColsSlots.Clear();
 
@@ -117,7 +122,10 @@ public class CSRotSlot : MonoBehaviour
         Walls walls = GameManager.Instance.Walls.GetComponent<Walls>();
 
         float firstX = 0.0f;
-        float firstEndX = 0.0f;        
+        float firstEndX = 0.0f;
+
+        float bubbleRadius = _bubbleDiameter / 2.0f;
+        float slotRadius = bubbleRadius - Defines.G_SLOT_RADIUS_GAP;
 
         for (int colsSlotIdx = 0; colsSlotIdx < bs.GetColsSlotCount() ; colsSlotIdx++)
         {
@@ -133,12 +141,13 @@ public class CSRotSlot : MonoBehaviour
             mCSColsSlots.Add(myColsSlot);
 
             //myColsSlot.transform.parent = GameManager.Instance.RotSlot.transform;
+            //Util.AddChild(GameManager.Instance.RotSlot, myColsSlot.gameObject);
 
-            Util.AddChild(GameManager.Instance.RotSlot, myColsSlot.gameObject);
+            Util.AddChild( gameObject , myColsSlot.gameObject);
 
-            startY = walls.WT.transform.position.y - (walls.WT.GetComponent<BoxCollider2D>().size.y / 2) - Defines.G_SLOT_RADIUS;
+            startY = topObject.transform.position.y - (topObject.GetComponent<BoxCollider2D>().size.y / 2) - bubbleRadius;
 
-            float yY = startY - (Mathf.Sqrt(Mathf.Pow(Defines.G_SLOT_RADIUS * 2, 2) - Mathf.Pow(Defines.G_SLOT_RADIUS, 2)) * colsSlotIdx);
+            float yY = startY - (Mathf.Sqrt(Mathf.Pow(bubbleRadius * 2, 2) - Mathf.Pow(bubbleRadius, 2)) * colsSlotIdx);
 
             myColsSlot.transform.localPosition = new Vector3(0.0f, yY, 0.0f);
 
@@ -154,16 +163,11 @@ public class CSRotSlot : MonoBehaviour
             {
                 CSSlot mySlot = Instantiate(PreFabSlot).GetComponent<CSSlot>();
                 mySlot.name = ConstData.GetPreFabProperty(E_PREFAB_TYPE.SLOT).mNM;
-
-                mySlot.GetComponent<CircleCollider2D>().radius = Defines.G_SLOT_RADIUS_WITHOUT_GAP;
-
-                float r = Defines.G_SLOT_RADIUS;// mySlot.GetComponent<CircleCollider2D>().radius;
+                mySlot.GetComponent<CircleCollider2D>().radius = slotRadius;
 
                 mySlot.Init(bs, colsSlot, colsSlot.GetSlotByIDX(slotIdx));
 
-                //startY = walls.WT.transform.position.y - (walls.WT.GetComponent<BoxCollider2D>().size.y / 2) - r;
-
-                //float f2 = startY - (Mathf.Sqrt(Mathf.Pow(r * 2, 2) - Mathf.Pow(r, 2)) * colsSlotIdx);
+                float r = bubbleRadius;// mySlot.GetComponent<CircleCollider2D>().radius;
 
                 startX = (-(r * 2) * (slotCount / 2)) + (slotCount % 2 == 0 ? r : 0);
 
@@ -180,28 +184,15 @@ public class CSRotSlot : MonoBehaviour
 
                 mySlot.transform.localPosition = new Vector3(startX + ((r * 2) * slotIdx), 0.0f, 0.0f);
 
-                //mySlot.transform.parent = myColsSlot.transform; //AppManager.Instance.BubbleParent.transform;
-
-
-
             }
         }
 
-        walls.WL.transform.position = new Vector3(firstX - (walls.WL.GetComponent<BoxCollider2D>().size.x / 2), walls.WL.transform.position.y, 0);
-        walls.WR.transform.position = new Vector3(firstEndX + (walls.WR.GetComponent<BoxCollider2D>().size.x / 2), walls.WR.transform.position.y, 0);
+        walls.WL.transform.localPosition = new Vector3(firstX - (walls.WL.GetComponent<BoxCollider2D>().size.x / 2), walls.WL.transform.position.y, 0);
+        walls.WR.transform.localPosition = new Vector3(firstEndX + (walls.WR.GetComponent<BoxCollider2D>().size.x / 2), walls.WR.transform.position.y, 0);
         
         
         GameManager.Instance.WallMaskArea.GetComponent<MaskArea>().AdJustMaskArea();
 
-
-
-        //bs.SetItem(4, 0, cBubbleHelper.Factory(E_BUBBLE_TYPE.RED));
-        //bs.SetItem(4, 1, cBubbleHelper.Factory(E_BUBBLE_TYPE.RED));
-
-        //Debug.Log(bs.ToString());
-
-        //bs.ForWard();
-        //Debug.Log(bs.ToString());
     }
 
 }

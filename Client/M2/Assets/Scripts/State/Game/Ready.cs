@@ -7,24 +7,14 @@ public class Ready : State
     
     public override void OnEnter()
     {
-        //AppManager.Instance.GetComponent<CSRotSlot>().InitRotSlot();
-
         (GameManager.Instance.RotSlot.GetComponent<CSRotSlot>()).InitRotSlot();
-
-        //MakeCollitionBubble();
-        //GameManager.Instance.Pick.SetActive(true);
-
-        //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
-        //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
-        //GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
-
-        GameManager.Instance.StartCoroutine(EffectStartRow());        
+        GameManager.Instance.StartCoroutine(EffectStartRow());
 
     }
 
     IEnumerator EffectStartRow()
     {
-        for( int i = 0; i < Defines.G_BUBBLE_SRART_ROW_COUNT; i++  )
+        for( int i = 0; i < Defines.G_BUBBLE_START_ROW_COUNT; i++  )
         {
             GameManager.Instance.RotSlot.GetComponent<CSRotSlot>().ActRotate();
             yield return new WaitForSeconds(0.2f);
