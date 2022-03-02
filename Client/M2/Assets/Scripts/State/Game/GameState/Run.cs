@@ -13,7 +13,9 @@ public class Run : State
 
     public override void OnLeave()
     {
-        GameManager.Instance.GetMyPlayer().BubbleManager.GetComponent<BubbleManager>().SetVisible(false);
+
+        PlayerManager.Instance.DualAct((p) => p.BubbleManager.GetComponent<BubbleManager>().SetVisible(false));
+        //GameManager.Instance.GetMyPlayer().BubbleManager.GetComponent<BubbleManager>().SetVisible(false);
         //Debug.Log("Run OnLeave");
 
     }

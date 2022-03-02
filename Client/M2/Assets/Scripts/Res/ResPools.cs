@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using MDefine;
 using static Defines;
+using static Player;
+using static PlayerManager;
 
 namespace MDefine
 {
+
     public enum eResType
     {
         None = -1,
@@ -48,18 +51,63 @@ public class ResPools : SingletonMonoBehaviour<ResPools>
 {
 
 
-    public GameObject bubbleParents;
+    //public GameObject bubbleParents;
 
-    public Dictionary<eResType, Pool> PoolList = new Dictionary<eResType, Pool>();
+    private Dictionary<E_PLAYER_TYPE , Dictionary<eResType, Pool>> PoolList = new Dictionary<E_PLAYER_TYPE, Dictionary<eResType, Pool>>();
+    //public Dictionary<eResType, Pool> PoolList = new Dictionary<eResType, Pool>();
+
+    private void AddResMap(E_PLAYER_TYPE player_type , eResType res_type , Pool pool )
+    {
+        if( PoolList.ContainsKey(player_type) )
+        {
+            PoolList[player_type].Add(res_type, pool);
+        }
+        else
+        {
+            Dictionary<eResType, Pool> pool_map = new Dictionary<eResType, Pool>()
+            {
+                {  res_type , pool }
+            };
+
+            PoolList.Add(player_type, pool_map);
+        }
+
+    }
+
     protected override void OnAwake()
     {
         for (int i = 0; i < (int)eResType.MAX; i++)
         {
-            //GameObject newObj = new GameObject(((eResType)i).ToString());
-            GameObject newObj = Util.AddChild(bubbleParents, new GameObject(((eResType)i).ToString()));
-            Pool newPool = newObj.AddComponent<Pool>();
-            newPool.MakePool(newObj, GConst.ResPrefabs[i].PrefabsPath, GConst.ResPrefabs[i].CreateCount);
-            PoolList.Add((eResType)i, newPool);
+            if( i == (int)eResType.Bubble)
+            {
+                foreach(Player p in PlayerManager.Instance.GetPlayers() )
+                {
+                    //GameObject newObj = new GameObject(((eResType)i).ToString());
+                    GameObject newObj = Util.AddChild(p.BubblePool, new GameObject(((eResType)i).ToString()));
+                    Pool newPool = newObj.AddComponent<Pool>();
+                    newPool.MakePool(newObj, GConst.ResPrefabs[i].PrefabsPath, GConst.ResPrefabs[i].CreateCount);
+
+                    if( p.PlayerType == E_PLAYER_TYPE.MY_PLAYER )
+                    {
+                        AddResMap(E_PLAYER_TYPE.MY_PLAYER, (eResType)i, newPool);
+                    }
+                    else
+                    {
+                        AddResMap(E_PLAYER_TYPE.PEER, (eResType)i, newPool);
+                    }
+
+                }
+            }
+            else
+            {
+                //GameObject newObj = new GameObject(((eResType)i).ToString());
+                GameObject newObj = Util.AddChild( gameObject  , new GameObject(((eResType)i).ToString()));
+                Pool newPool = newObj.AddComponent<Pool>();
+                newPool.MakePool(newObj, GConst.ResPrefabs[i].PrefabsPath, GConst.ResPrefabs[i].CreateCount);
+                AddResMap(E_PLAYER_TYPE.COMMON, (eResType)i, newPool);
+            }
+
+            
         }
     }
 
@@ -102,9 +150,9 @@ public class ResPools : SingletonMonoBehaviour<ResPools>
     //    return true;
     //}
 
-    public bool IsStopAllBubble()
+    public bool IsStopAllBubble(E_PLAYER_TYPE player_type)
     {
-        Pool pool = GetPool(eResType.Bubble);
+        Pool pool = GetPool(player_type, eResType.Bubble);
 
         foreach (int k in pool.ResList.Keys)
         {
@@ -118,31 +166,34 @@ public class ResPools : SingletonMonoBehaviour<ResPools>
     }
 
 
-    public bool IsActiveAll(eResType resType , bool active )
-    {
-        Pool pool = GetPool(resType);
-        //if ( pool == null )
-        //{
-        //    return false;
-        //}
+    //public bool IsActiveAll(eResType resType , bool active )
+    //{
+    //    Pool pool = GetPool(resType);
+    //    //if ( pool == null )
+    //    //{
+    //    //    return false;
+    //    //}
 
-        foreach( int k in pool.ResList.Keys)
+    //    foreach( int k in pool.ResList.Keys)
+    //    {
+    //        if( pool.ResList[k].activeSelf != active)
+    //        {
+    //            return false;
+    //        }
+    //    }
+
+    //    return true;
+
+    //}
+
+    public Pool GetPool(E_PLAYER_TYPE player_type , eResType res_type)
+    {
+        if (PoolList.ContainsKey(player_type))
         {
-            if( pool.ResList[k].activeSelf != active)
+            if( PoolList[player_type].ContainsKey(res_type) )
             {
-                return false;
+                return PoolList[player_type][res_type];
             }
-        }
-
-        return true;
-
-    }
-
-    public Pool GetPool(eResType resType)
-    {
-        if (PoolList.ContainsKey(resType))
-        {
-            return PoolList[resType];
         }
 
         return null;

@@ -7,21 +7,48 @@ using static Defines;
 
 public class Bubble : MonoBehaviour
 {
+    public GameObject bubbleManager;
+
+    Player _player;
+
+    public Player Player { get { return _player; } }
+
 
     public void Start()
     {
+        _player = GetPlayer();
+
         OnStart();
     }
 
     protected virtual void OnStart()
     {
 
-        MyPlayer player = GameManager.Instance.MyPlayer.GetComponent<MyPlayer>();
-
-
-        transform.localScale = new Vector3(player.Scale,
-            player.Scale,
+        transform.localScale = new Vector3(Player.Scale,
+            Player.Scale,
             1);
+    }
+
+    protected Player GetPlayer ()
+    {
+        BubbleManager bbm = null;
+
+
+        bbm = transform.parent.GetComponent<BubbleManager>();
+
+        if ( bbm == null )
+        {
+            bbm = transform.parent.transform.parent.GetComponent<BubbleManager>();
+        }
+        
+
+        return bbm.Player;
+    }
+
+
+    protected BubbleManager GetBubbleManager()
+    {
+        return bubbleManager.GetComponent<BubbleManager>();
     }
 
     public void SetVisible(bool value)

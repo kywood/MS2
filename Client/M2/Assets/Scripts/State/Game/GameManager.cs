@@ -6,10 +6,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     GameStateManager _StateManager = new GameStateManager();
 
-    //public GameObject BubbleManager;
-
-
-    public GameObject MyPlayer;
+    //public GameObject MyPlayer;
     public GameObject BallSample;
 
     //float ShootForce = 10.0f;
@@ -18,10 +15,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     
 
-    public MyPlayer GetMyPlayer()
-    {
-        return MyPlayer.GetComponent<MyPlayer>();
-    }
+    //public MyPlayer GetMyPlayer()
+    //{
+    //    return MyPlayer.GetComponent<MyPlayer>();
+    //}
 
 
     //public BubbleManager GetBubbleManager()

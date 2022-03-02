@@ -12,14 +12,14 @@ public class CSBubble : Bubble
 
     CSSlot mCsSlot;
 
-    public void SetBubbleWithPos(cBubble bubble, CSSlot cs_slot )
+    public void SetBubbleWithPos( Player player , cBubble bubble, CSSlot cs_slot )
     {
         mMovingState = E_MOVING_STATE.STOP;
 
         mBubble = bubble;
 
         SpriteRenderer sp = GetComponent<SpriteRenderer>();
-        sp.sprite = GameManager.Instance.GetMyPlayer().GetBubbleManager().GetSprite(bubble.GetBubbleType());
+        sp.sprite = player.GetBubbleManager().GetSprite(bubble.GetBubbleType());
 
         GetComponent<Rigidbody2D>().gravityScale = 0f;
 
@@ -72,7 +72,7 @@ public class CSBubble : Bubble
 
     public void Update()
     {
-        if( transform.position.y < GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>().WB.transform.position.y )
+        if( transform.position.y < Player.Walls.GetComponent<Walls>().WB.transform.position.y )
         {
             SetActive(false);
         }

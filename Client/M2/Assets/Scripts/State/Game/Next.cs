@@ -6,14 +6,16 @@ public class Next : MonoBehaviour
 {
     public  GameObject[] nextBubble;
 
-    private MyPlayer myPlayer;
-    private BubbleManager bubbleManager;
+    public Player myPlayer;
+    public BubbleManager bubbleManager;
 
 
     private void Start()
     {
-        myPlayer = GameManager.Instance.MyPlayer.GetComponent<MyPlayer>();
-        bubbleManager = myPlayer.BubbleManager.GetComponent<BubbleManager>();
+       // myPlayer = PlayerManager.Instance.GetPlayer(PlayerManager.E_PLAYER_TYPE.MY_PLAYER);
+
+        
+       // bubbleManager = myPlayer.BubbleManager.GetComponent<BubbleManager>();
     }
 
     //public void Update()
@@ -35,7 +37,7 @@ public class Next : MonoBehaviour
         for( int i = 0; i <  nextBubble.Length; i++ )
         {
             nextBubble[i].GetComponent<SpriteRenderer>().sprite =
-            bubbleManager.GetSprite(bubbleManager.NextPeek(i));
+            bubbleManager.GetSprite(((ShootBubbleManager)bubbleManager).NextPeek(i));
         }
 
         //nextBubble[0].GetComponent<SpriteRenderer>().sprite =

@@ -11,11 +11,12 @@ public class MaskArea : MonoBehaviour
     //  For case 3 I use Camera.main.ScreenToWorldPoint(rectTransform.transform.position) and it seems to give good results.
 
     public GameObject canvas;
+    public Player player;
 
-    public void AdJustMaskArea()
+    public Vector3 AdJustMaskArea()
     {
 
-        Walls walls = GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>();
+        Walls walls = player.Walls.GetComponent<Walls>();
 
         GameObject worldObject = walls.WT;
 
@@ -52,6 +53,8 @@ public class MaskArea : MonoBehaviour
         rt.sizeDelta = new Vector2(width, height);
 
         transform.localPosition = rt.position;
+
+        return rt.position;
     }
 
 

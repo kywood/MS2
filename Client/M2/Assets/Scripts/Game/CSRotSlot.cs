@@ -3,15 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static ConstData;
+using static Player;
+using static PlayerManager;
 
 public class CSRotSlot : MonoBehaviour
 {
     // Start is called before the first frame update
 
     public GameObject topObject;
+    public GameObject bottomObject;
 
     public GameObject PreFabSlot;
     public GameObject PreFabColsSlot;
+
+    public Player Player;
 
     private cBubbleSlot mBubbleSlot;
 
@@ -58,12 +63,12 @@ public class CSRotSlot : MonoBehaviour
 
         foreach(CSSlot finalCsSlot in csSlots)
         {
-            SetCsBubbleInCsSlot(finalCsSlot);
+            SetCsBubbleInCsSlot(Player , finalCsSlot);
         }
 
     }
 
-    public static void SetCsBubbleInCsSlot(CSSlot cs_slot , E_BUBBLE_TYPE bubble_type = E_BUBBLE_TYPE.NONE )
+    public static void SetCsBubbleInCsSlot( Player player , CSSlot cs_slot , E_BUBBLE_TYPE bubble_type = E_BUBBLE_TYPE.NONE )
     {
         cSlot<cBubble> cSlot = cs_slot.GetcSlot();
 
@@ -72,12 +77,17 @@ public class CSRotSlot : MonoBehaviour
 
         cSlot.Set(bb);
 
-        Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
+        Pool pool = ResPools.Instance.GetPool(player.PlayerType, MDefine.eResType.Bubble);
 
         GameObject BubbleGO = pool.GetAbleObject();
+        CSBubble cb = BubbleGO.GetComponent<CSBubble>();
+        //PlayerManager.Instance.GetPlayer(player_type);
 
-        CSBubble cb = BubbleGO.GetComponent<CSBubble>(); 
-        cb.SetBubbleWithPos(bb, cs_slot);
+        cb.SetBubbleWithPos(player,
+            bb,
+            cs_slot);
+
+
     }
 
     
@@ -107,10 +117,10 @@ public class CSRotSlot : MonoBehaviour
         int BubbleRowNums = Defines.G_BUBBLE_ROW_COUNT;
         int BubbleColsNums = Defines.G_BUBBLE_COL_COUNT;
 
-        MyPlayer player = GameManager.Instance.MyPlayer.GetComponent<MyPlayer>();
+        //MyPlayer player = GameManager.Instance.MyPlayer.GetComponent<MyPlayer>();
 
         //BubbleManager bb = GameManager.Instance.GetBubbleManager();
-        _bubbleDiameter = player.Diameter;
+        _bubbleDiameter = Player.Diameter;
 
         mVPosColsSlots.Clear();
         mCSColsSlots.Clear();
@@ -121,13 +131,23 @@ public class CSRotSlot : MonoBehaviour
         float startX = 0.0f;
         float startY = 0.0f;
 
-        Walls walls = GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>();
+        //Walls walls = GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>();
+        Walls walls = Player.Walls.GetComponent<Walls>();
 
         float firstX = 0.0f;
         float firstEndX = 0.0f;
 
         float bubbleRadius = _bubbleDiameter / 2.0f;
         float slotRadius = bubbleRadius - Defines.G_SLOT_RADIUS_GAP;
+
+        //startY = topObject.transform.localPosition.y - (topObject.GetComponent<BoxCollider2D>().size.y / 2) - bubbleRadius;
+        startY = bottomObject.transform.localPosition.y + (bottomObject.GetComponent<BoxCollider2D>().size.y / 2) +
+            ( _bubbleDiameter * 1.2f) + (_bubbleDiameter * bs.GetColsSlotCount() - 1);
+        float topObjectY = startY + (topObject.GetComponent<BoxCollider2D>().size.y / 2) + bubbleRadius;
+
+        topObject.transform.localPosition = new Vector3(topObject.transform.localPosition.x,
+            topObjectY,
+            topObject.transform.localPosition.z);
 
         for (int colsSlotIdx = 0; colsSlotIdx < bs.GetColsSlotCount() ; colsSlotIdx++)
         {
@@ -147,7 +167,7 @@ public class CSRotSlot : MonoBehaviour
 
             Util.AddChild( gameObject , myColsSlot.gameObject);
 
-            startY = topObject.transform.localPosition.y - (topObject.GetComponent<BoxCollider2D>().size.y / 2) - bubbleRadius;
+            //startY = topObject.transform.localPosition.y - (topObject.GetComponent<BoxCollider2D>().size.y / 2) - bubbleRadius;
 
             float yY = startY - (Mathf.Sqrt(Mathf.Pow(bubbleRadius * 2, 2) - Mathf.Pow(bubbleRadius, 2)) * colsSlotIdx);
 
@@ -157,7 +177,7 @@ public class CSRotSlot : MonoBehaviour
 
             if(colsSlotIdx == bs.GetColsSlotCount() - 1)
             {
-                GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>().SetDeadLinePos(myColsSlot.transform.position);
+                Player.Walls.GetComponent<Walls>().SetDeadLinePos(myColsSlot.transform.position);
             }
 
 
@@ -191,9 +211,9 @@ public class CSRotSlot : MonoBehaviour
 
         walls.WL.transform.localPosition = new Vector3(firstX - (walls.WL.GetComponent<BoxCollider2D>().size.x / 2), walls.WL.transform.position.y, 0);
         walls.WR.transform.localPosition = new Vector3(firstEndX + (walls.WR.GetComponent<BoxCollider2D>().size.x / 2), walls.WR.transform.position.y, 0);
-        
-        
-        GameManager.Instance.GetMyPlayer().WallMaskArea.GetComponent<MaskArea>().AdJustMaskArea();
+
+
+        Player.BG.transform.position = Player.WallMaskArea.GetComponent<MaskArea>().AdJustMaskArea();
 
     }
 

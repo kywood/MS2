@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using static ConstData;
 using static Defines;
+using static Player;
+using static PlayerManager;
 
 public class ShootBubble : Bubble
 {
 
+
     private E_BUBBLE_TYPE mBubbleType = E_BUBBLE_TYPE.NONE;
+
+
    
 
     public E_BUBBLE_TYPE GetBubbleType()
@@ -22,7 +27,7 @@ public class ShootBubble : Bubble
 
         SpriteRenderer sp = GetComponent<SpriteRenderer>();
 
-        sp.sprite = GameManager.Instance.GetMyPlayer().GetBubbleManager().GetSprite(bubble_type);
+        sp.sprite = ((ShootBubbleManager)GetBubbleManager()).GetSprite(bubble_type);
 
         //Debug.Log(bubble_type);
         //Debug.Log(c.ToString());
@@ -36,11 +41,11 @@ public class ShootBubble : Bubble
 
         if( value == true )
         {
-            Pick pick = GameManager.Instance.GetMyPlayer().Pick.GetComponent<Pick>();
+            Pick pick = GetPlayer().Pick.GetComponent<Pick>();
 
             transform.position = pick.ShootBody.transform.position;
 
-            SetBubbleType(GameManager.Instance.GetMyPlayer().BubbleManager.GetComponent<BubbleManager>().NextPop());
+            SetBubbleType( ((ShootBubbleManager)GetBubbleManager()).NextPop());
         }
     }
 
@@ -93,7 +98,7 @@ public class ShootBubble : Bubble
             ) == true)
         {
 
-            CSRotSlot csRotSlot = GameManager.Instance.GetMyPlayer().GetRotSlot().GetComponent<CSRotSlot>();
+            CSRotSlot csRotSlot = GetPlayer().GetRotSlot().GetComponent<CSRotSlot>();
             cBubbleSlot bubbleSlot = csRotSlot.GetBubbleSlot();
             CSSlot finalCsSlot;
 
@@ -131,11 +136,11 @@ public class ShootBubble : Bubble
             }
 
 
-            BubbleManager bubbleManager = GameManager.Instance.GetMyPlayer().BubbleManager.GetComponent<BubbleManager>();
+            BubbleManager bubbleManager = GetBubbleManager();
             bubbleManager.SetVisible(false);
-            ShootBubble bubble = bubbleManager.GetBubble();
+            ShootBubble bubble = ((ShootBubbleManager)bubbleManager).GetBubble();
 
-            CSRotSlot.SetCsBubbleInCsSlot(finalCsSlot, bubble.GetBubbleType());
+            CSRotSlot.SetCsBubbleInCsSlot(GetPlayer(), finalCsSlot, bubble.GetBubbleType());
 
             //무형 함수
             GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.RUN_RESULT,

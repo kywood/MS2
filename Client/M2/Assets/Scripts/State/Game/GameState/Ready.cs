@@ -7,16 +7,22 @@ public class Ready : State
     
     public override void OnEnter()
     {
-        (GameManager.Instance.GetMyPlayer().RotSlot.GetComponent<CSRotSlot>()).InitRotSlot();
-        GameManager.Instance.StartCoroutine(EffectStartRow());
+        PlayerManager.Instance.DualAct((p)=>p.RotSlot.GetComponent<CSRotSlot>().InitRotSlot());
+        //foreach ( Player p in PlayerManager.Instance.GetPlayers() )
+        //{
+        //    p.RotSlot.GetComponent<CSRotSlot>().InitRotSlot();
+        //}
 
+        GameManager.Instance.StartCoroutine(EffectStartRow());
     }
 
     IEnumerator EffectStartRow()
     {
         for( int i = 0; i < Defines.G_BUBBLE_START_ROW_COUNT; i++  )
         {
-            GameManager.Instance.GetMyPlayer().RotSlot.GetComponent<CSRotSlot>().ActRotate();
+
+            PlayerManager.Instance.DualAct((p) => p.RotSlot.GetComponent<CSRotSlot>().ActRotate());
+            //GameManager.Instance.GetMyPlayer().RotSlot.GetComponent<CSRotSlot>().ActRotate();
             yield return new WaitForSeconds(0.2f);
         }
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using static PlayerManager;
 
 public class RunResult : State
 {
@@ -28,7 +29,7 @@ public class RunResult : State
             //}
             //Debug.Log(" =======  out_pang END ============== ");
 
-            Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
+            Pool pool = ResPools.Instance.GetPool(E_PLAYER_TYPE.MY_PLAYER , MDefine.eResType.Bubble);
 
             foreach (int k in pool.ResList.Keys)
             {
@@ -61,7 +62,7 @@ public class RunResult : State
             //}
             //Debug.Log(" =======  out_drop END ============== ");
 
-            Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
+            Pool pool = ResPools.Instance.GetPool(E_PLAYER_TYPE.MY_PLAYER, MDefine.eResType.Bubble);
 
             foreach (int k in pool.ResList.Keys)
             {
@@ -102,10 +103,18 @@ public class RunResult : State
         PangAct(out_pang);
         DropAct(out_drop);
 
-        CSRotSlot csRotSlot = GameManager.Instance.GetMyPlayer().RotSlot.GetComponent<CSRotSlot>();
+        //TODO
 
-        if( ++runCnt % Defines.G_DROP_LOOP_TICK == 0 )
-            csRotSlot.ActRotate();
+        Player p = PlayerManager.Instance.GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+
+        CSRotSlot csRotSlot = p.RotSlot.GetComponent<CSRotSlot>();
+
+        PlayerManager.Instance.DualAct((p) => {
+
+            CSRotSlot csRotSlot = p.RotSlot.GetComponent<CSRotSlot>();
+            if (++runCnt % Defines.G_DROP_LOOP_TICK == 0)
+                csRotSlot.ActRotate();
+        });
 
 
     }
@@ -128,7 +137,7 @@ public class RunResult : State
         //    Debug.Log(mCsSlot);
 
 
-        if( ResPools.Instance.IsStopAllBubble() )
+        if( ResPools.Instance.IsStopAllBubble(E_PLAYER_TYPE.MY_PLAYER) )
         {
             GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.SHOOT_READY);
         }
