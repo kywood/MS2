@@ -22,7 +22,7 @@ public class ShootBubble : Bubble
 
         SpriteRenderer sp = GetComponent<SpriteRenderer>();
 
-        sp.sprite = GameManager.Instance.GetBubbleManager().GetSprite(bubble_type);
+        sp.sprite = GameManager.Instance.GetMyPlayer().GetBubbleManager().GetSprite(bubble_type);
 
         //Debug.Log(bubble_type);
         //Debug.Log(c.ToString());
@@ -36,11 +36,11 @@ public class ShootBubble : Bubble
 
         if( value == true )
         {
-            Pick pick = GameManager.Instance.Pick.GetComponent<Pick>();
+            Pick pick = GameManager.Instance.GetMyPlayer().Pick.GetComponent<Pick>();
 
             transform.position = pick.ShootBody.transform.position;
 
-            SetBubbleType(GameManager.Instance.BubbleManager.GetComponent<BubbleManager>().NextPop());
+            SetBubbleType(GameManager.Instance.GetMyPlayer().BubbleManager.GetComponent<BubbleManager>().NextPop());
         }
     }
 
@@ -93,7 +93,7 @@ public class ShootBubble : Bubble
             ) == true)
         {
 
-            CSRotSlot csRotSlot = GameManager.Instance.GetRotSlot().GetComponent<CSRotSlot>();
+            CSRotSlot csRotSlot = GameManager.Instance.GetMyPlayer().GetRotSlot().GetComponent<CSRotSlot>();
             cBubbleSlot bubbleSlot = csRotSlot.GetBubbleSlot();
             CSSlot finalCsSlot;
 
@@ -131,7 +131,7 @@ public class ShootBubble : Bubble
             }
 
 
-            BubbleManager bubbleManager = GameManager.Instance.BubbleManager.GetComponent<BubbleManager>();
+            BubbleManager bubbleManager = GameManager.Instance.GetMyPlayer().BubbleManager.GetComponent<BubbleManager>();
             bubbleManager.SetVisible(false);
             ShootBubble bubble = bubbleManager.GetBubble();
 

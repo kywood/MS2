@@ -66,7 +66,7 @@ public class Defines
     public const int G_DROP_LOOP_TICK = 5;
 
 
-    public const float G_BUBBLE_DIAMETER = 0.35f;
+    public const float G_BUBBLE_DIAMETER = 0.40f;
     //public const float G_BUBBLE_DIAMETER = 0.6f;
     public const float G_SLOT_RADIUS_GAP = 0.03f;
 

@@ -8,11 +8,6 @@ public class BubbleManager : MonoBehaviour
 {
     public GameObject shootBubble;
 
-    float _diameter;
-    float _scale;
-    public float Diameter { get { return _diameter; } }
-    public float Scale { get { return _scale; } }
-
 
     Queue<E_BUBBLE_TYPE> _BubbleQueue = new Queue<E_BUBBLE_TYPE>();
 
@@ -26,9 +21,7 @@ public class BubbleManager : MonoBehaviour
 
     private void Awake()
     {
-        SpriteRenderer sp = shootBubble.GetComponent<SpriteRenderer>();
-        _scale = Defines.G_BUBBLE_DIAMETER / sp.bounds.size.x;
-        _diameter = Defines.G_BUBBLE_DIAMETER - 0.015f;// * G_BUBBLE_SCALE;
+        
 
         foreach ( E_BUBBLE_TYPE bubble_type in ConstData.GetBubblePropertys().Keys)
         {

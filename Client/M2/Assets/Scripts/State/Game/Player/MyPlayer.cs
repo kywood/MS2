@@ -5,14 +5,7 @@ using UnityEngine;
 public class MyPlayer : Player
 {
 
-    public GameObject Pick;
-    public GameObject BubbleManager;
-    public GameObject Walls;
-    public GameObject WallMaskArea;
-
-    public GameObject RotSlot;
-    public GameObject BG;
-
+    public GameObject Next;
 
     protected override void OnStart()
     {

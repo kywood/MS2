@@ -19,7 +19,7 @@ public class CSBubble : Bubble
         mBubble = bubble;
 
         SpriteRenderer sp = GetComponent<SpriteRenderer>();
-        sp.sprite = GameManager.Instance.GetBubbleManager().GetSprite(bubble.GetBubbleType());
+        sp.sprite = GameManager.Instance.GetMyPlayer().GetBubbleManager().GetSprite(bubble.GetBubbleType());
 
         GetComponent<Rigidbody2D>().gravityScale = 0f;
 
@@ -72,7 +72,7 @@ public class CSBubble : Bubble
 
     public void Update()
     {
-        if( transform.position.y < GameManager.Instance.Walls.GetComponent<Walls>().WB.transform.position.y )
+        if( transform.position.y < GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>().WB.transform.position.y )
         {
             SetActive(false);
         }

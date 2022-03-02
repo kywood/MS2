@@ -6,31 +6,28 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     GameStateManager _StateManager = new GameStateManager();
 
-    public GameObject Pick;
-    public GameObject BubbleManager;
-    public GameObject Walls;
-    public GameObject WallMaskArea;
+    //public GameObject BubbleManager;
 
-    public GameObject RotSlot;
-    public GameObject RotSlot_1;
 
     public GameObject MyPlayer;
-    public GameObject Next;
-
+    public GameObject BallSample;
 
     //float ShootForce = 10.0f;
     //[HideInInspector]
     //public GameStateManager GameStateManaget = new GameStateManager();
 
-    public GameObject GetRotSlot()
+    
+
+    public MyPlayer GetMyPlayer()
     {
-        return RotSlot;
+        return MyPlayer.GetComponent<MyPlayer>();
     }
 
-    public BubbleManager GetBubbleManager()
-    {
-        return BubbleManager.GetComponent<BubbleManager>();
-    }
+
+    //public BubbleManager GetBubbleManager()
+    //{
+    //    return BubbleManager.GetComponent<BubbleManager>();
+    //}
 
     public GameStateManager GetGameStateManager()
     {

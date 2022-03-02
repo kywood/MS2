@@ -15,8 +15,12 @@ public class Bubble : MonoBehaviour
 
     protected virtual void OnStart()
     {
-        transform.localScale = new Vector3(GameManager.Instance.GetBubbleManager().Scale,
-            GameManager.Instance.GetBubbleManager().Scale,
+
+        MyPlayer player = GameManager.Instance.MyPlayer.GetComponent<MyPlayer>();
+
+
+        transform.localScale = new Vector3(player.Scale,
+            player.Scale,
             1);
     }
 

@@ -107,8 +107,10 @@ public class CSRotSlot : MonoBehaviour
         int BubbleRowNums = Defines.G_BUBBLE_ROW_COUNT;
         int BubbleColsNums = Defines.G_BUBBLE_COL_COUNT;
 
-        BubbleManager bb = GameManager.Instance.GetBubbleManager();
-        _bubbleDiameter = bb.Diameter;
+        MyPlayer player = GameManager.Instance.MyPlayer.GetComponent<MyPlayer>();
+
+        //BubbleManager bb = GameManager.Instance.GetBubbleManager();
+        _bubbleDiameter = player.Diameter;
 
         mVPosColsSlots.Clear();
         mCSColsSlots.Clear();
@@ -119,7 +121,7 @@ public class CSRotSlot : MonoBehaviour
         float startX = 0.0f;
         float startY = 0.0f;
 
-        Walls walls = GameManager.Instance.Walls.GetComponent<Walls>();
+        Walls walls = GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>();
 
         float firstX = 0.0f;
         float firstEndX = 0.0f;
@@ -145,7 +147,7 @@ public class CSRotSlot : MonoBehaviour
 
             Util.AddChild( gameObject , myColsSlot.gameObject);
 
-            startY = topObject.transform.position.y - (topObject.GetComponent<BoxCollider2D>().size.y / 2) - bubbleRadius;
+            startY = topObject.transform.localPosition.y - (topObject.GetComponent<BoxCollider2D>().size.y / 2) - bubbleRadius;
 
             float yY = startY - (Mathf.Sqrt(Mathf.Pow(bubbleRadius * 2, 2) - Mathf.Pow(bubbleRadius, 2)) * colsSlotIdx);
 
@@ -155,7 +157,7 @@ public class CSRotSlot : MonoBehaviour
 
             if(colsSlotIdx == bs.GetColsSlotCount() - 1)
             {
-                GameManager.Instance.Walls.GetComponent<Walls>().SetDeadLinePos(myColsSlot.transform.position);
+                GameManager.Instance.GetMyPlayer().Walls.GetComponent<Walls>().SetDeadLinePos(myColsSlot.transform.position);
             }
 
 
@@ -191,7 +193,7 @@ public class CSRotSlot : MonoBehaviour
         walls.WR.transform.localPosition = new Vector3(firstEndX + (walls.WR.GetComponent<BoxCollider2D>().size.x / 2), walls.WR.transform.position.y, 0);
         
         
-        GameManager.Instance.WallMaskArea.GetComponent<MaskArea>().AdJustMaskArea();
+        GameManager.Instance.GetMyPlayer().WallMaskArea.GetComponent<MaskArea>().AdJustMaskArea();
 
     }
 
