@@ -1932,6 +1932,14 @@ PrefabInstance:
       propertyPath: LocalScale
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 4538476405584214947, guid: 769fb3cc054bc7845964a37fbf4157d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719296796494484018, guid: 769fb3cc054bc7845964a37fbf4157d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6719296796569161842, guid: 769fb3cc054bc7845964a37fbf4157d9, type: 3}
       propertyPath: m_Material
       value: 
@@ -1984,6 +1992,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6719296797691479875, guid: 769fb3cc054bc7845964a37fbf4157d9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6719296797727323172, guid: 769fb3cc054bc7845964a37fbf4157d9, type: 3}
       propertyPath: m_Material
       value: 
@@ -2005,6 +2017,18 @@ PrefabInstance:
       propertyPath: Next
       value: 
       objectReference: {fileID: 945845609}
+    - target: {fileID: 208100290, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188964262793651902, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188964263216505575, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7188964263282517704, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2057,10 +2081,18 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 40fd4cf84034a9e4ba8b4042580dffdc, type: 2}
+    - target: {fileID: 7188964263479175599, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7188964264210892229, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2105345823}
+    - target: {fileID: 7188964264391752926, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7188964264829964217, guid: 704c5d6d5fbe08e47b8e84dde58a673d, type: 3}
       propertyPath: m_Material
       value: 
