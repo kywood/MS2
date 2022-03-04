@@ -9,7 +9,7 @@ namespace ServerCore
 	public class Listener
 	{
 		Socket _listenSocket;
-		Func<Session> _sessionFactory;
+		Func<Session> _sessionFactory; 
 
 		public void Init(IPEndPoint endPoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)
 		{
