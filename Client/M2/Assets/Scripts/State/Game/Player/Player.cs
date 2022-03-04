@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     public GameObject DeadLine;
 
-    public float SCALE = 1.0f;
+    public float LocalScale = 1.0f;
 
     public float BUBBLE_DIAMETER = 0.4f;
     //public const float G_BUBBLE_DIAMETER = 0.6f;
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     {
         _stateManager = new PlayerStateManager( this );
 
-        transform.localScale = new Vector3(SCALE, SCALE, 1f);
+        transform.localScale = new Vector3(LocalScale, LocalScale, 1f);
         OnAwake();
     }
 

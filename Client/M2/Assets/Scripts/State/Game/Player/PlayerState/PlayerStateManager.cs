@@ -24,7 +24,20 @@ public class PlayerStateManager : StateManager
     {
         _player = player;
 
-        mStateMap = new Dictionary<int, State<StateManager>>()
+        if(player.PlayerType == PlayerManager.E_PLAYER_TYPE.MY_PLAYER)
+        {
+            mStateMap = new Dictionary<int, State<StateManager>>()
+        {
+            {(int)E_PLAYER_STATE.READY , new PlayerReady(this) }   ,
+            {(int)E_PLAYER_STATE.SHOOT_READY , new MyPlayerShootReady(this) }   ,
+            {(int)E_PLAYER_STATE.RUN , new PlayerRun(this) }   ,
+            {(int)E_PLAYER_STATE.RUN_RESULT , new PlayerRunResult(this) }   ,
+            {(int)E_PLAYER_STATE.END , new PlayerEnd(this) }
+        };
+        }
+        else
+        {
+            mStateMap = new Dictionary<int, State<StateManager>>()
         {
             {(int)E_PLAYER_STATE.READY , new PlayerReady(this) }   ,
             {(int)E_PLAYER_STATE.SHOOT_READY , new PlayerShootReady(this) }   ,
@@ -32,6 +45,11 @@ public class PlayerStateManager : StateManager
             {(int)E_PLAYER_STATE.RUN_RESULT , new PlayerRunResult(this) }   ,
             {(int)E_PLAYER_STATE.END , new PlayerEnd(this) }
         };
+        }
+
+        
+
+
     }
 
 }
