@@ -60,7 +60,7 @@ public class TestRay : MonoBehaviour
 
             Mark.transform.position = hit2d.point;
 
-            Debug.Log(hit2d.transform.position.ToString() );
+            //Debug.Log(hit2d.transform.position.ToString() );
         }
 
     }

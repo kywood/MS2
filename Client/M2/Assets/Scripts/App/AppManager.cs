@@ -27,18 +27,6 @@ public class AppManager : DontDestroy<AppManager>
         Debug.Log(Application.persistentDataPath);
 
         
-
-        //cBubbleSlot bs = new cBubbleSlot();
-
-        //bs.SetItem(4, 0, cBubbleHelper.Factory(E_BUBBLE_TYPE.RED));
-        //bs.SetItem(4, 1, cBubbleHelper.Factory(E_BUBBLE_TYPE.RED));
-
-        //Debug.Log(bs.ToString());
-
-        //bs.ForWard();
-        //Debug.Log(bs.ToString());
-
-        //bs.Print();
     }
 
     protected override void OnUpdate()

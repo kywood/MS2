@@ -54,6 +54,9 @@ public class Defines
     public const float G_BUBBLE_RIGIDBODY_FORCE = 0.025f;
     public const float G_SHOOT_FORCE = 15.0f;
 
+
+    public const string SERVER_IPADDR = "192.168.123.105";
+    public const int    SERVER_PORT = 7779;
     
 
     //public const float G_BUBBLE_MOVING_SPEED = 5.0f;

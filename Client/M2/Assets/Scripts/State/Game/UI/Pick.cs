@@ -68,7 +68,7 @@ public class Pick : MonoBehaviour
         if (hit2d)
         {
             Vector2 a = revDir * (radius / 2.0f);
-            LineReverse.SetActive(true);
+            //LineReverse.SetActive(true);
             HitMark.transform.position = hit2d.point + (Vector2)(revDir * (radius / 2.0f));
             LineReverse.transform.position = hit2d.point;
             LineReverse.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180.0f - _fShootAngle));
