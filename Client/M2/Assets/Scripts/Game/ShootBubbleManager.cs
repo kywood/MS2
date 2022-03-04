@@ -6,11 +6,9 @@ using static ConstData;
 
 public class ShootBubbleManager : BubbleManager
 {
-
     public GameObject shootBubble;
 
     Queue<E_BUBBLE_TYPE> _BubbleQueue = new Queue<E_BUBBLE_TYPE>();
-
 
     public Queue<E_BUBBLE_TYPE> BubbleQueue
     {
@@ -66,6 +64,11 @@ public class ShootBubbleManager : BubbleManager
         return mBubbleSprite[bubble_type];
     }
 
+    public float GetRadius()
+    {
+        return shootBubble.GetComponent<CircleCollider2D>().radius * shootBubble.transform.localScale.x;
+    }
+
 
     public override void SetVisible(bool visible)
     {
@@ -76,7 +79,4 @@ public class ShootBubbleManager : BubbleManager
     {
         return shootBubble.GetComponent<ShootBubble>();
     }
-
-
-
 }

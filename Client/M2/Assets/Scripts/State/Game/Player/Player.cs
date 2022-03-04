@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static PlayerManager;
+using static PlayerStateManager;
 
 public class Player : MonoBehaviour
 {
@@ -17,6 +19,9 @@ public class Player : MonoBehaviour
     public GameObject RotSlot;
     public GameObject BG;
 
+    public GameObject DeadLine;
+
+    public float SCALE = 1.0f;
 
     public float BUBBLE_DIAMETER = 0.4f;
     //public const float G_BUBBLE_DIAMETER = 0.6f;
@@ -32,9 +37,15 @@ public class Player : MonoBehaviour
 
     public E_PLAYER_TYPE PlayerType { get {return _player_type; }  set { _player_type = value; } }
 
+    PlayerStateManager _stateManager;
+
+    public PlayerStateManager StateManager { get { return _stateManager; } }
 
     private void Awake()
     {
+        _stateManager = new PlayerStateManager( this );
+
+        transform.localScale = new Vector3(SCALE, SCALE, 1f);
         OnAwake();
     }
 
@@ -48,6 +59,11 @@ public class Player : MonoBehaviour
         OnStart();
     }
 
+    private void Update()
+    {
+        OnUpdate();
+    }
+
     protected virtual void OnAwake()
     {
 
@@ -56,9 +72,22 @@ public class Player : MonoBehaviour
     {
 
     }
+
+
+    protected virtual void OnUpdate()
+    {
+        StateManager.OnUpdate();
+    }
+
+
     public GameObject GetRotSlot()
     {
         return RotSlot;
+    }
+
+    public void SetPlayerState(E_PLAYER_STATE player_state , Action<State<StateManager>> act = null)
+    {
+        StateManager.SetState((int)player_state , act );
     }
 
     public BubbleManager GetBubbleManager()

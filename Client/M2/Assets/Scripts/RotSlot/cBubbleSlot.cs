@@ -193,6 +193,9 @@ public class cBubbleSlot : cRotSlot<cBubble>{
                 if (new_pos_idx.y < 0)
                     continue;
 
+                if (new_pos_idx.x < 0)
+                    continue;
+
                 cBubble new_pos_bb = GetBubbleByIDX(new_pos_idx);
                 if (new_pos_bb != null)
                     continue;

@@ -122,6 +122,8 @@ public class CSRotSlot : MonoBehaviour
         //BubbleManager bb = GameManager.Instance.GetBubbleManager();
         _bubbleDiameter = Player.Diameter;
 
+        Player.Pick.GetComponent<Pick>().SetHitMarkSize(_bubbleDiameter);
+
         mVPosColsSlots.Clear();
         mCSColsSlots.Clear();
 
@@ -138,11 +140,14 @@ public class CSRotSlot : MonoBehaviour
         float firstEndX = 0.0f;
 
         float bubbleRadius = _bubbleDiameter / 2.0f;
-        float slotRadius = bubbleRadius - Defines.G_SLOT_RADIUS_GAP;
+        float slotRadius = bubbleRadius - Player.SLOT_RADIUS_GAP;
 
         //startY = topObject.transform.localPosition.y - (topObject.GetComponent<BoxCollider2D>().size.y / 2) - bubbleRadius;
+
+
         startY = bottomObject.transform.localPosition.y + (bottomObject.GetComponent<BoxCollider2D>().size.y / 2) +
-            ( _bubbleDiameter * 1.2f) + (_bubbleDiameter * bs.GetColsSlotCount() - 1);
+            ( _bubbleDiameter * 1.2f) + (_bubbleDiameter * (bs.GetColsSlotCount() - 1));
+
         float topObjectY = startY + (topObject.GetComponent<BoxCollider2D>().size.y / 2) + bubbleRadius;
 
         topObject.transform.localPosition = new Vector3(topObject.transform.localPosition.x,
@@ -209,8 +214,8 @@ public class CSRotSlot : MonoBehaviour
             }
         }
 
-        walls.WL.transform.localPosition = new Vector3(firstX - (walls.WL.GetComponent<BoxCollider2D>().size.x / 2), walls.WL.transform.position.y, 0);
-        walls.WR.transform.localPosition = new Vector3(firstEndX + (walls.WR.GetComponent<BoxCollider2D>().size.x / 2), walls.WR.transform.position.y, 0);
+        walls.WL.transform.localPosition = new Vector3(firstX - (walls.WL.GetComponent<BoxCollider2D>().size.x / 2), walls.WL.transform.localPosition.y, 0);
+        walls.WR.transform.localPosition = new Vector3(firstEndX + (walls.WR.GetComponent<BoxCollider2D>().size.x / 2), walls.WR.transform.localPosition.y, 0);
 
 
         Player.BG.transform.position = Player.WallMaskArea.GetComponent<MaskArea>().AdJustMaskArea();

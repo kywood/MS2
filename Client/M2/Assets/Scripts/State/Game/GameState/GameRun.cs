@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Run : State
+public class GameRun : State<StateManager>
 {
+    public GameRun(StateManager state_manager) : base(state_manager)
+    {
+    }
+
     // Start is called before the first frame update
     public override void OnEnter()
     {
@@ -14,7 +18,7 @@ public class Run : State
     public override void OnLeave()
     {
 
-        PlayerManager.Instance.DualAct((p) => p.BubbleManager.GetComponent<BubbleManager>().SetVisible(false));
+        //PlayerManager.Instance.DualAct((p) => p.BubbleManager.GetComponent<BubbleManager>().SetVisible(false));
         //GameManager.Instance.GetMyPlayer().BubbleManager.GetComponent<BubbleManager>().SetVisible(false);
         //Debug.Log("Run OnLeave");
 

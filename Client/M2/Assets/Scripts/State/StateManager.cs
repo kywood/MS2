@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateManager 
+public class StateManager
 {
-    protected Dictionary<int, State> mStateMap;// = new Dictionary<int, State>();
+    protected Dictionary<int, State<StateManager>> mStateMap;// = new Dictionary<int, State>();
 
 
     public static readonly int NONE = -1;
 
     protected int mState = -1;
 
-    public void SetState( int state , Action<State> act = null )
+    public void SetState( int state , Action<State<StateManager>> act = null )
     {
         if (mState == state)
             return;
@@ -55,7 +55,7 @@ public class StateManager
         return mState;
     }
 
-    public State GetStateValue()
+    public State<StateManager> GetStateValue()
     {
         return mStateMap[mState];
     }

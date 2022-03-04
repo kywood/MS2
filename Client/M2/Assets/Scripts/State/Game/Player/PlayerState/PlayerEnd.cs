@@ -1,12 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class End : State
+public class PlayerEnd : PlayerState<PlayerStateManager>
 {
-    // Start is called before the first frame update
-    public virtual void OnEnter()
+    public PlayerEnd(PlayerStateManager state_manager) : base(state_manager)
+    {
+    }
+
+    public override void OnEnter()
     {
 
     }

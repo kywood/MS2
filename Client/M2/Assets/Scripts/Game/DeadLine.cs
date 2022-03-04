@@ -5,9 +5,15 @@ using UnityEngine;
 
 public class DeadLine : MonoBehaviour
 {
+
+    public Player Player;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if( collision.name.Contains(GConst.ResPrefabs[ (int)eResType.Bubble ].PrefabsName) )
+        if (Player.PlayerType != Player.DeadLine.GetComponent<DeadLine>().Player.PlayerType)
+            return;
+
+        if ( collision.name.Contains(GConst.ResPrefabs[ (int)eResType.Bubble ].PrefabsName) )
         {
             if (!collision.GetComponent<CSBubble>().IsStayState())
                 return;

@@ -4,15 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class State
+public class State<T> where T : StateManager
 {
+    protected T stateManager;
+
+    public State (T state_manager)
+    {
+        this.stateManager = state_manager;
+    }
 
     public virtual void OnEnter()
     {
 
     }
 
-    public virtual void OnEnter( Action<State> act )
+    public virtual void OnEnter( Action<State<T>> act )
     {
         if( act != null )
         {
@@ -30,20 +36,9 @@ public class State
 
     public virtual void OnUpdate()
     {
-        //Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
-        //foreach (int k in pool.ResList.Keys)
-        //{
-        //    if (pool.ResList[k].activeSelf == false)
-        //        continue;
-
-        ////    (pool.ResList[k].GetComponent<CSBubble>()).OnUpdate();
-        //}
+        
 
     }
 
-    //public virtual void SetEnterParam( List<Object> param )
-    //{
-
-    //}
 
 }

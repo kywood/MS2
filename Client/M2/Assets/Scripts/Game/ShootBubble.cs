@@ -6,15 +6,11 @@ using static ConstData;
 using static Defines;
 using static Player;
 using static PlayerManager;
+using static PlayerStateManager;
 
 public class ShootBubble : Bubble
 {
-
-
     private E_BUBBLE_TYPE mBubbleType = E_BUBBLE_TYPE.NONE;
-
-
-   
 
     public E_BUBBLE_TYPE GetBubbleType()
     {
@@ -71,7 +67,7 @@ public class ShootBubble : Bubble
 
     public void OnTriggerEnter2D(Collider2D collision)
     {     
-        if (GameManager.Instance.GetGameStateManager().IsGameState(GameStateManager.E_GAME_STATE.RUN) == false)
+        if (Player.StateManager.IsState((int)E_PLAYER_STATE.RUN) == false)
         {
             return;
         }
@@ -107,7 +103,6 @@ public class ShootBubble : Bubble
                 stay_idx = out_top_stay_pos_idx;
                 cSlot<cBubble> cSlotTmp = bubbleSlot.GetSlotByIDX(out_top_stay_pos_idx);
 
-                //cSlot 으로 실제 GameObject slot 를 찾는다.
                 finalCsSlot = csRotSlot.GetCSSclot(cSlotTmp);
             }
             else
@@ -122,18 +117,14 @@ public class ShootBubble : Bubble
                     if (cSlotTmp == null)
                         continue;
 
-                    //Debug.Log("cpos : " + cpos.ToString() );
-                    //Debug.Log("cSlotTmp: " + cSlotTmp.ToString());
-
                     //cSlot 으로 실제 GameObject slot 를 찾는다.
                     CSSlot CsSlotTmp = csRotSlot.GetCSSclot(cSlotTmp);
 
                     csSlotLists.Add(CsSlotTmp);
                 }
-
                 finalCsSlot = FindNearPos(csSlotLists);
-
             }
+
 
 
             BubbleManager bubbleManager = GetBubbleManager();
@@ -143,10 +134,10 @@ public class ShootBubble : Bubble
             CSRotSlot.SetCsBubbleInCsSlot(GetPlayer(), finalCsSlot, bubble.GetBubbleType());
 
             //무형 함수
-            GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.RUN_RESULT,
-                (State state) =>
+            Player.SetPlayerState(E_PLAYER_STATE.RUN_RESULT,
+                ( state) =>
                 {
-                    ((RunResult)state).SetCsSlot(finalCsSlot);
+                    ((PlayerRunResult)state).SetCsSlot(finalCsSlot);
                 });
 
         }
@@ -155,12 +146,9 @@ public class ShootBubble : Bubble
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log(collision.gameObject.name);
-
         if (collision.gameObject.name.CompareTo(Defines.E_WALL_NM.WB.ToString()) == 0)
         {
-            //Debug.Log(collision.gameObject.name);
-            GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.SHOOT_READY);
+            Player.SetPlayerState(PlayerStateManager.E_PLAYER_STATE.SHOOT_READY);
         }
     }
 

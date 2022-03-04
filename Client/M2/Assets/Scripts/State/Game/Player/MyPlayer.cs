@@ -8,6 +8,8 @@ public class MyPlayer : Player
 
     public GameObject Next;
 
+    
+
     MyPlayer()
     {
         PlayerType = E_PLAYER_TYPE.MY_PLAYER;

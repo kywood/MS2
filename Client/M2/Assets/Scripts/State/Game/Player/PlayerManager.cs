@@ -38,7 +38,8 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     {
         foreach( Player p in Players)
         {
-            act.Invoke(p);
+            if( p.gameObject.activeSelf)
+                act.Invoke(p);
         }
     }
 

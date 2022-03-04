@@ -11,22 +11,17 @@ public class Pick : MonoBehaviour
     public GameObject LineReverse = null;
 
 
+    public Player Player;
+
     public GameObject ShootObject;
 
-    //public GameObject HitMark ;
-    //public GameObject Circle ;
+    public GameObject HitMark ;
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
 
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
+    public void SetHitMarkSize( float diameter )
+    {
+        HitMark.transform.localScale = new Vector3(diameter, diameter, 1);
+    }
 
     void LateUpdate()
     {
@@ -52,22 +47,32 @@ public class Pick : MonoBehaviour
         OriSize.x = 1000.0f;
         Line.GetComponent<RectTransform>().sizeDelta = new Vector2(OriSize.x, OriSize.y);
         Vector3 Dir = (vTargetPos - vShootBodyPos).normalized;
-
+        //Vector3 revDir = ( new Vector3( vTargetPos.x , -vTargetPos.y, vTargetPos.z) - vShootBodyPos).normalized;
+        Vector3 revDir = new Vector3(-Dir.x , Dir.y, Dir.z).normalized;
+        Vector3 layEndPos = Dir * 1000.0f;
 
         int layerMask = 1 << LayerMask.NameToLayer("GAME_RAY");
-        float radius = 0.05f;
+        //float radius = 0.2197f;
+        //radius = 0.43f;
+        //radius = ((ShootBubbleManager)Player.BubbleManager.GetComponent<BubbleManager>())
+        //    .GetRadius();
+        //radius = Player.Diameter / 2.0f;
+        float radius = Player.Diameter;
+
+        //Player.Diameter
 
         RaycastHit2D hit2d = Physics2D.CircleCast(vShootBodyPos, radius, Dir , Mathf.Infinity , layerMask);
 
+        //RaycastHit2D hit2d = Physics2D.Linecast(vShootBodyPos, layEndPos, layerMask);
+
         if (hit2d)
         {
+            Vector2 a = revDir * (radius / 2.0f);
             LineReverse.SetActive(true);
-            //HitMark.transform.position = hit2d.point;
+            HitMark.transform.position = hit2d.point + (Vector2)(revDir * (radius / 2.0f));
             LineReverse.transform.position = hit2d.point;
             LineReverse.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180.0f - _fShootAngle));
 
-
-            //Debug.Log(_fShootAngle);
         }
 
     }

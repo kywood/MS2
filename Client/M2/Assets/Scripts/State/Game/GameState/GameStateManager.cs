@@ -23,31 +23,31 @@ public class GameStateManager : StateManager
 
     public GameStateManager()
     {
-        mStateMap = new Dictionary<int, State>()
+        mStateMap = new Dictionary<int, State<StateManager>>()
         {
-            {(int)E_GAME_STATE.READY , new Ready() }   ,
-            {(int)E_GAME_STATE.SHOOT_READY , new ShootReady() }   ,
-            {(int)E_GAME_STATE.RUN , new Run() }   ,
-            {(int)E_GAME_STATE.RUN_RESULT , new RunResult() }   ,
-            {(int)E_GAME_STATE.END , new End() }
+            {(int)E_GAME_STATE.READY , new GameReady(this) }   ,
+            {(int)E_GAME_STATE.SHOOT_READY , new GameShootReady(this) }   ,
+            {(int)E_GAME_STATE.RUN , new GameRun(this) }   ,
+            {(int)E_GAME_STATE.RUN_RESULT , new GameRunResult(this) }   ,
+            {(int)E_GAME_STATE.END , new GameEnd(this) }
         };
     }
-    public void SetGameState(E_GAME_STATE gameState , Action<State> act = null )
+    public void SetGameState(E_GAME_STATE gameState , Action<State<StateManager>> act = null )
     {
         SetState((int)gameState, act);
 
     }
 
 
-    public E_GAME_STATE GetGameState()
-    {
-        return (E_GAME_STATE)GetState();
-    }
+    //public E_GAME_STATE GetGameState()
+    //{
+    //    return (E_GAME_STATE)GetState();
+    //}
 
-    public State GetGameStateValue()
-    {
-        return GetStateValue();
-    }
+    //public State GetGameStateValue()
+    //{
+    //    return GetStateValue();
+    //}
 
     public bool IsGameState(E_GAME_STATE game_state  )
     {
