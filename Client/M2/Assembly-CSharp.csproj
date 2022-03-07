@@ -117,7 +117,7 @@
     <Compile Include="Assets\Scripts\State\Game\Player\PlayerState\PlayerReady.cs" />
     <Compile Include="Assets\Scripts\State\Game\UI\MaskArea.cs" />
     <Compile Include="Assets\Scripts\State\Game\Player\PlayerState\PlayerEnd.cs" />
-    <Compile Include="Assets\Scripts\State\Game\Player\NetPlayer.cs" />
+    <Compile Include="Assets\Scripts\State\Game\Player\PeerPlayer.cs" />
     <Compile Include="Assets\Scripts\Network\Game\NetworkPlayerManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\Scripts\State\PlayerState.cs" />
@@ -192,6 +192,10 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Scripts\Network\Game\NetworkGameRoomManager.cs" />
     <Compile Include="Assets\Scripts\Network\Game\AbSubJect.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\GameRoom.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\NetworkPlayer.cs" />
+    <Compile Include="Assets\Scripts\State\Game\Player\OnlinePlayer.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\NetPacket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
