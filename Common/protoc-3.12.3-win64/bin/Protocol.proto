@@ -13,8 +13,12 @@ enum MsgId {
   S_LEAVE_GAME_ROOM = 5;
   S_SPAWN = 6;
   S_DESPAWN = 7;
-  C_MOVE = 8;
-  S_MOVE = 9;
+  C_START_GAME = 8;
+  S_START_GAME = 9;
+  C_SHOOT = 10;
+  S_SHOOT = 11;
+  C_MOVE = 12;
+  S_MOVE = 13;
 }
 
 message S_Connect {
@@ -41,11 +45,30 @@ message S_LeaveGameRoom {
 }
 
 message S_Spawn {
-  repeated PlayerInfo players = 1;
+  int32 roomId = 1;
+  repeated PlayerInfo players = 2;
 }
 
 message S_Despawn {
-  repeated int32 playerIds = 1;
+  int32 roomId = 1;
+  repeated int32 playerIds = 2;
+}
+
+message C_StartGame {
+  int32 roomId = 1;
+}
+
+message S_StartGame {
+  int32 roomId = 1;
+}
+
+message C_Shoot {
+  float radianAngle = 1;
+}
+
+message S_Shoot {
+  int32 playerId = 1;
+  float radianAngle = 2;
 }
 
 message C_Move {
