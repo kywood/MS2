@@ -64,8 +64,8 @@
     <Compile Include="Assets\Scripts\State\Game\Player\PlayerState\PlayerRunResult.cs" />
     <Compile Include="Assets\Scripts\State\Game\Player\MyPlayer.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
-    <Compile Include="Assets\Scripts\State\Logo\Title.cs" />
-    <Compile Include="Assets\Scripts\State\Logo\Menu.cs" />
+    <Compile Include="Assets\Scripts\State\Title.cs" />
+    <Compile Include="Assets\Scripts\State\Menu.cs" />
     <Compile Include="Assets\Scripts\State\Game\GameState\GameShootReady.cs" />
     <Compile Include="Assets\Scripts\State\Game\Player\Player.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
@@ -75,20 +75,25 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\Scripts\Utils\DontDestroy.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
+    <Compile Include="Assets\Scripts\Network\Packet\ServerSession.cs" />
     <Compile Include="Assets\Scripts\State\Game\UI\Windows\GameOverWin.cs" />
     <Compile Include="Assets\Scripts\Test\Bullet.cs" />
     <Compile Include="Assets\Scripts\RotSlot\cPoint.cs" />
     <Compile Include="Assets\Scripts\State\Game\GameState\GameRunResult.cs" />
     <Compile Include="Assets\Scripts\Test\CTest.cs" />
+    <Compile Include="Assets\Scripts\State\Game\Player\PlayerState\MyPlayerShootReady.cs" />
     <Compile Include="Assets\Scripts\Utils\CTime.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\Scripts\Network\ServerCore\RecvBuffer.cs" />
     <Compile Include="Assets\Scripts\Utils\Debug.cs" />
     <Compile Include="Assets\Scripts\Game\CSSlot.cs" />
     <Compile Include="Assets\Scripts\Game\CSColsSlot.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
     <Compile Include="Assets\Scripts\State\Game\UI\Pick.cs" />
     <Compile Include="Assets\Scripts\Defines.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\ISubJect.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
+    <Compile Include="Assets\Scripts\Network\ServerCore\Connector.cs" />
     <Compile Include="Assets\Scripts\App\Apps.cs" />
     <Compile Include="Assets\Scripts\State\Game\UI\Windows\Windows.cs" />
     <Compile Include="Assets\Scripts\State\Game\GameManager.cs" />
@@ -113,11 +118,12 @@
     <Compile Include="Assets\Scripts\State\Game\UI\MaskArea.cs" />
     <Compile Include="Assets\Scripts\State\Game\Player\PlayerState\PlayerEnd.cs" />
     <Compile Include="Assets\Scripts\State\Game\Player\NetPlayer.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\NetworkPlayerManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\Scripts\State\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Game\ShootBubble.cs" />
     <Compile Include="Assets\Scripts\RotSlot\cBubbleSlot.cs" />
-    <Compile Include="Assets\Scripts\State\Logo\Logo.cs" />
+    <Compile Include="Assets\Scripts\State\Logo.cs" />
     <Compile Include="Assets\Scripts\State\Game\Player\PlayerState\PlayerShootReady.cs" />
     <Compile Include="Assets\Scripts\Game\Bubble.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
@@ -125,12 +131,14 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\Scripts\Utils\Random.cs" />
     <Compile Include="Assets\Scripts\State\State.cs" />
+    <Compile Include="Assets\Scripts\Network\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Scripts\Utils\ListEx.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\Scripts\Utils\ParticleAutoDestroy.cs" />
     <Compile Include="Assets\Scripts\RotSlot\cBubble.cs" />
     <Compile Include="Assets\Scripts\App\AppManager.cs" />
     <Compile Include="Assets\Scripts\State\Game\UI\Bar.cs" />
+    <Compile Include="Assets\Scripts\App\TestManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
@@ -149,9 +157,13 @@
     <Compile Include="Assets\Scripts\State\Game\UI\Windows\GamePopup.cs" />
     <Compile Include="Assets\Scripts\RotSlot\cClacTaget.cs" />
     <Compile Include="Assets\Scripts\Utils\EaseCurve.cs" />
+    <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
+    <Compile Include="Assets\Scripts\Network\Packet\ClientPacketManager.cs" />
     <Compile Include="Assets\Scripts\RotSlot\cRotQueue.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\State\Game\GameState\GameReady.cs" />
+    <Compile Include="Assets\Scripts\Network\ServerCore\Session.cs" />
+    <Compile Include="Assets\Scripts\State\Lobby.cs" />
     <Compile Include="Assets\Scripts\State\Game\GameState\GameStateManager.cs" />
     <Compile Include="Assets\Scripts\Game\ShootBubbleManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
@@ -161,6 +173,7 @@
     <Compile Include="Assets\Scripts\Game\Walls.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
+    <Compile Include="Assets\Scripts\Network\Packet\PacketQueue.cs" />
     <Compile Include="Assets\Scripts\Utils\DT.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\Scripts\Test\T11.cs" />
@@ -170,22 +183,15 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
+    <Compile Include="Assets\Scripts\Network\Packet\Protocol.cs" />
     <Compile Include="Assets\Scripts\Game\CSRotSlot.cs" />
     <Compile Include="Assets\Scripts\State\StateManager.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\IObserver.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\Scripts\Utils\CBezier.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
-    <Compile Include="Assets\Scripts\State\Game\Player\PlayerState\MyPlayerShootReady.cs" />
-    <Compile Include="Assets\Scripts\Network\ServerCore\Session.cs" />
-    <Compile Include="Assets\Scripts\Network\NetworkManager.cs" />
-    <Compile Include="Assets\Scripts\Network\Packet\Protocol.cs" />
-    <Compile Include="Assets\Scripts\Network\ServerCore\Connector.cs" />
-    <Compile Include="Assets\Scripts\Network\ServerCore\RecvBuffer.cs" />
-    <Compile Include="Assets\Scripts\Network\Packet\ServerSession.cs" />
-    <Compile Include="Assets\Scripts\Network\Packet\PacketHandler.cs" />
-    <Compile Include="Assets\Scripts\Network\Packet\PacketQueue.cs" />
-    <Compile Include="Assets\Scripts\Network\Packet\ClientPacketManager.cs" />
-    <Compile Include="Assets\Scripts\App\TestManager.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\NetworkGameRoomManager.cs" />
+    <Compile Include="Assets\Scripts\Network\Game\AbSubJect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -440,9 +446,6 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Unity_2021.1.16f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Buffers">
       <HintPath>Assets\Libs\System.Buffers.dll</HintPath>
     </Reference>
@@ -454,6 +457,9 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>Assets\Libs\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Unity_2021.1.16f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
