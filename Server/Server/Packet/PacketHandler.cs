@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Server;
+using Server.Game;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,30 @@ using System.Text;
 
 class PacketHandler
 {
-	public static void C_ChatHandler(PacketSession session, IMessage packet)
+
+	public static void C_JoinGameRoomHandler(PacketSession session, IMessage packet)
 	{
-		S_Chat chatPacket = packet as S_Chat;
+		C_JoinGameRoom Packet = packet as C_JoinGameRoom;
 		ClientSession serverSession = session as ClientSession;
 
-		Console.WriteLine(chatPacket.Context);
+		RoomManager.Instance.Find(1).JoinGameRoom(serverSession.MyPlayer);
+
+		//serverSession.MyPlayer 
+
+	}
+	public static void C_RoomInfoHandler(PacketSession session, IMessage packet)
+	{
+		C_RoomInfo roomInfoPacket = packet as C_RoomInfo;
+		ClientSession serverSession = session as ClientSession;
+
+
+		RoomManager.Instance.Find(1).GetInfo(serverSession.MyPlayer);
+	}
+
+	public static void C_MoveHandler(PacketSession session, IMessage packet)
+	{
+		C_Move movePacket = packet as C_Move;
+		ClientSession serverSession = session as ClientSession;
+
 	}
 }

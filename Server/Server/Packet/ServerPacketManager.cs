@@ -23,8 +23,12 @@ class PacketManager
 		
 	public void Register()
 	{		
-		_onRecv.Add((ushort)MsgId.CChat, MakePacket<C_Chat>);
-		_handler.Add((ushort)MsgId.CChat, PacketHandler.C_ChatHandler);
+		_onRecv.Add((ushort)MsgId.CRoomInfo, MakePacket<C_RoomInfo>);
+		_handler.Add((ushort)MsgId.CRoomInfo, PacketHandler.C_RoomInfoHandler);		
+		_onRecv.Add((ushort)MsgId.CJoinGameRoom, MakePacket<C_JoinGameRoom>);
+		_handler.Add((ushort)MsgId.CJoinGameRoom, PacketHandler.C_JoinGameRoomHandler);		
+		_onRecv.Add((ushort)MsgId.CMove, MakePacket<C_Move>);
+		_handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
