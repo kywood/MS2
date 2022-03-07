@@ -10,9 +10,9 @@ public class NetworkManager
 {
 	ServerSession _session = new ServerSession();
 
-	public void Send(ArraySegment<byte> sendBuff)
+	public void Send(IMessage packet)
 	{
-		_session.Send(sendBuff);
+		_session.Send(packet);
 	}
 
 	public void OnStart()
@@ -31,6 +31,11 @@ public class NetworkManager
 		connector.Connect(endPoint,
 			() => { return _session; },
 			1);
+	}
+
+	public void OnStop()
+    {
+		_session.Disconnect();
 	}
 
 	public void OnUpdate()

@@ -8,23 +8,68 @@ using UnityEngine.UI;
 
 class PacketHandler
 {
-	public static void S_ChatHandler(PacketSession session, IMessage packet)
-	{
-		S_Chat chatPacket = packet as S_Chat;
+	public static void S_ConnectHandler(PacketSession session, IMessage packet)
+    {
+		S_Connect Packet = packet as S_Connect;
 		ServerSession serverSession = session as ServerSession;
 
-		Debug.Log(chatPacket.Context);
+		AppManager.Instance.NetworkPlayerManager.Add(Packet.Player , true);
 
-		Text txto = TestManager.Instance.txtObj.GetComponent<Text>();
-		txto.text = chatPacket.Context;
+		Debug.Log("S_ConnectHandler");
 
+		C_RoomInfo roomInfo = new C_RoomInfo()
+		{
+			RoomId = 1
+		};
 
-
+		serverSession.Send(roomInfo);
 	}
 
-	public static void S_EnterGameHandler(PacketSession session, IMessage packet)
+	public static void S_RoomInfoHandler(PacketSession session, IMessage packet)
 	{
-		S_EnterGame enterGamePacket = packet as S_EnterGame;
+		S_RoomInfo Packet = packet as S_RoomInfo;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_RoomInfoHandler");
+
+		AppManager.Instance.NetworkGameRoomManager.Upsert(Packet.RoomInfo);
+
+	}
+	public static void S_JoinGameRoomHandler(PacketSession session, IMessage packet)
+	{
+		S_JoinGameRoom Packet = packet as S_JoinGameRoom;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_JoinGameRoomHandler");
+
+		AppManager.Instance.NetworkGameRoomManager.Upsert(Packet.RoomInfo);
+
+	}
+	public static void S_LeaveGameRoomHandler(PacketSession session, IMessage packet)
+	{
+		S_LeaveGameRoom Packet = packet as S_LeaveGameRoom;
+		ServerSession serverSession = session as ServerSession;
+	}
+	
+
+
+	public static void S_SpawnHandler(PacketSession session, IMessage packet)
+	{
+		S_Spawn Packet = packet as S_Spawn;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_SpawnHandler");
+	}
+
+	public static void S_DespawnHandler(PacketSession session, IMessage packet)
+	{
+		S_Despawn despawnPacket = packet as S_Despawn;
+		ServerSession serverSession = session as ServerSession;
+	}
+
+	public static void S_MoveHandler(PacketSession session, IMessage packet)
+	{
+		S_Move movePacket = packet as S_Move;
 		ServerSession serverSession = session as ServerSession;
 	}
 }

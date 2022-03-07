@@ -8,7 +8,7 @@ public class MyPlayer : Player
 
     public GameObject Next;
 
-    
+
 
     MyPlayer()
     {

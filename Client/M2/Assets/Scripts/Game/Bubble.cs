@@ -29,7 +29,7 @@ public class Bubble : MonoBehaviour
             1);
     }
 
-    protected Player GetPlayer ()
+    protected Player GetPlayer()
     {
         BubbleManager bbm = null;
 
