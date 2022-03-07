@@ -21,6 +21,7 @@ public class Defines
         LOGO,
         TITLE,
         MENU ,
+        LOBBY ,
         GAME ,
         MAX
     }
@@ -30,6 +31,7 @@ public class Defines
             { E_SCENES.LOGO , "LOGO" } ,
             { E_SCENES.TITLE , "TITLE" },
             { E_SCENES.MENU , "MENU" },
+            { E_SCENES.LOBBY , "LOBBY" },
             { E_SCENES.GAME , "GAME" },
         };
 

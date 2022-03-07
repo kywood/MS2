@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class MyPlayerShootReady : PlayerShootReady
 {
 
+    Player Player;
     public MyPlayerShootReady(PlayerStateManager state_manager) : base(state_manager)
     {
     }
@@ -13,7 +15,7 @@ public class MyPlayerShootReady : PlayerShootReady
     {
         base.OnEnter();
 
-        Player Player = GetPlayer();
+        Player = GetPlayer();
         ((MyPlayer)Player).Next.GetComponent<Next>().SetVisible(true);
         ((MyPlayer)Player).Next.GetComponent<Next>().UpdateNext();
 
@@ -29,10 +31,6 @@ public class MyPlayerShootReady : PlayerShootReady
 
     }
 
-
-
-
-
     protected override void Shoot(float scale = 1.0f)
     {
         Bubble.transform.position = ShootBody.transform.position;
@@ -40,6 +38,13 @@ public class MyPlayerShootReady : PlayerShootReady
         float RadianAngle = fAngle * Mathf.Deg2Rad;
         Vector2 vel = (new Vector2(Mathf.Cos(RadianAngle), Mathf.Sin(RadianAngle))).normalized * (Defines.G_SHOOT_FORCE * scale);
         RbBubble.velocity = vel;
+
+        C_Shoot packet = new C_Shoot()
+        {
+            RadianAngle = RadianAngle
+        };
+        AppManager.Instance.NetworkManager.Send(packet);
+
         //Debug.Log("Shoot f : " + fAngle + " R : " + fAngle * Mathf.Deg2Rad);
     }
 

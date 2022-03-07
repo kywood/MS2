@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerManager;
 
-public class NetPlayer : Player
+public class PeerPlayer : OnlinePlayer
 {
-    NetPlayer()
+    PeerPlayer()
     {
         PlayerType = E_PLAYER_TYPE.PEER;
     }

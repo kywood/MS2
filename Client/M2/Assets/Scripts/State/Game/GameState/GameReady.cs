@@ -10,7 +10,10 @@ public class GameReady : State<StateManager>
 
     public override void OnEnter()
     {
-        PlayerManager.Instance.DualAct((p) => p.SetPlayerState(PlayerStateManager.E_PLAYER_STATE.READY)); 
+        PlayerManager.Instance.DualAct((p) => p.SetPlayerState(PlayerStateManager.E_PLAYER_STATE.READY));
+
+        GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.RUN);
+
     }
 
     public override void OnLeave()

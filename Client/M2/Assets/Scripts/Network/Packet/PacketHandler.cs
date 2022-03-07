@@ -10,7 +10,10 @@ class PacketHandler
 {
 	public static void S_ConnectHandler(PacketSession session, IMessage packet)
     {
+		Debug.Log("S_ConnectHandler");
+
 		S_Connect Packet = packet as S_Connect;
+
 		ServerSession serverSession = session as ServerSession;
 
 		AppManager.Instance.NetworkPlayerManager.Add(Packet.Player , true);
@@ -59,6 +62,7 @@ class PacketHandler
 		ServerSession serverSession = session as ServerSession;
 
 		Debug.Log("S_SpawnHandler");
+		AppManager.Instance.NetworkGameRoomManager.Spawn(Packet.RoomId , Packet.Players );
 	}
 
 	public static void S_DespawnHandler(PacketSession session, IMessage packet)
@@ -67,9 +71,29 @@ class PacketHandler
 		ServerSession serverSession = session as ServerSession;
 	}
 
+	public static void S_ShootHandler(PacketSession session, IMessage packet)
+	{
+		S_Shoot Packet = packet as S_Shoot;
+		ServerSession serverSession = session as ServerSession;
+
+		PlayerManager.Instance.Shoot(Packet);
+
+		//shoot packet 
+	}
+
+
 	public static void S_MoveHandler(PacketSession session, IMessage packet)
 	{
 		S_Move movePacket = packet as S_Move;
 		ServerSession serverSession = session as ServerSession;
+	}
+
+	public static void S_StartGameHandler(PacketSession session, IMessage packet)
+	{
+		S_StartGame Packet = packet as S_StartGame;
+		ServerSession serverSession = session as ServerSession;
+
+
+		AppManager.Instance.NetworkGameRoomManager.StartGame();
 	}
 }

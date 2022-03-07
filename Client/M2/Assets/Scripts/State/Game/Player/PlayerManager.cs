@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,12 +16,47 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     }
 
 
-    public List<Player> Players = new List<Player>();
+    public List<OnlinePlayer> Players = new List<OnlinePlayer>();
 
 
-    public List<Player> GetPlayers()
+    GameRoom _gameRoom;
+
+    public GameRoom GameRoom { get { return _gameRoom; } }
+
+    protected override void OnStart()
+    {
+        _gameRoom = AppManager.Instance.NetworkGameRoomManager.GetRoomInfo(1);
+        NetworkPlayer myPlayer = AppManager.Instance.NetworkPlayerManager.GetMyPlayerInfo();
+
+
+        foreach ( OnlinePlayer p in Players )
+        {
+            if( p.PlayerType == E_PLAYER_TYPE.MY_PLAYER )
+            {
+                p.NetworkPlayer = _gameRoom.GetPlayer(myPlayer.PlayerId);
+            }
+            else
+            {
+                p.NetworkPlayer = _gameRoom.GetIgnorePlayer(myPlayer.PlayerId);
+            }
+        }
+    }
+
+
+    public void Shoot(S_Shoot packet)
+    {
+        Player p = GetPlayer(packet.PlayerId);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SShoot, packet));
+    }
+
+    public List<OnlinePlayer> GetPlayers()
     {
         return Players;
+    }
+
+    Player GetPlayer(int playerId)
+    {
+        return Players.Find((p) => p.NetworkPlayer.PlayerId == playerId);
     }
 
     public Player GetPlayer(E_PLAYER_TYPE player_type)

@@ -20,30 +20,27 @@ public class Lobby : MonoBehaviour , IObserver
 
         AppManager.Instance.NetworkPlayerManager.RegisterObserver(this);
         AppManager.Instance.NetworkGameRoomManager.RegisterObserver(this);
-    }   
-
+    }
 
     public void ObserverUpdate(E_UPDAET_TYPE updateType)
     {
-        if( updateType == E_UPDAET_TYPE.PLAYER_UPDATE )
-            NetworkState.text = "OnLine";
+        NetworkPlayer myPlayer = AppManager.Instance.NetworkPlayerManager.GetMyPlayerInfo();
+
+        if ( updateType == E_UPDAET_TYPE.PLAYER_UPDATE )
+            NetworkState.text = $"{myPlayer.PlayerId} OnLine";
         else if (updateType == E_UPDAET_TYPE.ROOM_INFO_UPSERT)
         {
-            RoomInfo roomInfo = AppManager.Instance.NetworkGameRoomManager.GetRoomInfo(1);
+            GameRoom gameRoom = AppManager.Instance.NetworkGameRoomManager.GetRoomInfo(1);
 
-            PlayerInfo myPlayer = AppManager.Instance.NetworkPlayerManager.GetMyPlayerInfo();
+            bool isContain = AppManager.Instance.NetworkGameRoomManager.IsContain(1, myPlayer );
 
-            for ( int i = 0; i < roomInfo.Players.Count; i++ )
+            for ( int i = 0; i < gameRoom.Players.Count; i++ )
             {
-                PlayerInfo playerInfo = roomInfo.Players[i];
+                NetworkPlayer playerInfo = gameRoom.Players[i];
 
-                if (myPlayer == null)
+                if (isContain)
                 {
-                    NetPlayerState.text = $"{playerInfo.PlayerId.ToString()} Joined";
-                }
-                else
-                {
-                    if(myPlayer.PlayerId == playerInfo.PlayerId)
+                    if (myPlayer.PlayerId == playerInfo.PlayerId)
                     {
                         MyState.text = $"{playerInfo.PlayerId.ToString()} Joined";
                     }
@@ -52,7 +49,20 @@ public class Lobby : MonoBehaviour , IObserver
                         NetPlayerState.text = $"{playerInfo.PlayerId.ToString()} Joined";
                     }
                 }
+                else
+                {
+                    if( i == 1)
+                        MyState.text = $"{playerInfo.PlayerId.ToString()} Joined";
+                    else
+                        NetPlayerState.text = $"{playerInfo.PlayerId.ToString()} Joined";
+                }
+
+
             }
+        }
+        else if( updateType == E_UPDAET_TYPE.GAME_START )
+        {
+            Application.LoadLevel(Defines.GetScenesName(Defines.E_SCENES.GAME));
         }
     }
 
@@ -60,15 +70,30 @@ public class Lobby : MonoBehaviour , IObserver
     {
         //내가 이미 입장중이라면 안되고..
 
-        Debug.Log("OnBtnClick_GameRoomEnter");
+        //Debug.Log("OnBtnClick_GameRoomEnter");
 
-        PlayerInfo myPlayer = AppManager.Instance.NetworkPlayerManager.GetMyPlayerInfo();
+        NetworkPlayer myPlayer = AppManager.Instance.NetworkPlayerManager.GetMyPlayerInfo();
 
         if (AppManager.Instance.NetworkGameRoomManager.IsContain(1, myPlayer))
             return;
 
         C_JoinGameRoom joinRoomPacket = new C_JoinGameRoom();
-        joinRoomPacket.Player = AppManager.Instance.NetworkPlayerManager.GetMyPlayerInfo();
+        joinRoomPacket.Player = myPlayer.PlayerInfo;
         AppManager.Instance.NetworkManager.Send(joinRoomPacket);
+    }
+
+    public void OnBtnClick_GameStart()
+    {
+        //Debug.Log("OnBtnClick_GameStart");
+
+        if ( AppManager.Instance.NetworkGameRoomManager.GetRoomInfo(1).IsAbleEnterGame() )
+        {
+            C_StartGame Packet = new C_StartGame();
+            Packet.RoomId = 1;
+            AppManager.Instance.NetworkManager.Send(Packet);
+        }
+            //Application.LoadLevel(Defines.GetScenesName(Defines.E_SCENES.GAME));
+
+
     }
 }

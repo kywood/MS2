@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerManager;
 
-public class MyPlayer : Player
+public class MyPlayer : OnlinePlayer
 {
 
     public GameObject Next;

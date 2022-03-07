@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static ISubJect;
 
-public class AbSubJect : ISubJect
+public abstract class AbSubJect : ISubJect
 {
     
 

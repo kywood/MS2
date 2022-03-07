@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,13 +14,16 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
 
     protected bool bMousePress;
 
+
+    Player Player;
+
     public PlayerShootReady(PlayerStateManager state_manager) : base(state_manager)
     {
     }
 
     public override void OnEnter()
     {
-        Player Player = GetPlayer();
+        Player = GetPlayer();
 
         Target = Player.Pick.GetComponent<Pick>().Target;
         ShootBody = Player.Pick.GetComponent<Pick>().ShootBody;
@@ -45,25 +49,25 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
     {
         bMousePress = false;
 
-        GameManager.Instance.StartCoroutine(EffectStartRow());
+       // GameManager.Instance.StartCoroutine(EffectStartRow());
 
 
     }
 
 
-    IEnumerator EffectStartRow()
-    {
-        yield return new WaitForSeconds(3.2f);
+    //IEnumerator EffectStartRow()
+    //{
+    //    yield return new WaitForSeconds(3.2f);
 
-        GetPlayer().SetPlayerState(PlayerStateManager.E_PLAYER_STATE.RUN);
-        //                GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.RUN);
-        Shoot(
-            GetPlayer().Scale
-            );
+    //    GetPlayer().SetPlayerState(PlayerStateManager.E_PLAYER_STATE.RUN);
+    //    //                GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.RUN);
+    //    Shoot(
+    //        GetPlayer().Scale
+    //        );
 
 
-        yield return null;
-    }
+    //    yield return null;
+    //}
     
 
 
@@ -72,19 +76,28 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
         Bubble.transform.position = ShootBody.transform.position;
         //float fAngle = CMath.GetAngle(ShootBody.transform.position, Target.transform.position);
 
-        float RadianAngle = Random.Range(40, 140) * Mathf.Deg2Rad;
-        Vector2 vel = (new Vector2(Mathf.Cos(RadianAngle), Mathf.Sin(RadianAngle))).normalized * (Defines.G_SHOOT_FORCE * scale);
+        float radianAngle = Random.Range(40, 140) * Mathf.Deg2Rad;
+        Vector2 vel = (new Vector2(Mathf.Cos(radianAngle), Mathf.Sin(radianAngle))).normalized * (Defines.G_SHOOT_FORCE * scale);
         RbBubble.velocity = vel;
+    }
 
-
-
-        //Debug.Log("Shoot f : " + fAngle + " R : " + fAngle * Mathf.Deg2Rad);
+    void Shootlocal(NetPacket packet )
+    {
+        float radianAngle = ((S_Shoot)packet.Packet).RadianAngle;
+        Vector2 vel = (new Vector2(Mathf.Cos(radianAngle), Mathf.Sin(radianAngle))).normalized * (Defines.G_SHOOT_FORCE * GetPlayer().Scale);
+        RbBubble.velocity = vel;
     }
 
 
     public override void OnUpdate()
     {
         base.OnUpdate();
+
+        NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SShoot);
+        if( pk != null)
+        {
+            Shootlocal(pk);
+        }
 
     }
 }

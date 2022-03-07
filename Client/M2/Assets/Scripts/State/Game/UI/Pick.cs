@@ -27,7 +27,7 @@ public class Pick : MonoBehaviour
     {
         Line.transform.position = ShootBody.transform.position;
 
-        LineReverse.SetActive(false);
+        //LineReverse.SetActive(false);
 
         Vector2 vStart = CMath.ConvertV3toV2(ShootBody.transform.position);
         Vector2 vEnd = CMath.ConvertV3toV2(Target.transform.position);

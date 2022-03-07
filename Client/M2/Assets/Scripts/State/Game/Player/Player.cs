@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,10 @@ public class Player : MonoBehaviour
     public float BUBBLE_DIAMETER = 0.4f;
     //public const float G_BUBBLE_DIAMETER = 0.6f;
     public float SLOT_RADIUS_GAP = 0.03f;
+
+    
+
+    
 
 
     float _diameter;
@@ -77,6 +82,11 @@ public class Player : MonoBehaviour
     protected virtual void OnUpdate()
     {
         StateManager.OnUpdate();
+
+        //while(_queue.Count != 0)
+        //{
+        //    _queue.Dequeue().Invoke();
+        //}
     }
 
 

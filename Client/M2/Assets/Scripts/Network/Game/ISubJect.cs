@@ -8,7 +8,8 @@ public interface ISubJect
     {
         NONE,
         PLAYER_UPDATE,
-        ROOM_INFO_UPSERT
+        ROOM_INFO_UPSERT,
+        GAME_START
     }
 
     void RegisterObserver(IObserver _observer);

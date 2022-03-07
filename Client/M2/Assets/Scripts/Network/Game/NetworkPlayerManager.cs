@@ -7,12 +7,12 @@ using static ISubJect;
 public class NetworkPlayerManager : AbSubJect
 {
 
-    Dictionary<int, PlayerInfo> _players = new Dictionary<int, PlayerInfo>();
+    Dictionary<int, NetworkPlayer> _players = new Dictionary<int, NetworkPlayer>();
 
     int _myId = -100;
 
 
-    public int MyId { get { return _myId; } }
+    public NetworkPlayer MyPlayer;
 
     public void Clear()
     {
@@ -20,14 +20,17 @@ public class NetworkPlayerManager : AbSubJect
         _myId = -100;
     }
 
-
-    public void Add(PlayerInfo playerInfo, bool myPlayer = false)
+    public void Add(PlayerInfo player, bool myPlayer = false)
     {
-        _players.Add(playerInfo.PlayerId, playerInfo);
+        Add(new NetworkPlayer(player), myPlayer);
+    }
+    public void Add(NetworkPlayer networkPlayer, bool myPlayer = false)
+    {
+        _players.Add(networkPlayer.PlayerId, networkPlayer);
 
         if (myPlayer)
         {
-            _myId = playerInfo.PlayerId;
+            MyPlayer = networkPlayer;
             //Lobby.UpdateOnlineState(playerInfo);
 
             NotifyObservers(E_UPDAET_TYPE.PLAYER_UPDATE);
@@ -36,12 +39,9 @@ public class NetworkPlayerManager : AbSubJect
     
     }
 
-    public PlayerInfo GetMyPlayerInfo()
+    public NetworkPlayer GetMyPlayerInfo()
     {
-        if (_players.ContainsKey(_myId))
-            return _players[_myId];
-
-        return null;
+        return MyPlayer;
     }
 
     public void Remove( int playerId )
