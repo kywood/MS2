@@ -27,6 +27,10 @@ class PacketManager
 		_handler.Add((ushort)MsgId.CRoomInfo, PacketHandler.C_RoomInfoHandler);		
 		_onRecv.Add((ushort)MsgId.CJoinGameRoom, MakePacket<C_JoinGameRoom>);
 		_handler.Add((ushort)MsgId.CJoinGameRoom, PacketHandler.C_JoinGameRoomHandler);		
+		_onRecv.Add((ushort)MsgId.CStartGame, MakePacket<C_StartGame>);
+		_handler.Add((ushort)MsgId.CStartGame, PacketHandler.C_StartGameHandler);		
+		_onRecv.Add((ushort)MsgId.CShoot, MakePacket<C_Shoot>);
+		_handler.Add((ushort)MsgId.CShoot, PacketHandler.C_ShootHandler);		
 		_onRecv.Add((ushort)MsgId.CMove, MakePacket<C_Move>);
 		_handler.Add((ushort)MsgId.CMove, PacketHandler.C_MoveHandler);
 	}

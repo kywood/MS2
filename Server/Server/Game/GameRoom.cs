@@ -56,18 +56,45 @@ namespace Server.Game
 
             lock (_lock)
             {
+                if( _players.Count >= 2 )
+                {
+                    S_JoinGameRoom joinGameRoomPacket = new S_JoinGameRoom();
+                    joinGameRoomPacket.RoomInfo = new RoomInfo();
+
+                    joinGameRoomPacket.RoomInfo.RoomId = RoomId;
+
+                    foreach (Player p in _players)
+                    {
+                        joinGameRoomPacket.RoomInfo.Players.Add(p.Info);
+                    }
+
+                    player.Session.Send(joinGameRoomPacket);
+                    return;
+                }
+
                 
                 _players.Add(player);
                 player.Room = this;
 
+                
+
                 {
                     // me -> me
                     S_JoinGameRoom joinGameRoomPacket = new S_JoinGameRoom();
-                    joinGameRoomPacket.Player = player.Info;
+                    joinGameRoomPacket.RoomInfo = new RoomInfo();
+
+                    joinGameRoomPacket.RoomInfo.RoomId = RoomId;
+
+                    foreach (Player p in _players)
+                    {
+                        joinGameRoomPacket.RoomInfo.Players.Add(p.Info);
+                    }
+
                     player.Session.Send(joinGameRoomPacket);
 
-                    // !me -> me
+                    // me -> me ( 방에 있는 사람 목록 )
                     S_Spawn spawnPacket = new S_Spawn();
+                    spawnPacket.RoomId = RoomId;
                     foreach (Player p in _players)
                     {
                         if (player != p)
@@ -77,13 +104,68 @@ namespace Server.Game
                 }
 
                 {
+                    //같은 방사람에게 전송
                     S_Spawn spawnPacket = new S_Spawn();
+                    spawnPacket.RoomId = RoomId;
                     spawnPacket.Players.Add(player.Info);
                     foreach (Player p in _players)
                     {
                         if (player != p)
                             p.Session.Send(spawnPacket);
                     }
+                }
+
+                {
+                    //로비유저들에게 전송
+                    S_Spawn spawnPacket = new S_Spawn();
+                    spawnPacket.RoomId = RoomId;
+                    foreach (Player p in _players)
+                    {
+                        spawnPacket.Players.Add(p.Info);
+                    }
+
+                    Dictionary<int, Player>  players = PlayerManager.Instance.GetPlayers();
+
+                    foreach( Player p in players.Values )
+                    {
+                        if ( p.Room == null )
+                        {
+                            p.Session.Send(spawnPacket);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        public void Shoot(ClientSession clientSession, C_Shoot shootPacket )
+        {
+            lock (_lock)
+            {
+                S_Shoot packet = new S_Shoot()
+                {
+                    PlayerId = clientSession.MyPlayer.Info.PlayerId,
+                    RadianAngle = shootPacket.RadianAngle
+                };
+
+                foreach (Player p in _players)
+                {
+                    if( p.Info.PlayerId != clientSession.MyPlayer.Info.PlayerId)
+                        p.Session.Send(packet);
+                }
+
+            }
+        }
+
+        public void StartGame()
+        {
+            lock (_lock)
+            {
+                S_StartGame packet = new S_StartGame();
+                packet.RoomId = RoomId;
+                foreach (Player p in _players)
+                {
+                    p.Session.Send(packet);
                 }
             }
         }

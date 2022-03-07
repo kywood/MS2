@@ -27,6 +27,11 @@ namespace Server.Game
             return player;
         }
 
+        public Dictionary<int , Player> GetPlayers ()
+        {
+            return _players;
+        }
+
         public bool Remove(int playerId)
         {
             lock (_lock)
