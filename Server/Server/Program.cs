@@ -25,14 +25,14 @@ namespace Server
 
 		static void Main(string[] args)
 		{
-			RoomManager.Instance.Add();
+			RoomManager.Instance.Add().Init();
 
 			// DNS (Domain Name System)
 			string host = Dns.GetHostName();
 			IPHostEntry ipHost = Dns.GetHostEntry(host);
 			//IPAddress ipAddr = ipHost.AddressList[0];
 
-			IPAddress ipAddr = IPAddress.Parse("192.168.123.105");
+			IPAddress ipAddr = IPAddress.Parse("192.168.123.107");
 
 			IPEndPoint endPoint = new IPEndPoint(ipAddr, 7779);
 
