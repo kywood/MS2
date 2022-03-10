@@ -33,7 +33,7 @@ public class PlayerStateManager : StateManager
             {(int)E_PLAYER_STATE.READY , new PlayerReady(this) }   ,
             {(int)E_PLAYER_STATE.SHOOT_READY , new MyPlayerShootReady(this) }   ,
             {(int)E_PLAYER_STATE.RUN , new PlayerRun(this) }   ,
-            {(int)E_PLAYER_STATE.RUN_RESULT , new PlayerRunResult(this) }   ,
+            {(int)E_PLAYER_STATE.RUN_RESULT , new MyPlayerRunResult(this) }   ,
             {(int)E_PLAYER_STATE.END , new PlayerEnd(this) }
         };
         }
@@ -45,7 +45,7 @@ public class PlayerStateManager : StateManager
             {(int)E_PLAYER_STATE.READY , new PlayerReady(this) }   ,
             {(int)E_PLAYER_STATE.SHOOT_READY , new PlayerShootReady(this) }   ,
             {(int)E_PLAYER_STATE.RUN , new PlayerRun(this) }   ,
-            {(int)E_PLAYER_STATE.RUN_RESULT , new PlayerRunResult(this) }   ,
+            {(int)E_PLAYER_STATE.RUN_RESULT , new PeerPlayerRunResult(this) }   ,
             {(int)E_PLAYER_STATE.END , new PlayerEnd(this) }
         };
         }

@@ -31,7 +31,7 @@ public class PlayerReady : PlayerState<PlayerStateManager>
         //};
 
         ////packetState = PacketState.Sended;
-        //AppManager.Instance.NetworkManager.Send(nextColsBubblePacket);
+        //AppM anager.Instance.NetworkManager.Send(nextColsBubblePacket);
 
         GameManager.Instance.StartCoroutine(EffectStartRow());
 

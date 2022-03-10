@@ -43,6 +43,8 @@ class PacketManager
 		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);		
 		_onRecv.Add((ushort)MsgId.SNextBubble, MakePacket<S_NextBubble>);
 		_handler.Add((ushort)MsgId.SNextBubble, PacketHandler.S_NextBubbleHandler);		
+		_onRecv.Add((ushort)MsgId.SNextBubblePeer, MakePacket<S_NextBubblePeer>);
+		_handler.Add((ushort)MsgId.SNextBubblePeer, PacketHandler.S_NextBubblePeerHandler);		
 		_onRecv.Add((ushort)MsgId.SNextColsBubble, MakePacket<S_NextColsBubble>);
 		_handler.Add((ushort)MsgId.SNextColsBubble, PacketHandler.S_NextColsBubbleHandler);
 	}

@@ -8,7 +8,7 @@ using UnityEngine;
 using static PlayerManager;
 using static PlayerStateManager;
 
-public class PlayerRunResult : PlayerState<PlayerStateManager>
+public abstract class PlayerRunResult : PlayerState<PlayerStateManager>
 {
     // Start is called before the first frame update
     //float timer;
@@ -17,9 +17,8 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
     CSSlot mCsSlot;
 
 
-    static int runCnt = 0;
-    Player Player;
-    PacketState packetState = PacketState.None;
+    protected static int runCnt = 0;
+    protected Player Player;
     public PlayerRunResult(PlayerStateManager state_manager) : base(state_manager)
     {
     }
@@ -62,12 +61,6 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
     {
         if (out_drop.Count > 0)
         {
-            //Debug.Log(" =======  out_drop BEGIN ============== ");
-            //foreach (cBubble bb in out_drop)
-            //{
-            //    Debug.Log(bb.ToString());
-            //}
-            //Debug.Log(" =======  out_drop END ============== ");
 
             Pool pool = ResPools.Instance.GetPool(GetPlayer().PlayerType, MDefine.eResType.Bubble);
 
@@ -96,10 +89,7 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
     }
     public override void OnEnter()
     {
-        //Debug.Log("Run OnEnter");
-        //AppManager.Instance.BubbleManager.GetComponent<BubbleManager>().SetVisible(true);
-        //timer = 0.0f;
-        //waitingTime = 2;
+        
         Player = GetPlayer();
 
         List<cBubble> out_pang = new List<cBubble>();
@@ -110,20 +100,6 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
         PangAct(out_pang);
         DropAct(out_drop);
 
-        packetState = PacketState.None;
-
-//        CSRotSlot csRotSlot = Player.RotSlot.GetComponent<CSRotSlot>();
-        if (++runCnt % Defines.G_DROP_LOOP_TICK == 0)
-        {
-            packetState = PacketState.Sended;
-            // csRotSlot.ActRotate();
-            C_NextBubble nextPacket = new C_NextBubble();
-            AppManager.Instance.NetworkManager.Send(nextPacket);
-
-            Debug.Log("Send Next Bubble");
-        }
-        // send packet state  ==>  none  send -> recv 
-        //send
     }
 
 
@@ -132,30 +108,6 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
         base.OnUpdate();
 
 
-        // TODO Packet Queue Observer 
-        if( packetState == PacketState.Sended )
-        {
-            NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SNextBubble);
-            Debug.Log("nextbb dq try");
-            if (pk != null)
-            {
-                Debug.Log("nextbb dq com");
-                CSRotSlot csRotSlot = Player.RotSlot.GetComponent<CSRotSlot>();
-                csRotSlot.ActRotate(pk);
-
-                packetState = PacketState.None;
-            }
-        }
-
-        if (packetState == PacketState.None)
-        {
-            
-            if (ResPools.Instance.IsStopAllBubble(GetPlayer().PlayerType))
-            {
-                Debug.Log("SetPlayerState SHOOT_READY");
-                GetPlayer().SetPlayerState(E_PLAYER_STATE.SHOOT_READY);
-            }
-        }
 
     }
 }

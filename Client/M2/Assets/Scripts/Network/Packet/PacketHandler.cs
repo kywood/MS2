@@ -91,6 +91,19 @@ class PacketHandler
 		PlayerManager.Instance.NextBubble(Packet);
 	}
 
+	public static void S_NextBubblePeerHandler(PacketSession session, IMessage packet)
+	{
+		S_NextBubblePeer Packet = packet as S_NextBubblePeer;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_NextBubblePeerHandler");
+
+
+		PlayerManager.Instance.NextBubblePeer(Packet);
+
+	}
+
+
 	public static void S_NextColsBubbleHandler(PacketSession session, IMessage packet)
 	{
 		S_NextColsBubble Packet = packet as S_NextColsBubble;
