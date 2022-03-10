@@ -19,11 +19,14 @@ enum MsgId {
   S_SHOOT = 11;
   C_MOVE = 12;
   S_MOVE = 13;
-  C_NEXT_BUBBLE = 14;
-  S_NEXT_BUBBLE = 15;
-  S_NEXT_BUBBLE_PEER = 16;
-  C_NEXT_COLS_BUBBLE = 17;
-  S_NEXT_COLS_BUBBLE = 18;
+  C_NEXT_COLS_BUBBLE = 14;
+  S_NEXT_COLS_BUBBLE = 15;
+  S_NEXT_COLS_BUBBLE_PEER = 16;
+  C_NEXT_COLS_BUBBLE_LIST = 17;
+  S_NEXT_COLS_BUBBLE_LIST = 18;
+  C_NEXT_BUBBLES = 19;
+  S_NEXT_BUBBLES = 20;
+  S_NEXT_BUBBLES_PEER = 21;
 }
 
 enum PacketState { 
@@ -93,24 +96,38 @@ message S_Move {
   int32 posY = 3;
 }
 
-message C_NextBubble {
-   
+
+message C_NextBubbles {
+  int32 reqCount = 1;
 }
 
-message S_NextBubble {
+message S_NextBubbles {
   repeated int32 bubbleTypes = 1;
 }
 
-message S_NextBubblePeer {
+message S_NextBubblesPeer {
   int32 playerId = 1;
   repeated int32 bubbleTypes = 2;
 }
 
 message C_NextColsBubble {
-  int32 colsCount = 1;
+   
 }
 
 message S_NextColsBubble {
+  repeated int32 bubbleTypes = 1;
+}
+
+message S_NextColsBubblePeer {
+  int32 playerId = 1;
+  repeated int32 bubbleTypes = 2;
+}
+
+message C_NextColsBubbleList {
+  int32 colsCount = 1;
+}
+
+message S_NextColsBubbleList {
   repeated ColsBubbles ColsBubbles = 1;
 }
 
@@ -121,7 +138,7 @@ message ColsBubbles {
 message PlayerInfo {
   int32 playerId = 1;
   string name = 2;
-  int32 posX = 3;
+  int32 posX = 3;   
   int32 posY = 4;
 }
 
