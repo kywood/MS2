@@ -49,22 +49,41 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SShoot, packet));
     }
 
-    public void NextBubble(S_NextBubble packet)
-    {
-        Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
-        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextBubble, packet));
-    }
-
-    public void NextBubblePeer(S_NextBubblePeer packet)
-    {
-        Player p = GetPlayer(packet.PlayerId);
-        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextBubblePeer, packet));
-    }
-
     public void NextColsBubble(S_NextColsBubble packet)
     {
         Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
         ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextColsBubble, packet));
+    }
+
+    public void NextColsBubblePeer(S_NextColsBubblePeer packet)
+    {
+        Player p = GetPlayer(packet.PlayerId);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextColsBubblePeer, packet));
+    }
+
+    public void NextColsBubbleList(S_NextColsBubbleList packet)
+    {
+        Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextColsBubbleList, packet));
+    }
+    public void SNextBubbles(S_NextBubbles packet)
+    {
+        Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextBubbles, packet));
+    }
+
+    public void SNextBubblesPeer(S_NextBubblesPeer packet)
+    {
+        //이패킷은 통합 처리를 한다.
+
+        Player p = null;
+        if( packet.BubbleTypes.Count > 1)
+            p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+        else
+            p = GetPlayer(packet.PlayerId);
+
+        //Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextBubblesPeer, packet));
     }
 
 
@@ -73,7 +92,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         return Players;
     }
 
-    Player GetPlayer(int playerId)
+    public Player GetPlayer(int playerId)
     {
         return Players.Find((p) => p.NetworkPlayer.PlayerId == playerId);
     }

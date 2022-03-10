@@ -81,37 +81,37 @@ class PacketHandler
 		//shoot packet 
 	}
 
-	public static void S_NextBubbleHandler(PacketSession session, IMessage packet)
-	{
-		S_NextBubble Packet = packet as S_NextBubble;
-		ServerSession serverSession = session as ServerSession;
-
-		Debug.Log("S_NextBubbleHandler");
-
-		PlayerManager.Instance.NextBubble(Packet);
-	}
-
-	public static void S_NextBubblePeerHandler(PacketSession session, IMessage packet)
-	{
-		S_NextBubblePeer Packet = packet as S_NextBubblePeer;
-		ServerSession serverSession = session as ServerSession;
-
-		Debug.Log("S_NextBubblePeerHandler");
-
-
-		PlayerManager.Instance.NextBubblePeer(Packet);
-
-	}
-
-
 	public static void S_NextColsBubbleHandler(PacketSession session, IMessage packet)
 	{
 		S_NextColsBubble Packet = packet as S_NextColsBubble;
 		ServerSession serverSession = session as ServerSession;
 
-		Debug.Log("S_NextColsBubbleHandler");
+		Debug.Log("S_NextBubbleHandler");
 
 		PlayerManager.Instance.NextColsBubble(Packet);
+	}
+
+	public static void S_NextColsBubblePeerHandler(PacketSession session, IMessage packet)
+	{
+		S_NextColsBubblePeer Packet = packet as S_NextColsBubblePeer;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_NextColsBubblePeerHandler");
+
+
+		PlayerManager.Instance.NextColsBubblePeer(Packet);
+
+	}
+
+
+	public static void S_NextColsBubbleListHandler(PacketSession session, IMessage packet)
+	{
+		S_NextColsBubbleList Packet = packet as S_NextColsBubbleList;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_NextColsBubbleListHandler");
+
+		PlayerManager.Instance.NextColsBubbleList(Packet);
 	}
 
 
@@ -128,5 +128,28 @@ class PacketHandler
 
 
 		AppManager.Instance.NetworkGameRoomManager.StartGame();
+	}
+
+	public static void S_NextBubblesHandler(PacketSession session, IMessage packet)
+	{
+		S_NextBubbles Packet = packet as S_NextBubbles;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_NextBubblesHandler");
+		//AppManager.Instance.NetworkGameRoomManager.StartGame();
+
+		PlayerManager.Instance.SNextBubbles(Packet);
+
+
+	}
+	public static void S_NextBubblesPeerHandler(PacketSession session, IMessage packet)
+	{
+		S_NextBubblesPeer Packet = packet as S_NextBubblesPeer;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_NextBubblesPeerHandler");
+
+		PlayerManager.Instance.SNextBubblesPeer(Packet);
+		//AppManager.Instance.NetworkGameRoomManager.StartGame();
 	}
 }

@@ -41,12 +41,16 @@ class PacketManager
 		_handler.Add((ushort)MsgId.SShoot, PacketHandler.S_ShootHandler);		
 		_onRecv.Add((ushort)MsgId.SMove, MakePacket<S_Move>);
 		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);		
-		_onRecv.Add((ushort)MsgId.SNextBubble, MakePacket<S_NextBubble>);
-		_handler.Add((ushort)MsgId.SNextBubble, PacketHandler.S_NextBubbleHandler);		
-		_onRecv.Add((ushort)MsgId.SNextBubblePeer, MakePacket<S_NextBubblePeer>);
-		_handler.Add((ushort)MsgId.SNextBubblePeer, PacketHandler.S_NextBubblePeerHandler);		
 		_onRecv.Add((ushort)MsgId.SNextColsBubble, MakePacket<S_NextColsBubble>);
-		_handler.Add((ushort)MsgId.SNextColsBubble, PacketHandler.S_NextColsBubbleHandler);
+		_handler.Add((ushort)MsgId.SNextColsBubble, PacketHandler.S_NextColsBubbleHandler);		
+		_onRecv.Add((ushort)MsgId.SNextColsBubblePeer, MakePacket<S_NextColsBubblePeer>);
+		_handler.Add((ushort)MsgId.SNextColsBubblePeer, PacketHandler.S_NextColsBubblePeerHandler);		
+		_onRecv.Add((ushort)MsgId.SNextColsBubbleList, MakePacket<S_NextColsBubbleList>);
+		_handler.Add((ushort)MsgId.SNextColsBubbleList, PacketHandler.S_NextColsBubbleListHandler);		
+		_onRecv.Add((ushort)MsgId.SNextBubbles, MakePacket<S_NextBubbles>);
+		_handler.Add((ushort)MsgId.SNextBubbles, PacketHandler.S_NextBubblesHandler);		
+		_onRecv.Add((ushort)MsgId.SNextBubblesPeer, MakePacket<S_NextBubblesPeer>);
+		_handler.Add((ushort)MsgId.SNextBubblesPeer, PacketHandler.S_NextBubblesPeerHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

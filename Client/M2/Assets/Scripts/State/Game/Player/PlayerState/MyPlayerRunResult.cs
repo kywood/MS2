@@ -11,7 +11,7 @@ using static PlayerStateManager;
 public class MyPlayerRunResult : PlayerRunResult
 {
 
-    PacketState packetState = PacketState.None;
+    //PacketState packetState = PacketState.None;
     public MyPlayerRunResult(PlayerStateManager state_manager) : base(state_manager)
     {
     }
@@ -20,17 +20,31 @@ public class MyPlayerRunResult : PlayerRunResult
     {
         base.OnEnter();
 
-        packetState = PacketState.None;
+        packetDequeState.Init();
+
+        //packetState = PacketState.None;
 
         if (++runCnt % Defines.G_DROP_LOOP_TICK == 0)
         {
-            packetState = PacketState.Sended;
+            //packetState = PacketState.Sended;
             // csRotSlot.ActRotate();
-            C_NextBubble nextPacket = new C_NextBubble();
+            C_NextColsBubble nextPacket = new C_NextColsBubble();
             AppManager.Instance.NetworkManager.Send(nextPacket);
 
-            Debug.Log("Send Next Bubble");
+            packetDequeState.AddWillRecvPacketId(MsgId.SNextColsBubble);
+
+            //Debug.Log("Send Next Bubble");
         }
+
+        C_NextBubbles nextBubbles = new C_NextBubbles()
+        {
+            ReqCount = 1,
+        };
+
+        AppManager.Instance.NetworkManager.Send(nextBubbles);
+
+        
+        packetDequeState.AddWillRecvPacketId(MsgId.SNextBubbles);
         // send packet state  ==>  none  send -> recv 
         //send
     }
@@ -41,25 +55,38 @@ public class MyPlayerRunResult : PlayerRunResult
         base.OnUpdate();
 
 
+        if(packetDequeState.PacketState == PacketDequeStates.ePkState.Processing)
+
         // TODO Packet Queue Observer 
-        if( packetState == PacketState.Sended )
+        //if( packetState == PacketState.Sended )
         {
-            NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SNextBubble);
-            //Debug.Log("nextbb dq try");
-            if (pk != null)
             {
-                //Debug.Log("nextbb dq com");
-                CSRotSlot csRotSlot = Player.RotSlot.GetComponent<CSRotSlot>();
+                NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SNextColsBubble);
+                if (pk != null)
+                {
+                    CSRotSlot csRotSlot = Player.RotSlot.GetComponent<CSRotSlot>();
+                    S_NextColsBubble nextBubble = pk.Packet as S_NextColsBubble;
 
-                S_NextBubble nextBubble = pk.Packet as S_NextBubble;
+                    csRotSlot.ActRotate(nextBubble.BubbleTypes);
 
-                csRotSlot.ActRotate(nextBubble.BubbleTypes);
-
-                packetState = PacketState.None;
+                    packetDequeState.Complete(MsgId.SNextColsBubble);
+                }
             }
+
+            {
+                NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SNextBubbles);
+                if (pk != null)
+                {
+                    S_NextBubbles recvPacket = pk.Packet as S_NextBubbles;
+                    ((ShootBubbleManager)Player.GetBubbleManager()).EnqueueNextBubble(recvPacket.BubbleTypes);
+
+                    packetDequeState.Complete(MsgId.SNextBubbles);
+                }
+            }
+            
         }
 
-        if (packetState == PacketState.None)
+        if (packetDequeState.PacketState == PacketDequeStates.ePkState.Complete)
         {
             
             if (ResPools.Instance.IsStopAllBubble(GetPlayer().PlayerType))

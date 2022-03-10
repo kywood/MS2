@@ -13,12 +13,12 @@ public class PlayerPreReady : PlayerState<PlayerStateManager>
     public PlayerPreReady(PlayerStateManager state_manager) 
         : base(state_manager)
     {
-        int a = 10;
+        //int a = 10;
     }
 
     public override void OnEnter()
     {
-        int a = 100;
+        //int a = 100;
         
     }
 

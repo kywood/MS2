@@ -1,3 +1,4 @@
+using Google.Protobuf.Collections;
 using RotSlot;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,19 +28,36 @@ public class ShootBubbleManager : BubbleManager
         SetVisible(false);
     }
 
-    protected override void OnStart() 
+    public void EnqueueNextBubble(RepeatedField<int> bubbleTypes)
     {
-        for (int i = 0; i < 5; i++)
+        foreach( int bt in bubbleTypes)
         {
-            _BubbleQueue.Enqueue(ConstData.GetNextBubbleType());
+            _BubbleQueue.Enqueue((E_BUBBLE_TYPE)bt);
         }
+        
     }
+
+
+    public void EnqueueNextBubble(E_BUBBLE_TYPE bubbleType)
+    {
+        _BubbleQueue.Enqueue(bubbleType);
+    }
+
+
+    //protected override void OnStart() 
+    //{
+    //    //for (int i = 0; i < 5; i++)
+    //    //{
+    //    //    _BubbleQueue.Enqueue(ConstData.GetNextBubbleType());
+    //    //}
+    //}
 
     public E_BUBBLE_TYPE NextPop()
     {
-        _BubbleQueue.Enqueue(ConstData.GetNextBubbleType());
+        //_BubbleQueue.Enqueue(ConstData.GetNextBubbleType());
         return _BubbleQueue.Dequeue();
     }
+
     public E_BUBBLE_TYPE NextPeek()
     {
         return _BubbleQueue.Peek();

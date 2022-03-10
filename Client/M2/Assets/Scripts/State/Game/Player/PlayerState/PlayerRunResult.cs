@@ -10,15 +10,14 @@ using static PlayerStateManager;
 
 public abstract class PlayerRunResult : PlayerState<PlayerStateManager>
 {
-    // Start is called before the first frame update
-    //float timer;
-    //int waitingTime;
-
     CSSlot mCsSlot;
 
 
     protected static int runCnt = 0;
     protected Player Player;
+
+    protected PacketDequeStates packetDequeState = new PacketDequeStates();
+
     public PlayerRunResult(PlayerStateManager state_manager) : base(state_manager)
     {
     }
@@ -99,6 +98,13 @@ public abstract class PlayerRunResult : PlayerState<PlayerStateManager>
 
         PangAct(out_pang);
         DropAct(out_drop);
+
+        
+        packetDequeState.Init();
+
+        //packetDequeState.AddWillRecvPacketId(MsgId.SNextBubbles);
+        //packetDequeState.AddWillRecvPacketId(MsgId.SNextBubblesPeer);
+
 
     }
 

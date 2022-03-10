@@ -32,6 +32,8 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
         Bubble = ((ShootBubbleManager)Player.BubbleManager.GetComponent<BubbleManager>()).shootBubble;
         RbBubble = Bubble.GetComponent<Rigidbody2D>();
 
+
+        //여기서 보여준다.
         Player.BubbleManager.GetComponent<BubbleManager>().SetVisible(true);
 
       

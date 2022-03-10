@@ -31,11 +31,11 @@ public class ShootBubble : Bubble
 
     }
         
-    public void SetVisible(bool value)
+    public void SetVisible(bool visible)
     {
-        base.SetVisible(value);
+        base.SetVisible(visible);
 
-        if( value == true )
+        if(visible == true )
         {
             Pick pick = GetPlayer().Pick.GetComponent<Pick>();
 
