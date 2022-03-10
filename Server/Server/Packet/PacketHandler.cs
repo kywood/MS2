@@ -50,21 +50,30 @@ class PacketHandler
 
 		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).Shoot(clientSession,Packet);
 	}
-	public static void C_NextBubbleHandler(PacketSession session, IMessage packet)
-	{
-		C_NextBubble Packet = packet as C_NextBubble;
-		ClientSession clientSession = session as ClientSession;
-
-		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).NextBubble(clientSession);
-
-	}
-
 	public static void C_NextColsBubbleHandler(PacketSession session, IMessage packet)
 	{
 		C_NextColsBubble Packet = packet as C_NextColsBubble;
 		ClientSession clientSession = session as ClientSession;
 
-		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).NextColsBubble(clientSession, Packet);
+		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).NextColsBubble(clientSession);
+
+	}
+
+	public static void C_NextColsBubbleListHandler(PacketSession session, IMessage packet)
+	{
+		C_NextColsBubbleList Packet = packet as C_NextColsBubbleList;
+		ClientSession clientSession = session as ClientSession;
+
+		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).NextColsBubbleList(clientSession, Packet);
+
+	}
+
+	public static void C_NextBubblesHandler(PacketSession session, IMessage packet)
+	{
+		C_NextBubbles Packet = packet as C_NextBubbles;
+		ClientSession clientSession = session as ClientSession;
+
+		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).NextBubbles(clientSession, Packet);
 
 	}
 
