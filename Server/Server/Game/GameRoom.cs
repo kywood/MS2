@@ -33,7 +33,7 @@ namespace Server.Game
                 roomInfo.RoomInfo = new RoomInfo();
                 roomInfo.RoomInfo.RoomId = RoomId;
 
-                foreach( Player p in _players)
+                foreach (Player p in _players)
                 {
                     roomInfo.RoomInfo.Players.Add(p.Info);
                 }
@@ -65,7 +65,7 @@ namespace Server.Game
 
             lock (_lock)
             {
-                if( _players.Count >= 2 )
+                if (_players.Count >= 2)
                 {
                     S_JoinGameRoom joinGameRoomPacket = new S_JoinGameRoom();
                     joinGameRoomPacket.RoomInfo = new RoomInfo();
@@ -132,11 +132,11 @@ namespace Server.Game
                         spawnPacket.Players.Add(p.Info);
                     }
 
-                    Dictionary<int, Player>  players = PlayerManager.Instance.GetPlayers();
+                    Dictionary<int, Player> players = PlayerManager.Instance.GetPlayers();
 
-                    foreach( Player p in players.Values )
+                    foreach (Player p in players.Values)
                     {
-                        if ( p.Room == null )
+                        if (p.Room == null)
                         {
                             p.Session.Send(spawnPacket);
                         }
@@ -146,27 +146,27 @@ namespace Server.Game
             }
         }
 
-        public void NextBubble(ClientSession clientSession)
+        public void NextColsBubble(ClientSession clientSession)
         {
             lock (_lock)
             {
-                S_NextBubble nextPacket = new S_NextBubble();
+                S_NextColsBubble nextPacket = new S_NextColsBubble();
 
                 BubbleCols bubbleCols = _bubbleMap.Next(clientSession.MyPlayer.Info.PlayerId);
 
-                foreach( Bubble bb in bubbleCols.Cols)
+                foreach (Bubble bb in bubbleCols.Cols)
                 {
                     nextPacket.BubbleTypes.Add((int)bb.BubbleType);
                 }
                 clientSession.Send(nextPacket);
 
 
-                foreach(Player p in _players)
+                foreach (Player p in _players)
                 {
                     if (p.Info.PlayerId == clientSession.MyPlayer.Info.PlayerId)
                         continue;
 
-                    S_NextBubblePeer nextPeerPacket = new S_NextBubblePeer();
+                    S_NextColsBubblePeer nextPeerPacket = new S_NextColsBubblePeer();
                     nextPeerPacket.PlayerId = clientSession.MyPlayer.Info.PlayerId;
 
                     foreach (Bubble bb in bubbleCols.Cols)
@@ -177,16 +177,47 @@ namespace Server.Game
                     p.Session.Send(nextPeerPacket);
                 }
 
-                
+
 
             }
         }
 
-        public void NextColsBubble(ClientSession clientSession , C_NextColsBubble packet)
+        public void NextBubbles(ClientSession clientSession, C_NextBubbles packet)
         {
             lock (_lock)
             {
-                S_NextColsBubble nextColsPacket = new S_NextColsBubble();
+                S_NextBubbles nextBubbles = new S_NextBubbles();
+
+                for(int i = 0; i < packet.ReqCount; i++ )
+                {
+                    nextBubbles.BubbleTypes.Add((int)Bubble.GetBubbleType());
+                }
+                clientSession.Send(nextBubbles);
+
+                foreach (Player p in _players)
+                {
+                    if (p.Info.PlayerId == clientSession.MyPlayer.Info.PlayerId)
+                        continue;
+
+                    S_NextBubblesPeer nextPeerPacket = new S_NextBubblesPeer();
+                    nextPeerPacket.PlayerId = clientSession.MyPlayer.Info.PlayerId;
+
+                    foreach (int bt in nextBubbles.BubbleTypes)
+                    {
+                        nextPeerPacket.BubbleTypes.Add(bt);
+                    }
+
+                    p.Session.Send(nextPeerPacket);
+                }
+
+            }
+        }
+
+        public void NextColsBubbleList(ClientSession clientSession , C_NextColsBubbleList packet)
+        {
+            lock (_lock)
+            {
+                S_NextColsBubbleList nextColsPacket = new S_NextColsBubbleList();
 
                 for ( int i = 0; i <  packet.ColsCount; i++ )
                 {
