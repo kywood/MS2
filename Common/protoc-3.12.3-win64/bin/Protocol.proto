@@ -19,6 +19,16 @@ enum MsgId {
   S_SHOOT = 11;
   C_MOVE = 12;
   S_MOVE = 13;
+  C_NEXT_BUBBLE = 14;
+  S_NEXT_BUBBLE = 15;
+  C_NEXT_COLS_BUBBLE = 16;
+  S_NEXT_COLS_BUBBLE = 17;
+}
+
+enum PacketState { 
+  NONE = 0;
+  SENDED = 1;
+  RECVED = 2;
 }
 
 message S_Connect {
@@ -80,6 +90,26 @@ message S_Move {
   int32 playerId = 1;
   int32 posX = 2;
   int32 posY = 3;
+}
+
+message C_NextBubble {
+   
+}
+
+message S_NextBubble {
+  repeated int32 bubbleTypes = 1;
+}
+
+message C_NextColsBubble {
+  int32 colsCount = 1;
+}
+
+message S_NextColsBubble {
+  repeated ColsBubbles ColsBubbles = 1;
+}
+
+message ColsBubbles {
+  repeated int32 bubbleTypes = 1;
 }
 
 message PlayerInfo {
