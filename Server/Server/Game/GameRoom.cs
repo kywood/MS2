@@ -159,6 +159,26 @@ namespace Server.Game
                     nextPacket.BubbleTypes.Add((int)bb.BubbleType);
                 }
                 clientSession.Send(nextPacket);
+
+
+                foreach(Player p in _players)
+                {
+                    if (p.Info.PlayerId == clientSession.MyPlayer.Info.PlayerId)
+                        continue;
+
+                    S_NextBubblePeer nextPeerPacket = new S_NextBubblePeer();
+                    nextPeerPacket.PlayerId = clientSession.MyPlayer.Info.PlayerId;
+
+                    foreach (Bubble bb in bubbleCols.Cols)
+                    {
+                        nextPeerPacket.BubbleTypes.Add((int)bb.BubbleType);
+                    }
+
+                    p.Session.Send(nextPeerPacket);
+                }
+
+                
+
             }
         }
 
