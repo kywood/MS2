@@ -13,6 +13,15 @@ namespace Server.Game
 
         List<Player> _players = new List<Player>();
 
+        BubbleMap _bubbleMap;
+
+
+        public void Init()
+        {
+            _bubbleMap = new BubbleMap();
+            _bubbleMap.Init();
+        }
+
         public void GetInfo(Player myPlayer)
         {
             if (myPlayer == null)
@@ -72,11 +81,10 @@ namespace Server.Game
                     return;
                 }
 
-                
+                _bubbleMap.AddIndexer(player.Info.PlayerId);
                 _players.Add(player);
                 player.Room = this;
 
-                
 
                 {
                     // me -> me
@@ -135,6 +143,45 @@ namespace Server.Game
                     }
 
                 }
+            }
+        }
+
+        public void NextBubble(ClientSession clientSession)
+        {
+            lock (_lock)
+            {
+                S_NextBubble nextPacket = new S_NextBubble();
+
+                BubbleCols bubbleCols = _bubbleMap.Next(clientSession.MyPlayer.Info.PlayerId);
+
+                foreach( Bubble bb in bubbleCols.Cols)
+                {
+                    nextPacket.BubbleTypes.Add((int)bb.BubbleType);
+                }
+                clientSession.Send(nextPacket);
+            }
+        }
+
+        public void NextColsBubble(ClientSession clientSession , C_NextColsBubble packet)
+        {
+            lock (_lock)
+            {
+                S_NextColsBubble nextColsPacket = new S_NextColsBubble();
+
+                for ( int i = 0; i <  packet.ColsCount; i++ )
+                {
+                    BubbleCols bubbleCols = _bubbleMap.Next(clientSession.MyPlayer.Info.PlayerId);
+                    ColsBubbles colsBubbles = new ColsBubbles();
+
+                    foreach (Bubble bb in bubbleCols.Cols)
+                    {
+                        colsBubbles.BubbleTypes.Add((int)bb.BubbleType);
+                    }
+
+                    nextColsPacket.ColsBubbles.Add(colsBubbles);
+                }
+
+                clientSession.Send(nextColsPacket);
             }
         }
 
