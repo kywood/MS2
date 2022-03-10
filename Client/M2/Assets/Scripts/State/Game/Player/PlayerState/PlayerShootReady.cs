@@ -73,6 +73,8 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
 
     protected virtual void Shoot(float scale = 1.0f)
     {
+        
+
         Bubble.transform.position = ShootBody.transform.position;
         //float fAngle = CMath.GetAngle(ShootBody.transform.position, Target.transform.position);
 
@@ -83,6 +85,8 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
 
     void Shootlocal(NetPacket packet )
     {
+
+
         float radianAngle = ((S_Shoot)packet.Packet).RadianAngle;
         Vector2 vel = (new Vector2(Mathf.Cos(radianAngle), Mathf.Sin(radianAngle))).normalized * (Defines.G_SHOOT_FORCE * GetPlayer().Scale);
         RbBubble.velocity = vel;
@@ -96,6 +100,8 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
         NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SShoot);
         if( pk != null)
         {
+            GetPlayer().SetPlayerState(PlayerStateManager.E_PLAYER_STATE.RUN);
+
             Shootlocal(pk);
         }
 

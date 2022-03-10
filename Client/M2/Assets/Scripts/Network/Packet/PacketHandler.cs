@@ -81,6 +81,26 @@ class PacketHandler
 		//shoot packet 
 	}
 
+	public static void S_NextBubbleHandler(PacketSession session, IMessage packet)
+	{
+		S_NextBubble Packet = packet as S_NextBubble;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_NextBubbleHandler");
+
+		PlayerManager.Instance.NextBubble(Packet);
+	}
+
+	public static void S_NextColsBubbleHandler(PacketSession session, IMessage packet)
+	{
+		S_NextColsBubble Packet = packet as S_NextColsBubble;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_NextColsBubbleHandler");
+
+		PlayerManager.Instance.NextColsBubble(Packet);
+	}
+
 
 	public static void S_MoveHandler(PacketSession session, IMessage packet)
 	{

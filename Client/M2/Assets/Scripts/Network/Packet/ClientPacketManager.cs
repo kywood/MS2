@@ -40,7 +40,11 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SShoot, MakePacket<S_Shoot>);
 		_handler.Add((ushort)MsgId.SShoot, PacketHandler.S_ShootHandler);		
 		_onRecv.Add((ushort)MsgId.SMove, MakePacket<S_Move>);
-		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);
+		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);		
+		_onRecv.Add((ushort)MsgId.SNextBubble, MakePacket<S_NextBubble>);
+		_handler.Add((ushort)MsgId.SNextBubble, PacketHandler.S_NextBubbleHandler);		
+		_onRecv.Add((ushort)MsgId.SNextColsBubble, MakePacket<S_NextColsBubble>);
+		_handler.Add((ushort)MsgId.SNextColsBubble, PacketHandler.S_NextColsBubbleHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

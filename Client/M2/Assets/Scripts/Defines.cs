@@ -57,7 +57,7 @@ public class Defines
     public const float G_SHOOT_FORCE = 15.0f;
 
 
-    public const string SERVER_IPADDR = "192.168.123.105";
+    public const string SERVER_IPADDR = "192.168.123.107";
     public const int    SERVER_PORT = 7779;
     
 

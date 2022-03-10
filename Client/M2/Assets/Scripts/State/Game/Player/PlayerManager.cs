@@ -49,6 +49,19 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SShoot, packet));
     }
 
+    public void NextBubble(S_NextBubble packet)
+    {
+        Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextBubble, packet));
+    }
+
+    public void NextColsBubble(S_NextColsBubble packet)
+    {
+        Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextColsBubble, packet));
+    }
+
+
     public List<OnlinePlayer> GetPlayers()
     {
         return Players;

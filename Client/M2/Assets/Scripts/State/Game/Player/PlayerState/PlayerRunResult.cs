@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using RotSlot;
 using System;
 using System.Collections;
@@ -17,7 +18,8 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
 
 
     static int runCnt = 0;
-
+    Player Player;
+    PacketState packetState = PacketState.None;
     public PlayerRunResult(PlayerStateManager state_manager) : base(state_manager)
     {
     }
@@ -98,7 +100,7 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
         //AppManager.Instance.BubbleManager.GetComponent<BubbleManager>().SetVisible(true);
         //timer = 0.0f;
         //waitingTime = 2;
-
+        Player = GetPlayer();
 
         List<cBubble> out_pang = new List<cBubble>();
         List<cBubble> out_drop = new List<cBubble>();
@@ -108,67 +110,52 @@ public class PlayerRunResult : PlayerState<PlayerStateManager>
         PangAct(out_pang);
         DropAct(out_drop);
 
-        //TODO
+        packetState = PacketState.None;
 
-        Player p = GetPlayer();
-
-        CSRotSlot csRotSlot = p.RotSlot.GetComponent<CSRotSlot>();
+//        CSRotSlot csRotSlot = Player.RotSlot.GetComponent<CSRotSlot>();
         if (++runCnt % Defines.G_DROP_LOOP_TICK == 0)
-            csRotSlot.ActRotate();
+        {
+            packetState = PacketState.Sended;
+            // csRotSlot.ActRotate();
+            C_NextBubble nextPacket = new C_NextBubble();
+            AppManager.Instance.NetworkManager.Send(nextPacket);
 
-
-
-        //PlayerManager.Instance.DualAct((p) => {
-
-        //    CSRotSlot csRotSlot = p.RotSlot.GetComponent<CSRotSlot>();
-        //    if (++runCnt % Defines.G_DROP_LOOP_TICK == 0)
-        //        csRotSlot.ActRotate();
-        //});
-
-
+            Debug.Log("Send Next Bubble");
+        }
+        // send packet state  ==>  none  send -> recv 
+        //send
     }
 
-    public override void OnLeave()
-    {
-        //AppManager.Instance.BubbleManager.GetComponent<BubbleManager>().SetVisible(false);
-        //Debug.Log("Run OnLeave");
-    }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
 
-        //Thread.Sleep(1 * 1000);
 
-        //if (mCsSlot == null)
-        //    Debug.Log("==");
-        //else
-        //    Debug.Log(mCsSlot);
-
-
-        if (ResPools.Instance.IsStopAllBubble(GetPlayer().PlayerType))
+        // TODO Packet Queue Observer 
+        if( packetState == PacketState.Sended )
         {
-            GetPlayer().SetPlayerState(E_PLAYER_STATE.SHOOT_READY);
-        
+            NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SNextBubble);
+            Debug.Log("nextbb dq try");
+            if (pk != null)
+            {
+                Debug.Log("nextbb dq com");
+                CSRotSlot csRotSlot = Player.RotSlot.GetComponent<CSRotSlot>();
+                csRotSlot.ActRotate(pk);
+
+                packetState = PacketState.None;
+            }
         }
 
-        //Pool pool = ResPools.Instance.GetPool(MDefine.eResType.Bubble);
-        //foreach (int k in pool.ResList.Keys)
-        //{
-        //    if (pool.ResList[k].activeSelf == false)
-        //        continue;
-        //    (pool.ResList[k].GetComponent<CSBubble>()).OnUpdate();
-        //}
-
-        //timer += Time.deltaTime;
-        //if (timer > waitingTime)
-        //{
-        //    //Action
-        //    AppManager.Instance.GetStateManager().SetGameState(StateManager.E_GAME_STATE.SHOOT_READY);
-        //    timer = 0;
-        //}
-
-
+        if (packetState == PacketState.None)
+        {
+            
+            if (ResPools.Instance.IsStopAllBubble(GetPlayer().PlayerType))
+            {
+                Debug.Log("SetPlayerState SHOOT_READY");
+                GetPlayer().SetPlayerState(E_PLAYER_STATE.SHOOT_READY);
+            }
+        }
 
     }
 }

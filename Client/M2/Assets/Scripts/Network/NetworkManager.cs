@@ -13,6 +13,8 @@ public class NetworkManager
 	public void Send(IMessage packet)
 	{
 		_session.Send(packet);
+
+		Debug.Log(packet.ToString());
 	}
 
 	public void OnStart()

@@ -1,3 +1,5 @@
+using Google.Protobuf.Collections;
+using Google.Protobuf.Protocol;
 using RotSlot;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,9 +50,9 @@ public class CSRotSlot : MonoBehaviour
         //                                                    mVPosColsSlots[i].y,
         //                                                   mCSColsSlots[i].transform.position.z);
         //}
-
         
     }
+
     public void ActRotate()
     {
         mBubbleSlot.ForWard();
@@ -65,7 +67,38 @@ public class CSRotSlot : MonoBehaviour
         {
             SetCsBubbleInCsSlot(Player , finalCsSlot);
         }
+    }
+    public void ActRotate(RepeatedField<int> bubbleTypes)
+    {
+        mBubbleSlot.ForWard();
+        mCSColsSlots.Rotate();
 
+        ActRotateColsSlot();
+
+        
+        CSSlot[] csSlots = mCSColsSlots[0].GetComponentsInChildren<CSSlot>();
+
+        int loopCnt = 0;
+        foreach (CSSlot finalCsSlot in csSlots)
+        {
+            SetCsBubbleInCsSlot(Player, finalCsSlot, (E_BUBBLE_TYPE)bubbleTypes[loopCnt++]);
+        }
+    }
+    public void ActRotate(NetPacket packet)
+    {
+        mBubbleSlot.ForWard();
+        mCSColsSlots.Rotate();
+
+        ActRotateColsSlot();
+
+        S_NextBubble nextBubble = packet.Packet as S_NextBubble;
+        CSSlot[] csSlots = mCSColsSlots[0].GetComponentsInChildren<CSSlot>();
+
+        int loopCnt = 0;
+        foreach (CSSlot finalCsSlot in csSlots)
+        {
+            SetCsBubbleInCsSlot(Player, finalCsSlot , (E_BUBBLE_TYPE)nextBubble.BubbleTypes[loopCnt++]);
+        }
     }
 
     public static void SetCsBubbleInCsSlot( Player player , CSSlot cs_slot , E_BUBBLE_TYPE bubble_type = E_BUBBLE_TYPE.NONE )

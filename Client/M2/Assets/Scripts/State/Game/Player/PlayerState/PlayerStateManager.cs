@@ -7,6 +7,7 @@ public class PlayerStateManager : StateManager
     public enum E_PLAYER_STATE
     {
         NONE = -1,
+        PRE_READY,  // ready 
         READY,  // ready 
         SHOOT_READY,
         RUN,
@@ -28,6 +29,7 @@ public class PlayerStateManager : StateManager
         {
             mStateMap = new Dictionary<int, State<StateManager>>()
         {
+            {(int)E_PLAYER_STATE.PRE_READY , new PlayerPreReady(this) }   ,
             {(int)E_PLAYER_STATE.READY , new PlayerReady(this) }   ,
             {(int)E_PLAYER_STATE.SHOOT_READY , new MyPlayerShootReady(this) }   ,
             {(int)E_PLAYER_STATE.RUN , new PlayerRun(this) }   ,
@@ -39,6 +41,7 @@ public class PlayerStateManager : StateManager
         {
             mStateMap = new Dictionary<int, State<StateManager>>()
         {
+            {(int)E_PLAYER_STATE.PRE_READY , new PlayerPreReady(this) }   ,
             {(int)E_PLAYER_STATE.READY , new PlayerReady(this) }   ,
             {(int)E_PLAYER_STATE.SHOOT_READY , new PlayerShootReady(this) }   ,
             {(int)E_PLAYER_STATE.RUN , new PlayerRun(this) }   ,

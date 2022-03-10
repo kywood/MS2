@@ -1,3 +1,4 @@
+using Google.Protobuf.Collections;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,18 +14,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     //[HideInInspector]
     //public GameStateManager GameStateManaget = new GameStateManager();
 
-    
+    RepeatedField<global::Google.Protobuf.Protocol.ColsBubbles> _colsBubbles;
 
-    //public MyPlayer GetMyPlayer()
-    //{
-    //    return MyPlayer.GetComponent<MyPlayer>();
-    //}
+    public RepeatedField<global::Google.Protobuf.Protocol.ColsBubbles> ColsBubbles { get { return _colsBubbles; } }
 
-
-    //public BubbleManager GetBubbleManager()
-    //{
-    //    return BubbleManager.GetComponent<BubbleManager>();
-    //}
+    public void SetColsBubbles(RepeatedField<global::Google.Protobuf.Protocol.ColsBubbles> colsBubbles)
+    {
+        _colsBubbles = colsBubbles;
+    }
 
     public GameStateManager GetGameStateManager()
     {
