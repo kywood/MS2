@@ -15,6 +15,8 @@ namespace Server.Game
 
         BubbleMap _bubbleMap;
 
+        RankMap _rankMap = new RankMap();
+
 
         public void Init()
         {
@@ -177,6 +179,24 @@ namespace Server.Game
                     p.Session.Send(nextPeerPacket);
                 }
             }
+        }
+
+        public void PlayerGameOver(ClientSession clientSession, C_PlayerGameOver packet)
+        {
+            S_PlayerGameOverBroadCast res = new S_PlayerGameOverBroadCast()
+            {
+                PlayerId = clientSession.MyPlayer.Info.PlayerId,
+                Rank = 1
+            };
+
+            lock (_lock)
+            {
+                _rankMap.AddRanker(clientSession.MyPlayer);
+                BroadCast(res);
+            }
+
+
+
         }
 
         public void FixedBubbleSlot(ClientSession clientSession, C_FixedBubbleSlot packet)

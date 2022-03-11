@@ -65,7 +65,6 @@ class PacketHandler
 		ClientSession clientSession = session as ClientSession;
 
 		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).NextColsBubbleList(clientSession, Packet);
-
 	}
 
 	public static void C_NextBubblesHandler(PacketSession session, IMessage packet)
@@ -74,7 +73,6 @@ class PacketHandler
 		ClientSession clientSession = session as ClientSession;
 
 		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).NextBubbles(clientSession, Packet);
-
 	}
 
 	public static void C_FixedBubbleSlotHandler(PacketSession session, IMessage packet)
@@ -83,7 +81,14 @@ class PacketHandler
 		ClientSession clientSession = session as ClientSession;
 
 		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).FixedBubbleSlot(clientSession, Packet);
+	}
 
+	public static void C_PlayerGameOverHandler(PacketSession session, IMessage packet)
+	{
+		C_PlayerGameOver Packet = packet as C_PlayerGameOver;
+		ClientSession clientSession = session as ClientSession;
+
+		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).PlayerGameOver(clientSession,Packet);
 	}
 
 }
