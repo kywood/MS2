@@ -27,6 +27,8 @@ enum MsgId {
   C_NEXT_BUBBLES = 19;
   S_NEXT_BUBBLES = 20;
   S_NEXT_BUBBLES_PEER = 21;
+  C_FIXED_BUBBLE_SLOT = 22;
+  S_FIXED_BUBBLE_SLOT_PEER = 23;
 }
 
 enum PacketState { 
@@ -129,6 +131,17 @@ message C_NextColsBubbleList {
 
 message S_NextColsBubbleList {
   repeated ColsBubbles ColsBubbles = 1;
+}
+
+message C_FixedBubbleSlot {
+  int32 colsSlotId = 1;
+  int32 slotId = 2;
+}
+
+message S_FixedBubbleSlotPeer {
+  int32 playerId = 1;
+  int32 colsSlotId = 2;
+  int32 slotId = 3;
 }
 
 message ColsBubbles {
