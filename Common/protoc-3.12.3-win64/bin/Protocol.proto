@@ -29,6 +29,9 @@ enum MsgId {
   S_NEXT_BUBBLES_PEER = 21;
   C_FIXED_BUBBLE_SLOT = 22;
   S_FIXED_BUBBLE_SLOT_PEER = 23;
+  C_PLAYER_GAME_OVER = 24;
+  S_PLAYER_GAME_OVER_BROAD_CAST = 25;
+  S_GAME_RESULT = 26;
 }
 
 enum PacketState { 
@@ -88,14 +91,14 @@ message S_Shoot {
 }
 
 message C_Move {
-  int32 posX = 1;
-  int32 posY = 2;
+  float posX = 1;
+  float posY = 2;
 }
 
 message S_Move {
   int32 playerId = 1;
-  int32 posX = 2;
-  int32 posY = 3;
+  float posX = 2;
+  float posY = 3;
 }
 
 
@@ -142,6 +145,19 @@ message S_FixedBubbleSlotPeer {
   int32 playerId = 1;
   int32 colsSlotId = 2;
   int32 slotId = 3;
+}
+
+message C_PlayerGameOver {
+  
+}
+
+message S_PlayerGameOverBroadCast {
+  int32 playerId = 1;
+  int32 rank = 2;
+}
+
+message S_GameResult {
+  int32 playerId = 1;
 }
 
 message ColsBubbles {
