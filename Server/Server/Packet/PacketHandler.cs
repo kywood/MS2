@@ -31,9 +31,9 @@ class PacketHandler
 
 	public static void C_MoveHandler(PacketSession session, IMessage packet)
 	{
-		C_Move movePacket = packet as C_Move;
+		C_Move Packet = packet as C_Move;
 		ClientSession clientSession = session as ClientSession;
-
+		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).CMove(clientSession, Packet);
 	}
 
 	public static void C_StartGameHandler(PacketSession session, IMessage packet)

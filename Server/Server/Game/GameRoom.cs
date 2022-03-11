@@ -254,6 +254,27 @@ namespace Server.Game
                 clientSession.Send(nextColsPacket);
             }
         }
+        public void CMove(ClientSession clientSession, C_Move packet)
+        {
+            S_Move res = new S_Move()
+            {
+                PlayerId = clientSession.MyPlayer.Info.PlayerId,
+                PosX = packet.PosX,
+                PosY = packet.PosY
+            };
+
+            lock (_lock)
+            {
+                foreach (Player p in _players)
+                {
+                    if (p.Info.PlayerId == clientSession.MyPlayer.Info.PlayerId)
+                        continue;
+
+                    p.Session.Send(res);
+                }
+
+            }
+        }
 
         public void Shoot(ClientSession clientSession, C_Shoot shootPacket )
         {
