@@ -176,8 +176,27 @@ namespace Server.Game
 
                     p.Session.Send(nextPeerPacket);
                 }
+            }
+        }
 
+        public void FixedBubbleSlot(ClientSession clientSession, C_FixedBubbleSlot packet)
+        {
+            S_FixedBubbleSlotPeer res = new S_FixedBubbleSlotPeer()
+            {
+                PlayerId = clientSession.MyPlayer.Info.PlayerId,
+                ColsSlotId = packet.ColsSlotId,                     
+                SlotId = packet.SlotId            
+            };
 
+            lock (_lock )
+            {
+                foreach (Player p in _players)
+                {
+                    if (p.Info.PlayerId == clientSession.MyPlayer.Info.PlayerId)
+                        continue;
+
+                    p.Session.Send(res);
+                }
 
             }
         }

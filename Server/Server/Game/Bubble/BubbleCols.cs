@@ -23,13 +23,10 @@ namespace Server.Game
         public int getSeed()
         {
             return seed++;
-        }
-        
+        }       
 
         public Bubble()
         {
-
-
             Random rand = new Random(unchecked((int)DateTime.Now.Ticks) + seed++);
             _bubbleType = (E_BUBBLE_TYPE)rand.Next((int)E_BUBBLE_TYPE.RED, (int)E_BUBBLE_TYPE.PURPLE + 1);
             //Thread.Sleep(5);
