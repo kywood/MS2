@@ -50,7 +50,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SNextBubbles, MakePacket<S_NextBubbles>);
 		_handler.Add((ushort)MsgId.SNextBubbles, PacketHandler.S_NextBubblesHandler);		
 		_onRecv.Add((ushort)MsgId.SNextBubblesPeer, MakePacket<S_NextBubblesPeer>);
-		_handler.Add((ushort)MsgId.SNextBubblesPeer, PacketHandler.S_NextBubblesPeerHandler);
+		_handler.Add((ushort)MsgId.SNextBubblesPeer, PacketHandler.S_NextBubblesPeerHandler);		
+		_onRecv.Add((ushort)MsgId.SFixedBubbleSlotPeer, MakePacket<S_FixedBubbleSlotPeer>);
+		_handler.Add((ushort)MsgId.SFixedBubbleSlotPeer, PacketHandler.S_FixedBubbleSlotPeerHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using RotSlot;
 using System.Collections;
 using System.Collections.Generic;
@@ -103,7 +104,7 @@ public class ShootBubble : Bubble
                 stay_idx = out_top_stay_pos_idx;
                 cSlot<cBubble> cSlotTmp = bubbleSlot.GetSlotByIDX(out_top_stay_pos_idx);
 
-                finalCsSlot = csRotSlot.GetCSSclot(cSlotTmp);
+                finalCsSlot = csRotSlot.GetCsSlot(cSlotTmp);
             }
             else
             {
@@ -118,27 +119,54 @@ public class ShootBubble : Bubble
                         continue;
 
                     //cSlot 으로 실제 GameObject slot 를 찾는다.
-                    CSSlot CsSlotTmp = csRotSlot.GetCSSclot(cSlotTmp);
+                    CSSlot CsSlotTmp = csRotSlot.GetCsSlot(cSlotTmp);
 
                     csSlotLists.Add(CsSlotTmp);
                 }
                 finalCsSlot = FindNearPos(csSlotLists);
             }
 
+            //MyPlayer
+            // finalCsSlot 을 넷으로 전송 한다..
+            // 그리고 다음으로 진행
 
+            // peer 는 여기서 대기한다. 
+            // 패킷이 오면 그때 1) 좌표 보정..
+            // 2) 그리고 진행
 
             BubbleManager bubbleManager = GetBubbleManager();
             bubbleManager.SetVisible(false);
             ShootBubble bubble = ((ShootBubbleManager)bubbleManager).GetBubble();
 
-            CSRotSlot.SetCsBubbleInCsSlot(GetPlayer(), finalCsSlot, bubble.GetBubbleType());
 
-            //무형 함수
-            Player.SetPlayerState(E_PLAYER_STATE.RUN_RESULT,
-                ( state) =>
+            Player player = ((ShootBubbleManager)GetBubbleManager()).Player;
+
+            if( PlayerManager.Instance.IsMyPlayer(player) )
+            {
+                C_FixedBubbleSlot fbs = new C_FixedBubbleSlot()
                 {
-                    ((PlayerRunResult)state).SetCsSlot(finalCsSlot);
-                });
+                    ColsSlotId = finalCsSlot.GetColsSlotID(),
+                    SlotId = finalCsSlot.GetID()
+                };
+
+                AppManager.Instance.NetworkManager.Send(fbs);
+
+                //BubbleManager bubbleManager = GetBubbleManager();
+                //bubbleManager.SetVisible(false);
+                //ShootBubble bubble = ((ShootBubbleManager)bubbleManager).GetBubble();
+
+                CSRotSlot.SetCsBubbleInCsSlot(GetPlayer(), finalCsSlot, bubble.GetBubbleType());
+
+                Player.SetPlayerState(E_PLAYER_STATE.RUN_RESULT,
+                    (state) =>
+                    {
+                        ((PlayerRunResult)state).SetCsSlot(finalCsSlot);
+                    });
+            }
+            //((ShootBubbleManager)GetBubbleManager()).Player;
+            //만약이렇게 했는데도 어색하다면 
+            // 초당 4회 패킷 전송 해야함....
+            //좌표로 CsSlot 을 찾아야 한다.
 
         }
 

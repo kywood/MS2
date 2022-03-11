@@ -152,4 +152,17 @@ class PacketHandler
 		PlayerManager.Instance.SNextBubblesPeer(Packet);
 		//AppManager.Instance.NetworkGameRoomManager.StartGame();
 	}
+
+	public static void S_FixedBubbleSlotPeerHandler(PacketSession session, IMessage packet)
+	{
+		S_FixedBubbleSlotPeer Packet = packet as S_FixedBubbleSlotPeer;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_FixedBubbleSlotPeerHandler");
+
+		PlayerManager.Instance.SFixedBubbleSlotPeer(Packet);
+		//AppManager.Instance.NetworkGameRoomManager.StartGame();
+	}
+
+
 }

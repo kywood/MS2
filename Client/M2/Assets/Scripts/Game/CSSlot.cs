@@ -17,6 +17,16 @@ public class CSSlot : MonoBehaviour
     }
 
 
+    public int GetID()
+    {
+        return mSlot.GetID();
+    }
+
+    public int GetColsSlotID()
+    {
+        return mColsSlot.GetID();
+    }
+
     public void Pang(List<cBubble> out_pang, List<cBubble> out_drop)
     {
         mRotSlot.PangByID(new cPoint<int>(mSlot.GetID(), mColsSlot.GetID()), out_pang, out_drop);

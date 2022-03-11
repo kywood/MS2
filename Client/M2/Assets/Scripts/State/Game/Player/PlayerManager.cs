@@ -86,6 +86,15 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextBubblesPeer, packet));
     }
 
+    public void SFixedBubbleSlotPeer(S_FixedBubbleSlotPeer packet)
+    {
+        //이패킷은 통합 처리를 한다.
+        Player p = GetPlayer(packet.PlayerId);
+        //Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SFixedBubbleSlotPeer, packet));
+    }
+
+
 
     public List<OnlinePlayer> GetPlayers()
     {
@@ -95,6 +104,16 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     public Player GetPlayer(int playerId)
     {
         return Players.Find((p) => p.NetworkPlayer.PlayerId == playerId);
+    }
+
+    public bool IsMyPlayer ( Player player )
+    {
+        if( GetPlayer(E_PLAYER_TYPE.MY_PLAYER) == player )
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public Player GetPlayer(E_PLAYER_TYPE player_type)

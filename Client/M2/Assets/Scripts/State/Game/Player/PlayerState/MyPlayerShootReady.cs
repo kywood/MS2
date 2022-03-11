@@ -21,10 +21,6 @@ public class MyPlayerShootReady : PlayerShootReady
 
     }
 
-    public override void OnLeave()
-    {
-        //Debug.Log("ShootReady OnLeave");
-    }
 
     protected override void Init()
     {

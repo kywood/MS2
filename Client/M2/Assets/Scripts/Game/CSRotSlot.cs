@@ -123,9 +123,31 @@ public class CSRotSlot : MonoBehaviour
 
     }
 
-    
 
-    public CSSlot GetCSSclot(cSlot<cBubble> cslot)
+    public CSSlot GetCsSlot( int colsSlotId , int slotId )
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            CSColsSlot csColsSlot = transform.GetChild(i).GetComponent<CSColsSlot>();
+
+            if(csColsSlot.GetID() == colsSlotId)
+            {
+                for (int j = 0; j < csColsSlot.transform.childCount; j++)
+                {
+                    CSSlot csSlot = csColsSlot.transform.GetChild(j).GetComponent<CSSlot>();
+                    if(csSlot.GetID() == slotId)
+                    {
+                        return csSlot;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    public CSSlot GetCsSlot(cSlot<cBubble> cslot)
     {
         for (int i = 0; i < transform.childCount; i++)
         {

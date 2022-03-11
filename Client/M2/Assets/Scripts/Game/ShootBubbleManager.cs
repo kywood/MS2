@@ -33,8 +33,7 @@ public class ShootBubbleManager : BubbleManager
         foreach( int bt in bubbleTypes)
         {
             _BubbleQueue.Enqueue((E_BUBBLE_TYPE)bt);
-        }
-        
+        }        
     }
 
 
@@ -42,15 +41,6 @@ public class ShootBubbleManager : BubbleManager
     {
         _BubbleQueue.Enqueue(bubbleType);
     }
-
-
-    //protected override void OnStart() 
-    //{
-    //    //for (int i = 0; i < 5; i++)
-    //    //{
-    //    //    _BubbleQueue.Enqueue(ConstData.GetNextBubbleType());
-    //    //}
-    //}
 
     public E_BUBBLE_TYPE NextPop()
     {
