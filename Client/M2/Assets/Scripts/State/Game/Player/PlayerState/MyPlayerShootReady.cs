@@ -7,6 +7,9 @@ public class MyPlayerShootReady : PlayerShootReady
 {
 
     Player Player;
+
+    float currentDeltaTime = 0.0f;
+    bool bMousePress = false;
     public MyPlayerShootReady(PlayerStateManager state_manager) : base(state_manager)
     {
     }
@@ -19,12 +22,15 @@ public class MyPlayerShootReady : PlayerShootReady
         ((MyPlayer)Player).Next.GetComponent<Next>().SetVisible(true);
         ((MyPlayer)Player).Next.GetComponent<Next>().UpdateNext();
 
+        //currentDeltaTime = Time.deltaTime;
     }
 
 
     protected override void Init()
     {
+        base.Init();
 
+        bMousePress = false;
     }
 
     protected override void Shoot(float scale = 1.0f)
@@ -58,8 +64,31 @@ public class MyPlayerShootReady : PlayerShootReady
             wPos.z = 0;
             Target.transform.position = wPos;
 
-            float dis = Util.Distance(Target.transform.position, ShootBody.transform.position);
-            float angle = CMath.GetAngle(Target.transform.position, ShootBody.transform.position);
+            //float dis = Util.Distance(Target.transform.position, ShootBody.transform.position);
+            //float angle = CMath.GetAngle(Target.transform.position, ShootBody.transform.position);
+
+            currentDeltaTime += Time.deltaTime;
+
+            if (currentDeltaTime >= (1.0f/4.0f) )
+            {
+
+                //Debug.Log($"currentDeltaTime : {currentDeltaTime}");
+
+                currentDeltaTime = 0;
+
+                C_Move cmove = new C_Move()
+                {
+                    PosX = Target.transform.localPosition.x,
+                    PosY = Target.transform.localPosition.y
+                };
+
+                AppManager.Instance.NetworkManager.Send(cmove);
+
+            }
+
+            
+
+            //Time.deltaTime
             //Debug.Log(" Dis : " + dis + " Angle : " + angle);
         }
         else

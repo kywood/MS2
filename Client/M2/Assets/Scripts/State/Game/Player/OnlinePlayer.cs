@@ -31,6 +31,11 @@ public class OnlinePlayer : Player
     }
 
 
+    public void PacketClearQueue(MsgId msgId)
+    {
+        _packetQueue.RemoveAll(p => p.MsgId == msgId);
+    }
+
     public NetPacket PacketDeQueue( MsgId msgId )
     {
         NetPacket ret;

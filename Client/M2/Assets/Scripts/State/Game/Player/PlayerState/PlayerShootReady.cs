@@ -12,10 +12,9 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
     protected GameObject Bubble;
     protected Rigidbody2D RbBubble;
 
-    protected bool bMousePress;
 
 
-    Player Player;
+    protected Player Player;
 
     public PlayerShootReady(PlayerStateManager state_manager) : base(state_manager)
     {
@@ -42,40 +41,15 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
         Init();
     }
 
-    public override void OnLeave()
-    {
-        //Debug.Log("ShootReady OnLeave");
-    }
 
     protected virtual void Init()
     {
-        bMousePress = false;
-
-       // GameManager.Instance.StartCoroutine(EffectStartRow());
-
 
     }
 
 
-    //IEnumerator EffectStartRow()
-    //{
-    //    yield return new WaitForSeconds(3.2f);
-
-    //    GetPlayer().SetPlayerState(PlayerStateManager.E_PLAYER_STATE.RUN);
-    //    //                GameManager.Instance.GetGameStateManager().SetGameState(GameStateManager.E_GAME_STATE.RUN);
-    //    Shoot(
-    //        GetPlayer().Scale
-    //        );
-
-
-    //    yield return null;
-    //}
-    
-
-
     protected virtual void Shoot(float scale = 1.0f)
-    {
-        
+    {      
 
         Bubble.transform.position = ShootBody.transform.position;
         //float fAngle = CMath.GetAngle(ShootBody.transform.position, Target.transform.position);
@@ -85,27 +59,11 @@ public class PlayerShootReady : PlayerState<PlayerStateManager>
         RbBubble.velocity = vel;
     }
 
-    void Shootlocal(NetPacket packet )
-    {
-
-
-        float radianAngle = ((S_Shoot)packet.Packet).RadianAngle;
-        Vector2 vel = (new Vector2(Mathf.Cos(radianAngle), Mathf.Sin(radianAngle))).normalized * (Defines.G_SHOOT_FORCE * GetPlayer().Scale);
-        RbBubble.velocity = vel;
-    }
-
 
     public override void OnUpdate()
     {
         base.OnUpdate();
 
-        NetPacket pk = ((OnlinePlayer)Player).PacketDeQueue(MsgId.SShoot);
-        if( pk != null)
-        {
-            GetPlayer().SetPlayerState(PlayerStateManager.E_PLAYER_STATE.RUN);
-
-            Shootlocal(pk);
-        }
 
     }
 }

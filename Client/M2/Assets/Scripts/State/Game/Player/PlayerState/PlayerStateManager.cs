@@ -43,7 +43,7 @@ public class PlayerStateManager : StateManager
         {
             {(int)E_PLAYER_STATE.PRE_READY , new PlayerPreReady(this) }   ,
             {(int)E_PLAYER_STATE.READY , new PlayerReady(this) }   ,
-            {(int)E_PLAYER_STATE.SHOOT_READY , new PlayerShootReady(this) }   ,
+            {(int)E_PLAYER_STATE.SHOOT_READY , new PeerPlayerShootReady(this) }   ,
             {(int)E_PLAYER_STATE.RUN , new PeerPlayerRun(this) }   ,
             {(int)E_PLAYER_STATE.RUN_RESULT , new PeerPlayerRunResult(this) }   ,
             {(int)E_PLAYER_STATE.END , new PlayerEnd(this) }

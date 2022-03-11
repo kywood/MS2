@@ -66,6 +66,13 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
         ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextColsBubbleList, packet));
     }
+
+    public void SMove(S_Move packet)
+    {
+        Player p = GetPlayer(packet.PlayerId);
+        ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SMove, packet));
+    }
+
     public void SNextBubbles(S_NextBubbles packet)
     {
         Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
