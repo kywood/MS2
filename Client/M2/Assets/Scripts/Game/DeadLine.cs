@@ -19,7 +19,9 @@ public class DeadLine : MonoBehaviour
                 return;
 
 
-            //TODO
+            //TODO 11
+
+
             // 여기서 패킷을 보낸다.
             // 바로 해당 유저의 게임 오버 패킷을
             // 양쪽에 팝을을 올리고 게임 리절트
@@ -27,7 +29,7 @@ public class DeadLine : MonoBehaviour
             // 그리고 로비로 나간다.
 
            // Debug.Log("GameOver!!");
-            GamePopup.Instance.Active((int)GamePopup.eWindows.GameOver, true);
+            //GamePopup.Instance.Active((int)GamePopup.eWindows.GameOver, true);
 
         }
     }

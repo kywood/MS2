@@ -52,7 +52,11 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SNextBubblesPeer, MakePacket<S_NextBubblesPeer>);
 		_handler.Add((ushort)MsgId.SNextBubblesPeer, PacketHandler.S_NextBubblesPeerHandler);		
 		_onRecv.Add((ushort)MsgId.SFixedBubbleSlotPeer, MakePacket<S_FixedBubbleSlotPeer>);
-		_handler.Add((ushort)MsgId.SFixedBubbleSlotPeer, PacketHandler.S_FixedBubbleSlotPeerHandler);
+		_handler.Add((ushort)MsgId.SFixedBubbleSlotPeer, PacketHandler.S_FixedBubbleSlotPeerHandler);		
+		_onRecv.Add((ushort)MsgId.SPlayerGameOverBroadCast, MakePacket<S_PlayerGameOverBroadCast>);
+		_handler.Add((ushort)MsgId.SPlayerGameOverBroadCast, PacketHandler.S_PlayerGameOverBroadCastHandler);		
+		_onRecv.Add((ushort)MsgId.SGameResult, MakePacket<S_GameResult>);
+		_handler.Add((ushort)MsgId.SGameResult, PacketHandler.S_GameResultHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

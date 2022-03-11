@@ -166,5 +166,25 @@ class PacketHandler
 		//AppManager.Instance.NetworkGameRoomManager.StartGame();
 	}
 
+	public static void S_PlayerGameOverBroadCastHandler(PacketSession session, IMessage packet)
+	{
+		S_PlayerGameOverBroadCast Packet = packet as S_PlayerGameOverBroadCast;
+		ServerSession serverSession = session as ServerSession;
 
+		Debug.Log("S_PlayerGameOverBroadCastHandler");
+
+		//PlayerManager.Instance.SFixedBubbleSlotPeer(Packet);
+		//AppManager.Instance.NetworkGameRoomManager.StartGame();
+	}
+
+	public static void S_GameResultHandler(PacketSession session, IMessage packet)
+	{
+		S_GameResult Packet = packet as S_GameResult;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("S_GameResultHandler");
+
+		//PlayerManager.Instance.SFixedBubbleSlotPeer(Packet);
+		//AppManager.Instance.NetworkGameRoomManager.StartGame();
+	}
 }
