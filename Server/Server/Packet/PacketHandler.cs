@@ -77,4 +77,13 @@ class PacketHandler
 
 	}
 
+	public static void C_FixedBubbleSlotHandler(PacketSession session, IMessage packet)
+	{
+		C_FixedBubbleSlot Packet = packet as C_FixedBubbleSlot;
+		ClientSession clientSession = session as ClientSession;
+
+		RoomManager.Instance.Find(clientSession.MyPlayer.Room.RoomId).FixedBubbleSlot(clientSession, Packet);
+
+	}
+
 }

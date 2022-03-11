@@ -38,7 +38,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.CNextColsBubbleList, MakePacket<C_NextColsBubbleList>);
 		_handler.Add((ushort)MsgId.CNextColsBubbleList, PacketHandler.C_NextColsBubbleListHandler);		
 		_onRecv.Add((ushort)MsgId.CNextBubbles, MakePacket<C_NextBubbles>);
-		_handler.Add((ushort)MsgId.CNextBubbles, PacketHandler.C_NextBubblesHandler);
+		_handler.Add((ushort)MsgId.CNextBubbles, PacketHandler.C_NextBubblesHandler);		
+		_onRecv.Add((ushort)MsgId.CFixedBubbleSlot, MakePacket<C_FixedBubbleSlot>);
+		_handler.Add((ushort)MsgId.CFixedBubbleSlot, PacketHandler.C_FixedBubbleSlotHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
