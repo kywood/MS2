@@ -40,6 +40,12 @@ enum PacketState {
   RECVED = 2;
 }
 
+enum GameRoomState { 
+  LOBBY = 0;
+  GAME = 1;
+  GAME_RESULT = 2;
+}
+
 message S_Connect {
   PlayerInfo player = 1;
 }
@@ -152,16 +158,21 @@ message C_PlayerGameOver {
 }
 
 message S_PlayerGameOverBroadCast {
-  int32 playerId = 1;
-  int32 rank = 2;
+  PlayerRank playerRank = 1;
 }
 
 message S_GameResult {
-  int32 playerId = 1;
+  repeated PlayerRank playerRanks = 1;
 }
 
 message ColsBubbles {
   repeated int32 bubbleTypes = 1;
+}
+
+message PlayerRank {
+  int32 playerId = 1;
+  int32 rank = 2;
+  bool  disConnected = 3;
 }
 
 message PlayerInfo {
