@@ -4,17 +4,63 @@ using System.Text;
 
 namespace Server.Game
 {
+    enum eGamePlayerState
+    {
+        None,
+        Ranker,
+        Disconnected
+    }
+
+    class GamePlayer
+    {
+        eGamePlayerState _playerState = eGamePlayerState.None;
+        Player _player;
+        int _rank = 0;
+
+        public int Rank { 
+            get { return _rank; } 
+            set { _rank = value; } 
+        }
+
+        public Player Player { get { return _player; } }
+        public eGamePlayerState PlayerState {
+            get { return _playerState; }
+            set { _playerState = value; }
+        }
+
+        public GamePlayer( Player player )
+        {
+            _player = player;
+        }
+    }
+
     class RankMap
     {
-        //Dictionary<int, Player> _rankerTable = new Dictionary<int, Player>();
+        List<GamePlayer> _gamePlayers = new List<GamePlayer>();
+        List<GamePlayer> _ranker = new List<GamePlayer>();
 
-        //int _playerCount;
+        public List<GamePlayer> Ranker 
+        { 
+            get 
+            {
+                List<GamePlayer> finalRanker = new List<GamePlayer>();
+                finalRanker.AddRange( _ranker );
+                finalRanker.Reverse();
+                finalRanker.AddRange(_gamePlayers.FindAll((gp) => gp.PlayerState == eGamePlayerState.Disconnected));
 
-        //public Dictionary<int, Player> RankerTable { get { return _rankerTable; } }
+                int rankValue = 1;
+                finalRanker.ForEach((gp) =>
+                {
+                    gp.Rank = rankValue++;
 
-        List<Player> _rankList = new List<Player>();
+                    if (gp.PlayerState == eGamePlayerState.Disconnected)
+                        gp.Rank = 0;
+                    
+                });
 
-        //List<Player> _playerList = new List<Player>();
+                return finalRanker; 
+            } 
+        }
 
         public RankMap()
         {
@@ -22,9 +68,76 @@ namespace Server.Game
             //_playerCount = playerCount;
         }
 
-        public void AddRanker( Player player )
+        public void Init( List<Player> startUsers )
         {
-            _rankList.Add(player);
+            _gamePlayers.Clear();
+            
+            foreach( Player p in startUsers )
+            {
+                _gamePlayers.Add(new GamePlayer(p));
+            }
+        }
+
+        public int GetRemainCount()
+        {
+            return _gamePlayers.FindAll(gamePlayer => gamePlayer.PlayerState == eGamePlayerState.None).Count;
+        }
+
+        void UpdateTopPlayer()
+        {
+            if( GetRemainCount() == 1 )
+            {
+                GamePlayer p = _gamePlayers.Find(gamePlayer => gamePlayer.PlayerState == eGamePlayerState.None);
+                AddRanker(p);
+            }
+        }
+        bool AddRanker(GamePlayer p)
+        {
+            if (p == null)
+                return false;
+
+            p.PlayerState = eGamePlayerState.Ranker;
+            _ranker.Add(p);
+
+            return true;
+        }
+
+        bool RemoveRanker(GamePlayer p )
+        {
+            if (p == null)
+                return false;
+
+            GamePlayer findPlayer = _ranker.Find(gp => gp.Player.Info.PlayerId == p.Player.Info.PlayerId);
+            
+            if( findPlayer != null)
+            {
+                _ranker.Remove(findPlayer);
+            }
+
+            return true;
+
+        }
+
+        public void EndGame( Player player )
+        {
+           GamePlayer p = _gamePlayers.Find(gamePlayer => gamePlayer.Player.Info.PlayerId == player.Info.PlayerId);
+
+            if(AddRanker(p))
+            {
+                UpdateTopPlayer();
+            }
+        }
+
+        public void DisConnectPlayer( int playerId )
+        {
+            GamePlayer p = _gamePlayers.Find(gamePlayer => gamePlayer.Player.Info.PlayerId == playerId);
+            if (p != null)
+            {
+                RemoveRanker(p);
+
+                p.PlayerState = eGamePlayerState.Disconnected;
+                UpdateTopPlayer();
+            }
         }
 
 

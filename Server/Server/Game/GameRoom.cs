@@ -17,11 +17,15 @@ namespace Server.Game
 
         RankMap _rankMap = new RankMap();
 
+        GameRoomState _gameRoomState = GameRoomState.Lobby;
+
 
         public void Init()
         {
             _bubbleMap = new BubbleMap();
             _bubbleMap.Init();
+
+            _gameRoomState = GameRoomState.Lobby;
         }
 
         public void GetInfo(Player myPlayer)
@@ -181,23 +185,6 @@ namespace Server.Game
             }
         }
 
-        public void PlayerGameOver(ClientSession clientSession, C_PlayerGameOver packet)
-        {
-            S_PlayerGameOverBroadCast res = new S_PlayerGameOverBroadCast()
-            {
-                PlayerId = clientSession.MyPlayer.Info.PlayerId,
-                Rank = 1
-            };
-
-            lock (_lock)
-            {
-                _rankMap.AddRanker(clientSession.MyPlayer);
-                BroadCast(res);
-            }
-
-
-
-        }
 
         public void FixedBubbleSlot(ClientSession clientSession, C_FixedBubbleSlot packet)
         {
@@ -311,60 +298,99 @@ namespace Server.Game
                     if( p.Info.PlayerId != clientSession.MyPlayer.Info.PlayerId)
                         p.Session.Send(packet);
                 }
+            }
+        }
+
+        public void PlayerGameOver(ClientSession clientSession, C_PlayerGameOver packet)
+        {
+            S_PlayerGameOverBroadCast res = new S_PlayerGameOverBroadCast();
+            res.PlayerRank = new PlayerRank();
+
+            res.PlayerRank.PlayerId = clientSession.MyPlayer.Info.PlayerId;
+            res.PlayerRank.Rank = 0;
+
+            lock (_lock)
+            {
+                _rankMap.EndGame(clientSession.MyPlayer);
+                BroadCast(res);
+
+                //게임 종료 전부에게 랭크 1등이 나왔음
+                if( _rankMap.GetRemainCount() == 0 )
+                {
+                    S_GameResult gameResult = new S_GameResult();
+
+                    int loopCount = 1;
+                    foreach(GamePlayer gp in _rankMap.Ranker )
+                    {
+                        PlayerRank playerRanker = new PlayerRank();
+                        playerRanker.PlayerId = gp.Player.Info.PlayerId;
+                        playerRanker.Rank = gp.Rank;
+                        playerRanker.DisConnected = gp.PlayerState == eGamePlayerState.Disconnected ? true : false;
+                        gameResult.PlayerRanks.Add(playerRanker);
+                    }
+                    BroadCast(gameResult);
+                }
 
             }
         }
 
+
+
         public void StartGame()
         {
+            S_StartGame packet = new S_StartGame();
+            packet.RoomId = RoomId;
+
             lock (_lock)
             {
-                S_StartGame packet = new S_StartGame();
-                packet.RoomId = RoomId;
+                _rankMap.Init(_players);
+
                 foreach (Player p in _players)
                 {
                     p.Session.Send(packet);
                 }
+
+                _gameRoomState = GameRoomState.Game;
             }
         }
 
-        public void EnterGame(Player newPlayer)
-        {
-            if (newPlayer == null)
-                return;
+        //public void EnterGame(Player newPlayer)
+        //{
+        //    if (newPlayer == null)
+        //        return;
 
-            lock(_lock)
-            {
-                _players.Add(newPlayer); 
-                newPlayer.Room = this;
+        //    lock(_lock)
+        //    {
+        //        _players.Add(newPlayer); 
+        //        newPlayer.Room = this;
 
-                //{
-                //    // me -> me
-                //    S_EnterGame enterPacket = new S_EnterGame();
-                //    enterPacket.Player = newPlayer.Info;
-                //    newPlayer.Session.Send(enterPacket);
+        //        //{
+        //        //    // me -> me
+        //        //    S_EnterGame enterPacket = new S_EnterGame();
+        //        //    enterPacket.Player = newPlayer.Info;
+        //        //    newPlayer.Session.Send(enterPacket);
 
-                //    // !me -> me
-                //    S_Spawn spawnPacket = new S_Spawn();
-                //    foreach (Player p in _players)
-                //    {
-                //        if (newPlayer != p)
-                //            spawnPacket.Players.Add(p.Info);
-                //    }
-                //    newPlayer.Session.Send(spawnPacket);
-                //}
+        //        //    // !me -> me
+        //        //    S_Spawn spawnPacket = new S_Spawn();
+        //        //    foreach (Player p in _players)
+        //        //    {
+        //        //        if (newPlayer != p)
+        //        //            spawnPacket.Players.Add(p.Info);
+        //        //    }
+        //        //    newPlayer.Session.Send(spawnPacket);
+        //        //}
 
-                //{
-                //    S_Spawn spawnPacket = new S_Spawn();
-                //    spawnPacket.Players.Add(newPlayer.Info);
-                //    foreach(Player p in _players)
-                //    {
-                //        if (newPlayer != p)
-                //            p.Session.Send(spawnPacket);
-                //    }
-                //}
-            }
-        }
+        //        //{
+        //        //    S_Spawn spawnPacket = new S_Spawn();
+        //        //    spawnPacket.Players.Add(newPlayer.Info);
+        //        //    foreach(Player p in _players)
+        //        //    {
+        //        //        if (newPlayer != p)
+        //        //            p.Session.Send(spawnPacket);
+        //        //    }
+        //        //}
+        //    }
+        //}
 
         public void LeaveRoom(int playerId)
         {
@@ -372,31 +398,22 @@ namespace Server.Game
             if (player == null)
                 return;
 
-            _players.Remove(player);
-            player.Room = null;
+            lock (_lock)
+            {
+                _players.Remove(player);
+                player.Room = null;
 
+                _rankMap.DisConnectPlayer(playerId);
 
-            //// me
-            //{
-            //    S_LeaveGame leaveGamePacket = new S_LeaveGame();
-            //    player.Session.Send(leaveGamePacket);
-            //}
+                S_LeaveGameRoom res = new S_LeaveGameRoom();
 
-            ////
-            //{
-            //    S_Despawn despawnPacket = new S_Despawn();
-            //    despawnPacket.PlayerIds.Add(player.Info.PlayerId);
-            //    foreach(Player p in _players)
-            //    {
-            //        if(player != p)
-            //        {
-            //            p.Session.Send(despawnPacket);
-            //        }
-            //    }
-
-            //}
-
+                foreach (Player p in _players)
+                {
+                    p.Session.Send(res);
+                }
+            }
         }
+
         public void BroadCast(IMessage packet)
         {
             lock(_lock)
