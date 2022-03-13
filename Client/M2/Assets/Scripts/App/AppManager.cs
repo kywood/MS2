@@ -27,8 +27,19 @@ public class AppManager : DontDestroy<AppManager>
 
     }
 
+    public bool IsOnline()
+    {
+        if (_networkManager == null)
+            return false;
+
+        return _networkManager.Online();
+    }
+
     public bool NetStart()
     {
+        if (IsOnline())
+            return true;
+
         if (_networkManager == null)
         {
             _networkPlayerManager = new NetworkPlayerManager();
@@ -44,13 +55,6 @@ public class AppManager : DontDestroy<AppManager>
         return true;
     }
 
-    public bool IsOnline()
-    {
-        if (_networkManager == null)
-            return false;
-
-        return true;
-    }
 
     public void NetStop()
     {

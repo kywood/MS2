@@ -22,15 +22,17 @@ public class Player : MonoBehaviour
 
     public GameObject DeadLine;
 
+    public GameObject PlayerUI;
+
     public float LocalScale = 1.0f;
 
     public float BUBBLE_DIAMETER = 0.4f;
     //public const float G_BUBBLE_DIAMETER = 0.6f;
     public float SLOT_RADIUS_GAP = 0.03f;
 
-    
 
-    
+
+    Action _reServerdAct = null;
 
 
     float _diameter;
@@ -78,15 +80,56 @@ public class Player : MonoBehaviour
 
     }
 
+    public PlayerUI GetPlayerUI()
+    {
+        return PlayerUI.GetComponent<PlayerUI>();
+    }
+
+    public PlayerPopup GetPlayerPopup()
+    {
+        return GetPlayerUI().PlayerPopup;
+    }
+
 
     protected virtual void OnUpdate()
     {
+
+        ReServeredActFlush();
+
         StateManager.OnUpdate();
 
-        //while(_queue.Count != 0)
-        //{
-        //    _queue.Dequeue().Invoke();
-        //}
+    }
+
+
+    void ReServeredAct(Action act)
+    {
+        _reServerdAct += act;
+    }
+
+    void ReServeredActFlush()
+    {
+        if (_reServerdAct != null)
+        {
+            _reServerdAct.Invoke();
+            _reServerdAct = null;
+        }
+    }
+
+    public void SetVisiblePick(bool visible)
+    {
+        Pick.SetActive(visible);
+    }
+
+    public void SetGameOver()
+    {
+        ReServeredAct(() =>
+        {
+            if ((E_PLAYER_STATE)StateManager.GetState() != E_PLAYER_STATE.END)
+            {
+                SetPlayerState(E_PLAYER_STATE.END);
+            }
+        });
+
     }
 
 

@@ -17,6 +17,11 @@ public class NetworkManager
 		Debug.Log(packet.ToString());
 	}
 
+	public bool Online()
+    {
+		return _session.Online;
+    }
+
 	public void OnStart()
 	{
 		// DNS (Domain Name System)

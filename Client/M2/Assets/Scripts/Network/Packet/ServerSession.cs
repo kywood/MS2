@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class ServerSession : PacketSession
 {
+
+	public bool Online = false;
+
 	public void Send(IMessage packet)
 	{
 		string msgName = packet.Descriptor.Name.Replace("_", "");
@@ -23,6 +26,7 @@ public class ServerSession : PacketSession
 	}
 	public override void OnConnected(EndPoint endPoint)
 	{
+		Online = true;
 		Debug.Log($"OnConnected : {endPoint}");
 
 		PacketManager.Instance.CustomHandler = (s, m, i) =>
@@ -33,6 +37,7 @@ public class ServerSession : PacketSession
 
 	public override void OnDisconnected(EndPoint endPoint)
 	{
+		Online = false;
 		Debug.Log($"OnDisconnected : {endPoint}");
 	}
 

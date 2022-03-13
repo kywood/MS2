@@ -19,6 +19,10 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     public List<OnlinePlayer> Players = new List<OnlinePlayer>();
 
 
+    List<PlayerRank> _playerRank = new List<PlayerRank>(); 
+
+    public List<PlayerRank> PlayerRank { get { return _playerRank; } }
+
     GameRoom _gameRoom;
 
     public GameRoom GameRoom { get { return _gameRoom; } }
@@ -92,6 +96,37 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         //Player p = GetPlayer(E_PLAYER_TYPE.MY_PLAYER);
         ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SNextBubblesPeer, packet));
     }
+
+    public void PlayerGameOverBroadCast(S_PlayerGameOverBroadCast packet)
+    {
+        Player p = GetPlayer(packet.PlayerRank.PlayerId);
+
+        if (p == null)
+            return;
+
+        p.SetGameOver();
+    }
+
+    public void GameResult(S_GameResult packet)
+    {
+        _playerRank.Clear();
+        _playerRank.AddRange(packet.PlayerRanks);
+
+        foreach(PlayerRank pr in packet.PlayerRanks )
+        {
+            Player p = GetPlayer(pr.PlayerId);
+            if( p != null )
+            {
+                p.SetGameOver();
+
+                ((OnlinePlayer)p).PacketQueue.Add(new NetPacket(MsgId.SGameResult, packet));
+
+            }
+        }
+        
+    }
+
+
 
     public void SFixedBubbleSlotPeer(S_FixedBubbleSlotPeer packet)
     {

@@ -14,6 +14,7 @@ public class GameStateManager : StateManager
         RUN,
         RUN_RESULT,
         END,
+        RESULT,
 
         MAX
     }   
@@ -29,7 +30,8 @@ public class GameStateManager : StateManager
             {(int)E_GAME_STATE.SHOOT_READY , new GameShootReady(this) }   ,
             {(int)E_GAME_STATE.RUN , new GameRun(this) }   ,
             {(int)E_GAME_STATE.RUN_RESULT , new GameRunResult(this) }   ,
-            {(int)E_GAME_STATE.END , new GameEnd(this) }
+            {(int)E_GAME_STATE.END , new GameEnd(this) } ,
+            {(int)E_GAME_STATE.RESULT , new GameStateResult(this) }
         };
     }
     public void SetGameState(E_GAME_STATE gameState , Action<State<StateManager>> act = null )
@@ -39,15 +41,6 @@ public class GameStateManager : StateManager
     }
 
 
-    //public E_GAME_STATE GetGameState()
-    //{
-    //    return (E_GAME_STATE)GetState();
-    //}
-
-    //public State GetGameStateValue()
-    //{
-    //    return GetStateValue();
-    //}
 
     public bool IsGameState(E_GAME_STATE game_state  )
     {

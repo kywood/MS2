@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using MDefine;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,18 +20,17 @@ public class DeadLine : MonoBehaviour
                 return;
 
 
-            //TODO 11
+            if(Player.PlayerType == PlayerManager.E_PLAYER_TYPE.MY_PLAYER)
+            {
+                C_PlayerGameOver playerGameOverPacket = new C_PlayerGameOver()
+                {
 
+                };
 
-            // 여기서 패킷을 보낸다.
-            // 바로 해당 유저의 게임 오버 패킷을
-            // 양쪽에 팝을을 올리고 게임 리절트
-            //그리고 로비로 이동..............
-            // 그리고 로비로 나간다.
+                AppManager.Instance.NetworkManager.Send(playerGameOverPacket);
+            }
 
-           // Debug.Log("GameOver!!");
-            //GamePopup.Instance.Active((int)GamePopup.eWindows.GameOver, true);
-
+            Player.SetPlayerState(PlayerStateManager.E_PLAYER_STATE.END);
         }
     }
 }

@@ -173,6 +173,8 @@ class PacketHandler
 
 		Debug.Log("S_PlayerGameOverBroadCastHandler");
 
+		PlayerManager.Instance.PlayerGameOverBroadCast(Packet);
+
 		//PlayerManager.Instance.SFixedBubbleSlotPeer(Packet);
 		//AppManager.Instance.NetworkGameRoomManager.StartGame();
 	}
@@ -183,6 +185,8 @@ class PacketHandler
 		ServerSession serverSession = session as ServerSession;
 
 		Debug.Log("S_GameResultHandler");
+
+		PlayerManager.Instance.GameResult(Packet);
 
 		//PlayerManager.Instance.SFixedBubbleSlotPeer(Packet);
 		//AppManager.Instance.NetworkGameRoomManager.StartGame();

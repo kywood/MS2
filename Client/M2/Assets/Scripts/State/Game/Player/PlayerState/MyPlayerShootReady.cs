@@ -6,7 +6,7 @@ using UnityEngine;
 public class MyPlayerShootReady : PlayerShootReady
 {
 
-    Player Player;
+   // Player Player;
 
     float currentDeltaTime = 0.0f;
     bool bMousePress = false;
@@ -18,7 +18,7 @@ public class MyPlayerShootReady : PlayerShootReady
     {
         base.OnEnter();
 
-        Player = GetPlayer();
+        //Player = GetPlayer();
         ((MyPlayer)Player).Next.GetComponent<Next>().SetVisible(true);
         ((MyPlayer)Player).Next.GetComponent<Next>().UpdateNext();
 

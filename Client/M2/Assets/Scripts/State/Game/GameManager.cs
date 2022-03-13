@@ -1,4 +1,5 @@
 using Google.Protobuf.Collections;
+using Google.Protobuf.Protocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     //float ShootForce = 10.0f;
     //[HideInInspector]
     //public GameStateManager GameStateManaget = new GameStateManager();
+
 
     RepeatedField<global::Google.Protobuf.Protocol.ColsBubbles> _colsBubbles;
 

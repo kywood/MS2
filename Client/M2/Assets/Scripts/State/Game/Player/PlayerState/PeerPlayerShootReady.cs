@@ -95,13 +95,19 @@ public class PeerPlayerShootReady : PlayerShootReady
                 _fllowTime += Time.deltaTime;
                 float fTime = (_fllowTime) / (1.0f / 4.0f);
 
-                Target.transform.localPosition = Vector3.Lerp(Target.transform.localPosition, _lastPos , fTime);
-
-                if (fTime > 1.0f)
+                if (fTime >= 1.0f)
                 {
                     fTime = 1.0f;
                     _posSet = false;
                 }
+
+                Target.transform.localPosition = Vector3.Lerp(Target.transform.localPosition, _lastPos , fTime);
+
+                //if (fTime > 1.0f)
+                //{
+                //    fTime = 1.0f;
+                //    _posSet = false;
+                //}
             }
             
         }

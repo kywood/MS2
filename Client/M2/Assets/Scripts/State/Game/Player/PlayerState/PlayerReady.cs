@@ -36,6 +36,8 @@ public class PlayerReady : PlayerState<PlayerStateManager>
         GameManager.Instance.StartCoroutine(EffectStartRow());
 
         Player.SetPlayerState(E_PLAYER_STATE.SHOOT_READY);
+
+        Player.SetVisiblePick(true);
     }
 
     IEnumerator EffectStartRow()

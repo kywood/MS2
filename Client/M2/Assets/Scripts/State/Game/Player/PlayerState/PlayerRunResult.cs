@@ -16,7 +16,7 @@ public abstract class PlayerRunResult : PlayerState<PlayerStateManager>
     protected static int runCnt = 0;
     protected Player Player;
 
-    protected PacketDequeStates packetDequeState = new PacketDequeStates();
+    
 
     public PlayerRunResult(PlayerStateManager state_manager) : base(state_manager)
     {

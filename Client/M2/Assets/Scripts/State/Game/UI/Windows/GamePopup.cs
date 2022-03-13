@@ -8,6 +8,7 @@ public class GamePopup : Windows
     {
         None = -1,
         GameOver,
+        GameResult,
         MAX
     }
 
